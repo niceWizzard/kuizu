@@ -7,16 +7,16 @@ import javax.inject.Inject
 class ExtractedQuizRepositoryImpl @Inject constructor(
     private val extractorApi: QuizExtractorApi
 ) : ExtractedQuizRepository {
-    override suspend fun extractQuizRaw(id: String): String {
+    override suspend fun extractQuizRaw(id: String): ApiResponse<String> {
         return try {
             val response = extractorApi.getQuizByIdRaw(id)
             if (response.isSuccessful) {
-                response.body()?.string() ?: "Null"  // Correctly reading the body as a string
+                ApiResponse.Success(response.body()?.string() ?: "Null")
             } else {
-                "Error: ${response.code()}"
+                ApiResponse.Error("Error: ${response.code()}")
             }
         } catch (e: Exception) {
-            "Some error happened: \n${e.message}"
+            ApiResponse.Error("Some error happened: \n${e.message}")
         }
     }
 }
