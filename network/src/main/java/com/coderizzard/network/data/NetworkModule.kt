@@ -1,6 +1,8 @@
 package com.coderizzard.network.data
 
 import android.content.Context
+import com.coderizzard.network.data.repository.ExtractedQuizRepositoryImpl
+import com.coderizzard.network.domain.ExtractedQuizRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,5 +25,10 @@ object NetworkModule {
             .build()
     }
 
+    @Provides
+    @ActivityScoped
+    fun providesExtractorRepository(retrofit: Retrofit) : ExtractedQuizRepository {
+        return retrofit.create(ExtractedQuizRepositoryImpl::class.java)
+    }
 
 }
