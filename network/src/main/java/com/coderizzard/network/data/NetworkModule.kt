@@ -1,13 +1,11 @@
 package com.coderizzard.network.data
 
-import android.content.Context
 import com.coderizzard.network.data.repository.ExtractedQuizRepositoryImpl
 import com.coderizzard.network.domain.ExtractedQuizRepository
+import com.coderizzard.network.domain.QuizExtractorApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton
@@ -26,9 +24,15 @@ object NetworkModule {
     }
 
     @Provides
-    @ActivityScoped
-    fun providesExtractorRepository(retrofit: Retrofit) : ExtractedQuizRepository {
-        return retrofit.create(ExtractedQuizRepositoryImpl::class.java)
+    @Singleton
+    fun providesQuizExtractorApi(retrofit: Retrofit) : QuizExtractorApi {
+        return retrofit.create(QuizExtractorApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesExtractorRepository(api : QuizExtractorApi) : ExtractedQuizRepository {
+        return ExtractedQuizRepositoryImpl(api)
     }
 
 }
