@@ -1,4 +1,4 @@
-package com.coderizzard.quizzerist.presentation
+package com.coderizzard.quizzerist.presentation.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import com.coderizzard.quizzerist.presentation.screens.homescreen.HomeScreen
 
 @Composable
 fun NavGraph(
@@ -42,7 +42,7 @@ data class NavRoute(
         val QUIZ = NavRoute("home", "Quizzes",Icons.Filled.Home)
         val SETTINGS = NavRoute("settings", "Settings",Icons.Filled.Settings)
         val SESSIONS = NavRoute("session", "Sessions", Icons.Default.Build)
-        val allRoutes = listOf(SESSIONS,QUIZ, SETTINGS)
+        val allRoutes = listOf(SESSIONS, QUIZ, SETTINGS)
 
     }
 

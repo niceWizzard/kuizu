@@ -1,4 +1,4 @@
-package com.coderizzard.quizzerist.presentation
+package com.coderizzard.quizzerist.presentation.screens.homescreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

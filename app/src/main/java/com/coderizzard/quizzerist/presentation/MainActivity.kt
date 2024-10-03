@@ -10,6 +10,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.coderizzard.quizzerist.presentation.navigation.NavBar
+import com.coderizzard.quizzerist.presentation.navigation.NavGraph
 import com.coderizzard.quizzerist.ui.theme.QuizzeristTheme
 import dagger.hilt.android.AndroidEntryPoint
 
