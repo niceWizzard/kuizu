@@ -28,10 +28,15 @@ fun NavGraph(
     }
 }
 
-data class NavRoute(val route : String, val imageVector: ImageVector) {
+data class NavRoute(
+    val route : String,
+    val displayName : String,
+    val imageVector: ImageVector,
+
+) {
     companion object {
-        val QUIZ = NavRoute("home", Icons.Filled.Home)
-        val SETTINGS = NavRoute("settings", Icons.Filled.Settings)
+        val QUIZ = NavRoute("home", "Quizzes",Icons.Filled.Home)
+        val SETTINGS = NavRoute("settings", "Settings",Icons.Filled.Settings)
     }
 }
 
