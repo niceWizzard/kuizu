@@ -48,4 +48,9 @@ dependencies {
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.android)
 
+//    Retrofit
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+
+
 }
