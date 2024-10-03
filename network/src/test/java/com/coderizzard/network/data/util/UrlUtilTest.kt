@@ -23,6 +23,26 @@ internal class UrlUtilTest {
         Assert.assertNull(extractQuizId("alksdfjklasdfj"))
     }
 
+    @Test
+    fun testValidForGetQuizId() {
+        val url1 = "https://quizizz.com/join/quiz/abc123/?start=true"
+        Assert.assertEquals("abc123", getQuizId(url1))
 
+        val id = "asd123fafsdaasdf"
+        Assert.assertEquals(id, getQuizId(id))
+
+        val id2 = "lkajikljewAdfsA"
+        Assert.assertEquals(id2, getQuizId(id2))
+    }
+
+    @Test
+    fun testInvalidForGetQuizId() {
+        val url = "https://quizizz.com/admin/quizx/xyz789/?start=true"
+        Assert.assertNull(getQuizId(url))
+
+        Assert.assertNull(getQuizId(""))
+        Assert.assertNull(getQuizId("alksdfjklasdfj!"))
+        Assert.assertNull(getQuizId("alksasfddfjklasdfj23@2"))
+    }
 
 }
