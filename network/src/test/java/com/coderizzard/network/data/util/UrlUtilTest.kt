@@ -8,41 +8,41 @@ internal class UrlUtilTest {
     fun testValidUrl() {
         val url1 = "https://quizizz.com/join/quiz/abc123/?start=true"
 
-        Assert.assertEquals("abc123", extractQuizId(url1))
+        Assert.assertEquals("abc123", extractQuizIdFromUrl(url1))
 
         val url2 = "https://quizizz.com/admin/quiz/xyz789/?start=true"
-        Assert.assertEquals("xyz789", extractQuizId(url2))
+        Assert.assertEquals("xyz789", extractQuizIdFromUrl(url2))
     }
 
     @Test
     fun testInvalidUrl() {
         val url = "https://quizizz.com/admin/quizx/xyz789/?start=true"
-        Assert.assertNull(extractQuizId(url))
+        Assert.assertNull(extractQuizIdFromUrl(url))
 
-        Assert.assertNull(extractQuizId(""))
-        Assert.assertNull(extractQuizId("alksdfjklasdfj"))
+        Assert.assertNull(extractQuizIdFromUrl(""))
+        Assert.assertNull(extractQuizIdFromUrl("alksdfjklasdfj"))
     }
 
     @Test
     fun testValidForGetQuizId() {
         val url1 = "https://quizizz.com/join/quiz/abc123/?start=true"
-        Assert.assertEquals("abc123", getQuizId(url1))
+        Assert.assertEquals("abc123", resolveQuizId(url1))
 
         val id = "asd123fafsdaasdf"
-        Assert.assertEquals(id, getQuizId(id))
+        Assert.assertEquals(id, resolveQuizId(id))
 
         val id2 = "lkajikljewAdfsA"
-        Assert.assertEquals(id2, getQuizId(id2))
+        Assert.assertEquals(id2, resolveQuizId(id2))
     }
 
     @Test
     fun testInvalidForGetQuizId() {
         val url = "https://quizizz.com/admin/quizx/xyz789/?start=true"
-        Assert.assertNull(getQuizId(url))
+        Assert.assertNull(resolveQuizId(url))
 
-        Assert.assertNull(getQuizId(""))
-        Assert.assertNull(getQuizId("alksdfjklasdfj!"))
-        Assert.assertNull(getQuizId("alksasfddfjklasdfj23@2"))
+        Assert.assertNull(resolveQuizId(""))
+        Assert.assertNull(resolveQuizId("alksdfjklasdfj!"))
+        Assert.assertNull(resolveQuizId("alksasfddfjklasdfj23@2"))
     }
 
 }
