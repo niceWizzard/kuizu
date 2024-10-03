@@ -1,4 +1,4 @@
-package com.coderizzard.quizzerist
+package com.coderizzard.quizzerist.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
