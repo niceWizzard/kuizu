@@ -23,7 +23,8 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    bottomBar = { NavBar(navController = navController) }
+                    bottomBar = { NavBar(navController = navController) },
+                    topBar = { TopBar() }
                 ) { innerPadding ->
                     Surface(
                         modifier = Modifier.padding(innerPadding)
