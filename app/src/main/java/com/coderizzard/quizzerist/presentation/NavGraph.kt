@@ -1,6 +1,7 @@
 package com.coderizzard.quizzerist.presentation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Text
@@ -25,6 +26,9 @@ fun NavGraph(
         composable(NavRoute.SETTINGS.route) {
             Text("SEttings ")
         }
+        composable(NavRoute.SESSIONS.route) {
+            Text("SESSIONS")
+        }
     }
 }
 
@@ -37,7 +41,8 @@ data class NavRoute(
     companion object {
         val QUIZ = NavRoute("home", "Quizzes",Icons.Filled.Home)
         val SETTINGS = NavRoute("settings", "Settings",Icons.Filled.Settings)
-        val allRoutes = listOf(QUIZ, SETTINGS)
+        val SESSIONS = NavRoute("session", "Sessions", Icons.Default.Build)
+        val allRoutes = listOf(SESSIONS,QUIZ, SETTINGS)
 
     }
 
