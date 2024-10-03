@@ -37,7 +37,11 @@ data class NavRoute(
     companion object {
         val QUIZ = NavRoute("home", "Quizzes",Icons.Filled.Home)
         val SETTINGS = NavRoute("settings", "Settings",Icons.Filled.Settings)
+        val allRoutes = listOf(QUIZ, SETTINGS)
+
     }
+
+
 }
 
 

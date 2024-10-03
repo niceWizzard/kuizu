@@ -19,7 +19,7 @@ import androidx.navigation.compose.rememberNavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(navController: NavController) {
-    val routeList = listOf(NavRoute.QUIZ, NavRoute.SETTINGS)
+    val routeList = NavRoute.allRoutes
     val navState by navController.currentBackStackEntryAsState()
 
     val routeTitle = routeList.find{

@@ -17,10 +17,7 @@ import androidx.navigation.compose.rememberNavController
 fun NavBar(
     navController: NavController
 ) {
-    val routes = listOf(
-        NavRoute.QUIZ,
-        NavRoute.SETTINGS
-    )
+    val routes = NavRoute.allRoutes
     var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
     NavigationBar {
             routes.forEachIndexed{ index, route ->
