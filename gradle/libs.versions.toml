@@ -10,6 +10,8 @@ activityCompose = "1.9.2"
 composeBom = "2024.09.03"
 appcompat = "1.7.0"
 material = "1.12.0"
+ksp = "1.9.24-1.0.20"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,4 +35,5 @@ material = { group = "com.google.android.material", name = "material", version.r
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
