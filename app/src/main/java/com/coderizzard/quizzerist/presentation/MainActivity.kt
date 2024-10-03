@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.coderizzard.quizzerist.ui.theme.QuizzeristTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,11 +23,15 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             QuizzeristTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                val navController = rememberNavController()
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    bottomBar = { BottomAppBar(navController = navController) }
+                ) { innerPadding ->
                     Surface(
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        NavGraph()
+                        NavGraph(navController = navController)
                     }
                 }
             }
