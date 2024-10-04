@@ -33,6 +33,10 @@ internal class UrlUtilTest {
 
         val id2 = "lkajikljewAdfsA"
         Assert.assertEquals(id2, resolveQuizId(id2))
+
+        val id3 = "66f93cdf2ea35985eb870319"
+        Assert.assertEquals(id3, resolveQuizId(id3))
+        Assert.assertEquals(id3, resolveQuizId("https://quizizz.com/quiz/66f93cdf2ea35985eb870319"))
     }
 
     @Test
