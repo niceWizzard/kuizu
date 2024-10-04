@@ -1,7 +1,9 @@
 package com.coderizzard.quizzerist.presentation.screens.homescreen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.coderizzard.network.data.model.ExtractedQuiz
 import com.coderizzard.network.data.repository.ApiResponse
 import com.coderizzard.network.domain.ExtractedQuizRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,21 +16,21 @@ import javax.inject.Inject
 class HomeScreenViewModel @Inject constructor(
     private val extractorRepository : ExtractedQuizRepository
 ) : ViewModel() {
-    val quizJson = MutableStateFlow("")
+    val quizJson = MutableStateFlow<ExtractedQuiz?>(null)
     init {
         viewModelScope.launch {
-            quizJson.update {
-                when(val res = extractorRepository.extractQuizRaw("66fe0e65dfa2a58a6f1d0f4a")) {
-                    is ApiResponse.Success -> {
+            when(val res = extractorRepository.extractQuizById("66fe0e65dfa2a58a6f1d0f4a")) {
+                is ApiResponse.Success -> {
+                    quizJson.update {
                         res.value
                     }
-                    is ApiResponse.Error -> {
-                        res.message
-                    }
-
+                }
+                is ApiResponse.Error -> {
+                    Log.e("E", res.message)
                 }
 
             }
+
         }
     }
 }

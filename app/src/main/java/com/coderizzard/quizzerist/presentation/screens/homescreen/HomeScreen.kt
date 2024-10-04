@@ -20,7 +20,7 @@ fun HomeScreen(
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
     val quizJson by homeScreenViewModel.quizJson.collectAsState()
     HomeScreenContent(
-        quizJson = quizJson
+        quizJson = quizJson.toString()
     )
 }
 
