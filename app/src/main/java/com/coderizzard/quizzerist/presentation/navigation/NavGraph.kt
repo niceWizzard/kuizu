@@ -7,21 +7,27 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.coderizzard.quizzerist.presentation.screens.homescreen.HomeScreen
+import com.coderizzard.quizzerist.presentation.screens.homescreen.HomeScreenViewModel
 
 @Composable
 fun NavGraph(
     navController: NavHostController
 ) {
+    val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
     NavHost(
         navController = navController,
         startDestination = NavRoute.QUIZ.route
     ) {
         composable(NavRoute.QUIZ.route) {
-            HomeScreen(navController)
+            HomeScreen(
+                navController = navController,
+                homeScreenViewModel = homeScreenViewModel
+            )
         }
         composable(NavRoute.SETTINGS.route) {
             Text("SEttings ")

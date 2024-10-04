@@ -10,14 +10,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavController
 
 @Composable
 fun HomeScreen(
-    navController: NavController
+    navController: NavController,
+    homeScreenViewModel: HomeScreenViewModel
 ) {
-    val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
+
     val quizJson by homeScreenViewModel.quizJson.collectAsState()
     HomeScreenContent(
         quizJson = quizJson.toString()
