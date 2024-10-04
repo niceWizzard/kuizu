@@ -9,8 +9,9 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
 import java.lang.reflect.Type
+import java.time.Instant
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.time.ZoneId
 
 class ExtractedQuizJsonDeserializer : JsonDeserializer<ExtractedQuiz> {
 
@@ -35,12 +36,16 @@ class ExtractedQuizJsonDeserializer : JsonDeserializer<ExtractedQuiz> {
 
         val questions : List<ExtractedQuestion> = emptyList()
 
+
         return ExtractedQuiz(
             name = name,
             author = author,
             imageLink = imageLink,
             questionList = questions,
-            createdAt = LocalDateTime.parse(createdAtString)
+            createdAt = LocalDateTime.ofInstant(
+                Instant.parse(createdAtString),
+                ZoneId.systemDefault()
+            )
         )
 
 
