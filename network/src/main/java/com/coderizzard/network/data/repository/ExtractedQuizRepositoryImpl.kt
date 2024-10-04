@@ -1,5 +1,6 @@
 package com.coderizzard.network.data.repository
 
+import com.coderizzard.network.data.model.ExtractedQuiz
 import com.coderizzard.network.domain.ExtractedQuizRepository
 import com.coderizzard.network.domain.QuizExtractorApi
 import javax.inject.Inject
@@ -16,6 +17,14 @@ class ExtractedQuizRepositoryImpl @Inject constructor(
                 ApiResponse.Error("Error: ${response.code()}")
             }
         } catch (e: Exception) {
+            ApiResponse.Error("Some error happened: \n${e.message}")
+        }
+    }
+
+    override suspend fun extractQuizById(quizId: String): ApiResponse<ExtractedQuiz> {
+        return try {
+            ApiResponse.Success(extractorApi.extractQuizById(quizId))
+        } catch (e : Exception) {
             ApiResponse.Error("Some error happened: \n${e.message}")
         }
     }
