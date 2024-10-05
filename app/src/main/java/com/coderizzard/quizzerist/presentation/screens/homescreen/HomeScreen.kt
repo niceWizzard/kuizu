@@ -49,7 +49,10 @@ private fun HomeScreenContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 12.dp, vertical = 6.dp)
+            .padding(horizontal = 12.dp, vertical = 6.dp),
+        verticalArrangement = Arrangement.spacedBy(
+            12.dp,
+        )
     ) {
         Text("Home Screen")
 
