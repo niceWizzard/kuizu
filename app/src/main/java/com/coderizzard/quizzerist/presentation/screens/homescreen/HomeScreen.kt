@@ -1,20 +1,19 @@
 package com.coderizzard.quizzerist.presentation.screens.homescreen
 
 import android.app.Activity
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavController
 
 @Composable
@@ -23,21 +22,48 @@ fun HomeScreen(
 ) {
     val activity = LocalContext.current as Activity as ViewModelStoreOwner
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel(activity)
-    val quizJson by homeScreenViewModel.quizJson.collectAsState()
+    val searchString = homeScreenViewModel.searchString.value
     HomeScreenContent(
-        quizJson = quizJson.toString()
+        searchString = searchString,
+        onEvent = homeScreenViewModel::onEvent
     )
 }
 
 @Composable
 private fun HomeScreenContent(
-    quizJson : String
+    searchString : String,
+    onEvent : (HomeScreenEvent) -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 12.dp, vertical = 6.dp)
+    ) {
         Text("Home Screen")
-        Text(
-            quizJson,
-            modifier = Modifier.verticalScroll(rememberScrollState())
+
+        OutlinedTextField(
+            value = searchString,
+            onValueChange = { newText ->
+                onEvent(HomeScreenEvent.OnSearchChange(newText))
+            },
+            label = {
+                Text("Quiz id or Url")
+            },
+            placeholder = {
+                Text("https://quizizz.com/quiz/<idhere>")
+            }
         )
+
     }
+}
+
+@Preview
+@Composable
+private fun HomeScreenPreview() {
+    HomeScreenContent(
+        searchString = "",
+        onEvent = {
+
+        }
+    )
 }
