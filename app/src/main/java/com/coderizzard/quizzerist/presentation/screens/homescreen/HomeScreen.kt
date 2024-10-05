@@ -1,15 +1,22 @@
 package com.coderizzard.quizzerist.presentation.screens.homescreen
 
 import android.app.Activity
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,9 +32,11 @@ fun HomeScreen(
     val activity = LocalContext.current as Activity as ViewModelStoreOwner
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel(activity)
     val searchString = homeScreenViewModel.searchString.value
+    val searchQuizState by homeScreenViewModel.searchQuiz.collectAsState()
     HomeScreenContent(
         searchString = searchString,
-        onEvent = homeScreenViewModel::onEvent
+        onEvent = homeScreenViewModel::onEvent,
+        searchQuizState = searchQuizState
     )
 }
 
@@ -35,6 +44,7 @@ fun HomeScreen(
 private fun HomeScreenContent(
     searchString : String,
     onEvent : (HomeScreenEvent) -> Unit,
+    searchQuizState: SearchQuizState,
 ) {
     Column(
         modifier = Modifier
@@ -65,6 +75,31 @@ private fun HomeScreenContent(
             Text("Search")
         }
 
+        when(searchQuizState) {
+            SearchQuizState.Default -> {
+                Text("Quiz will appear here.")
+            }
+            is SearchQuizState.Error -> {
+                Text(
+                    "Something went wrong. \n${searchQuizState.err}",
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+            SearchQuizState.Fetching -> {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    CircularProgressIndicator()
+                    Text("Fetching the quiz...")
+                }
+            }
+            is SearchQuizState.Success -> {
+                Text(searchQuizState.data.toString())
+            }
+        }
+
     }
 }
 
@@ -75,6 +110,7 @@ private fun HomeScreenPreview() {
         searchString = "",
         onEvent = {
 
-        }
+        },
+        searchQuizState = SearchQuizState.Default
     )
 }
