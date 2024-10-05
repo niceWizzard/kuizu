@@ -3,7 +3,9 @@ package com.coderizzard.quizzerist.presentation.screens.homescreen
 import android.app.Activity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -51,8 +53,17 @@ private fun HomeScreenContent(
             },
             placeholder = {
                 Text("https://quizizz.com/quiz/<idhere>")
-            }
+            },
+            modifier = Modifier.fillMaxWidth()
         )
+        ElevatedButton(
+            onClick = {
+                onEvent(HomeScreenEvent.OnSearchSubmit)
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Search")
+        }
 
     }
 }
