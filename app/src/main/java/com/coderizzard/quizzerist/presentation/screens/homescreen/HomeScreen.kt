@@ -88,7 +88,10 @@ private fun HomeScreenContent(
             SearchQuizState.Fetching -> {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
+                    horizontalArrangement = Arrangement.spacedBy(
+                        12.dp,
+                        alignment = Alignment.CenterHorizontally
+                    ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     CircularProgressIndicator()
