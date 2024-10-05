@@ -23,13 +23,13 @@ fun NavBar(
             routes.forEachIndexed{ index, route ->
                 NavigationBarItem(
                     icon = {
-                        Icon(route.imageVector, contentDescription = "App bar button")
+                        Icon(NavRoute.getImage(route), contentDescription = "App bar button")
                     },
                     label = {Text(route.displayName)},
                     selected = selectedIndex == index,
                     onClick = {
                         selectedIndex = index
-                        navController.navigate(route.route)
+                        navController.navigate(route)
                     }
                 )
             }
