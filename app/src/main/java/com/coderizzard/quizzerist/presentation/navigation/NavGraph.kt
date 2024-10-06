@@ -22,19 +22,19 @@ fun NavGraph(
 
     ) {
         navigation<RootNav.Home>(
-            startDestination = NavRoute.Quiz
+            startDestination = HomeRoute.Quiz
         ) {
-            composable<NavRoute.Quiz>(
+            composable<HomeRoute.Quiz>(
 
             ) {
                 HomeScreen(
                     navController = navController,
                 )
             }
-            composable<NavRoute.Settings> {
+            composable<HomeRoute.Settings> {
                 Text("SEttings ")
             }
-            composable<NavRoute.Sessions> {
+            composable<HomeRoute.Sessions> {
                 Column {
                     Text("SESSIONS")
                     ElevatedButton(

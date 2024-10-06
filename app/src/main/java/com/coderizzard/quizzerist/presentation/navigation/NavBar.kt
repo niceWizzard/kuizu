@@ -17,13 +17,13 @@ import androidx.navigation.compose.rememberNavController
 fun NavBar(
     navController: NavController
 ) {
-    val routes = NavRoute.allRoutes
+    val routes = HomeRoute.allRoutes
     var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
     NavigationBar {
             routes.forEachIndexed{ index, route ->
                 NavigationBarItem(
                     icon = {
-                        Icon(NavRoute.getImage(route), contentDescription = "App bar button")
+                        Icon(HomeRoute.getImage(route), contentDescription = "App bar button")
                     },
                     label = {Text(route.displayName)},
                     selected = selectedIndex == index,

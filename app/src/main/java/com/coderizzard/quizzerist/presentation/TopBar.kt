@@ -5,19 +5,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.coderizzard.quizzerist.presentation.navigation.NavRoute
+import com.coderizzard.quizzerist.presentation.navigation.HomeRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(navController: NavController) {
-    val routeList = NavRoute.allRoutes
+    val routeList = HomeRoute.allRoutes
 
     val backStackEntry by navController.currentBackStackEntryAsState()
     backStackEntry?.let { entry ->

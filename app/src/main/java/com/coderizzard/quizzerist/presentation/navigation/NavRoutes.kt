@@ -7,27 +7,40 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.Serializable
 
+
+interface NavRoute {
+    val displayName : String
+}
+
+
 @Serializable
 sealed class RootNav(
-    val displayName: String=""
-) {
+    override val displayName: String=""
+) : NavRoute {
     @Serializable
     data object Home : RootNav("Home")
 
     @Serializable
     data class QuizSession(val id : String= "") : RootNav("Quiz Session")
+
+    companion object {
+        val allRoutes = listOf(
+            Home,
+            QuizSession(),
+        ) + HomeRoute.allRoutes
+    }
 }
 
 @Serializable
-sealed class NavRoute(
-    val displayName : String = "",
-) {
+sealed class HomeRoute(
+    override val displayName : String = "",
+) : NavRoute {
     @Serializable
-    data object Quiz : NavRoute("Quiz")
+    data object Quiz : HomeRoute("Quiz")
     @Serializable
-    data object Settings : NavRoute("Settings")
+    data object Settings : HomeRoute("Settings")
     @Serializable
-    data object Sessions : NavRoute("Sessions")
+    data object Sessions : HomeRoute("Sessions")
 
     companion object {
         val allRoutes = listOf(
@@ -35,7 +48,7 @@ sealed class NavRoute(
             Sessions,
             Settings,
         )
-        fun getImage(a : NavRoute): ImageVector {
+        fun getImage(a : HomeRoute): ImageVector {
             return when(a) {
                 is Quiz -> Icons.Default.Home
                 Sessions -> Icons.Default.FavoriteBorder
