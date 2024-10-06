@@ -1,12 +1,14 @@
 package com.coderizzard.quizzerist.presentation.navigation
 
 import android.app.Activity
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -14,8 +16,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.coderizzard.quizzerist.presentation.screens.homescreen.HomeScreen
 import com.coderizzard.quizzerist.presentation.screens.homescreen.HomeScreenViewModel
 import kotlinx.serialization.Serializable
@@ -27,24 +32,55 @@ fun NavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = NavRoute.Quiz,
+        startDestination = RootNav.Home,
 
     ) {
-        composable<NavRoute.Quiz>(
-
+        navigation<RootNav.Home>(
+            startDestination = NavRoute.Quiz
         ) {
-            HomeScreen(
-                navController = navController,
+            composable<NavRoute.Quiz>(
 
-            )
+            ) {
+                HomeScreen(
+                    navController = navController,
+                )
+            }
+            composable<NavRoute.Settings> {
+                Text("SEttings ")
+            }
+            composable<NavRoute.Sessions> {
+                Column {
+                    Text("SESSIONS")
+                    ElevatedButton(
+                        onClick = {
+                            navController.navigate(
+                                RootNav.QuizSession(id ="asdfasdfasdf!")
+                            )
+                        }
+                    ) {
+                        Text("Start Session")
+                    }
+                }
+            }
         }
-        composable<NavRoute.Settings> {
-            Text("SEttings ")
+
+        composable<RootNav.QuizSession> {
+            val route = navController.currentBackStackEntry?.toRoute<RootNav.QuizSession>()
+            Text("Quiz Session $route")
         }
-        composable<NavRoute.Sessions> {
-            Text("SESSIONS")
-        }
+
     }
+}
+
+@Serializable
+sealed class RootNav(
+    val displayName: String=""
+) {
+    @Serializable
+    data object Home : RootNav("Home")
+
+    @Serializable
+    data class QuizSession(val id : String= "") : RootNav("Quiz Session")
 }
 
 @Serializable
