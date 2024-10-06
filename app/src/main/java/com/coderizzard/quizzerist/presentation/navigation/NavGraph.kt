@@ -27,9 +27,12 @@ fun NavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = NavRoute.Quiz
+        startDestination = NavRoute.Quiz,
+
     ) {
-        composable<NavRoute.Quiz> {
+        composable<NavRoute.Quiz>(
+
+        ) {
             HomeScreen(
                 navController = navController,
 
@@ -45,7 +48,7 @@ fun NavGraph(
 }
 
 @Serializable
-open class NavRoute(
+sealed class NavRoute(
     val displayName : String = "",
 ) {
     @Serializable
@@ -66,7 +69,6 @@ open class NavRoute(
                 is Quiz -> Icons.Default.Home
                 Sessions -> Icons.Default.FavoriteBorder
                 Settings -> Icons.Default.Settings
-                else -> Icons.Default.Favorite
             }
         }
     }
