@@ -11,6 +11,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
 @Composable
@@ -19,20 +22,30 @@ fun NavBar(
 ) {
     val routes = HomeRoute.allRoutes
     var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
-    NavigationBar {
-            routes.forEachIndexed{ index, route ->
-                NavigationBarItem(
-                    icon = {
-                        Icon(HomeRoute.getImage(route), contentDescription = "App bar button")
-                    },
-                    label = {Text(route.displayName)},
-                    selected = selectedIndex == index,
-                    onClick = {
-                        selectedIndex = index
-                        navController.navigate(route)
-                    }
-                )
+    val backStackEntry by navController.currentBackStackEntryAsState()
+
+    backStackEntry?.let {entry ->
+        routes.find { route ->
+            entry.destination.hierarchy.any{
+                it.hasRoute(route::class)
             }
+        }?.let {
+            NavigationBar {
+                routes.forEachIndexed{ index, route ->
+                    NavigationBarItem(
+                        icon = {
+                            Icon(HomeRoute.getImage(route), contentDescription = "App bar button")
+                        },
+                        label = {Text(route.displayName)},
+                        selected = selectedIndex == index,
+                        onClick = {
+                            selectedIndex = index
+                            navController.navigate(route)
+                        }
+                    )
+                }
+            }
+        }
     }
 }
 
