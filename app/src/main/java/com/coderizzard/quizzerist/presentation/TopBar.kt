@@ -1,10 +1,13 @@
 package com.coderizzard.quizzerist.presentation
 
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -20,8 +23,8 @@ fun TopBar(navController: NavController) {
     backStackEntry?.let { entry ->
         val a = entry.destination.route
         val routeName  = routeList.find {
-            it.javaClass.name.replace("$", ".") == a
-        }?.displayName ?: "Cannot find route name"
+            a?.contains(it.javaClass.name.replace("$", ".")) ?: false
+        }?.displayName ?: a ?: "Cannot find route name"
         TopAppBar(
             title = { Text(routeName)},
         )
