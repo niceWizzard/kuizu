@@ -1,5 +1,11 @@
 package com.coderizzard.quizzerist.presentation.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
@@ -20,6 +26,18 @@ fun NavGraph(
     NavHost(
         navController = navController,
         startDestination = RootNav.Home,
+        enterTransition = {
+            fadeIn(animationSpec = tween(durationMillis = 200))
+        },
+        exitTransition = {
+            fadeOut(animationSpec = tween(durationMillis = 200))
+        },
+        popEnterTransition = {
+            fadeIn(animationSpec = tween(durationMillis = 200))
+        },
+        popExitTransition = {
+            fadeOut(animationSpec = tween(durationMillis = 200))
+        }
 
     ) {
         homeNavGraph(navController)
