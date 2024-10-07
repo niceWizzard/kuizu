@@ -21,7 +21,6 @@ fun NavBar(
     navController: NavController
 ) {
     val routes = HomeRoute.allRoutes
-    var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
     val backStackEntry by navController.currentBackStackEntryAsState()
 
     backStackEntry?.let {entry ->
@@ -31,15 +30,14 @@ fun NavBar(
             }
         }?.let {
             NavigationBar {
-                routes.forEachIndexed{ index, route ->
+                routes.forEach{  route ->
                     NavigationBarItem(
                         icon = {
                             Icon(HomeRoute.getImage(route), contentDescription = "App bar button")
                         },
                         label = {Text(route.displayName)},
-                        selected = selectedIndex == index,
+                        selected = route == it,
                         onClick = {
-                            selectedIndex = index
                             navController.navigate(route)
                         }
                     )
