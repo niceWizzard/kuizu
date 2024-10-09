@@ -1,4 +1,4 @@
-package com.coderizzard.core.data.database.model
+package com.coderizzard.database.data.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

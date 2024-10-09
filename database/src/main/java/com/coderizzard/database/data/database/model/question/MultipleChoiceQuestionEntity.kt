@@ -1,4 +1,4 @@
-package com.coderizzard.core.data.database.model.question
+package com.coderizzard.database.data.database.model.question
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.util.UUID
 
 @Entity
-data class IdentificationQuestionEntity(
+data class MultipleChoiceQuestionEntity(
     @PrimaryKey
     override val id: String = UUID.randomUUID().toString(),
     @ColumnInfo("text")
@@ -14,6 +14,5 @@ data class IdentificationQuestionEntity(
     @ColumnInfo("point")
     override val point: Int,
     @ColumnInfo("quiz_id")
-    override val quizId: String
-) : QuestionEntity {
-}
+    override val quizId: String,
+): QuestionEntity

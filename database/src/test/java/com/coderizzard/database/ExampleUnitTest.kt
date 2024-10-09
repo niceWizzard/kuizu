@@ -1,4 +1,4 @@
-package com.coderizzard.core
+package com.coderizzard.database
 
 import org.junit.Test
 

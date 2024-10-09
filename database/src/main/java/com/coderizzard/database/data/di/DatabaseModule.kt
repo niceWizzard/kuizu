@@ -1,11 +1,10 @@
-package com.coderizzard.core.data.di
+package com.coderizzard.database.data.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.coderizzard.core.data.DbConverter
-import com.coderizzard.core.data.database.AppDatabase
+import com.coderizzard.database.data.DbConverter
+import com.coderizzard.database.data.database.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

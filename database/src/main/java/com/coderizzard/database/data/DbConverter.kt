@@ -1,4 +1,4 @@
-package com.coderizzard.core.data
+package com.coderizzard.database.data
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
