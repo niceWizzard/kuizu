@@ -56,6 +56,7 @@ android {
 dependencies {
 
     implementation(project(":quiz_extractor"))
+    implementation(project(":database"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
