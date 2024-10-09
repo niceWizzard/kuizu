@@ -24,10 +24,11 @@ sealed class RootNav(
     data class QuizSession(val id : String= "") : RootNav("Quiz Session")
 
     companion object {
-        val allRoutes = listOf(
+        val routes = listOf(
             Home,
             QuizSession(),
-        ) + HomeRoute.allRoutes
+        )
+        val allRoutes =  routes + HomeRoute.allRoutes
     }
 }
 
