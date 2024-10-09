@@ -23,4 +23,4 @@ rootProject.name = "Quizzerist"
 include(":app")
 include(":quiz_extractor")
 include(":quiz")
-include(":core")
+include(":database")
