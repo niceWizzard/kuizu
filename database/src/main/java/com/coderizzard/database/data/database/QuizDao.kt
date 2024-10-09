@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface QuizDao {
     @Query("SELECT * FROM QuizEntity")
-    fun getAll() : Flow<QuizEntity>
+    fun getAll() : Flow<List<QuizEntity>>
 
     @Insert
     suspend fun createQuiz(q : QuizEntity)

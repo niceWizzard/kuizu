@@ -13,7 +13,7 @@ class QuizRepositoryImpl @Inject constructor(
         quizDao.createQuiz(q)
     }
 
-    override fun getAll(): Flow<QuizEntity> {
+    override fun getAll(): Flow<List<QuizEntity>> {
         return quizDao.getAll()
     }
 }

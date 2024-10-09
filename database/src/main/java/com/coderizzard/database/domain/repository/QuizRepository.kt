@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface QuizRepository  {
     suspend fun createQuiz(q : QuizEntity)
-    fun getAll() : Flow<QuizEntity>
+    fun getAll() : Flow<List<QuizEntity>>
 }
