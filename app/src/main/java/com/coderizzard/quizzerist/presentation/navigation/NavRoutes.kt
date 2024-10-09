@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.Serializable
 
 
-interface NavRoute {
+sealed interface NavRoute {
     val displayName : String
 }
 

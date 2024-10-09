@@ -19,7 +19,7 @@ import com.coderizzard.quizzerist.presentation.navigation.RootRoute
 @OptIn(ExperimentalMaterial3Api::class)
 fun RootAppBar(
     navController: NavController,
-    route: RootRoute?,
+    route: RootRoute,
 ) {
     TopAppBar(
         title = { },
