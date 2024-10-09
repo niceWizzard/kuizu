@@ -1,6 +1,7 @@
 package com.coderizzard.quizzerist.presentation.screens.homescreen
 
 import android.app.Activity
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -11,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
@@ -36,6 +38,7 @@ private fun HomeScreenContent(quizList: List<QuizEntity>) {
             modifier = Modifier.verticalScroll(
                 rememberScrollState()
             ),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             quizList.map {
                 Text(it.toString())
