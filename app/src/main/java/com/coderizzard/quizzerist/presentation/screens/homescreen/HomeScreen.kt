@@ -33,7 +33,7 @@ private fun HomeScreenContent(quizList: List<QuizEntity>) {
             quizList.map {
                 Text(it.toString())
             }
-            quizList.isEmpty().let {
+            if(quizList.isEmpty()) {
                 Text("No quizzes yet.")
             }
         }
