@@ -3,6 +3,8 @@ package com.coderizzard.core.data.di
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.coderizzard.core.data.DbConverter
 import com.coderizzard.core.data.database.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -13,6 +15,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
+@TypeConverters(
+    DbConverter::class
+)
 internal object DatabaseModule {
 
     @Provides
