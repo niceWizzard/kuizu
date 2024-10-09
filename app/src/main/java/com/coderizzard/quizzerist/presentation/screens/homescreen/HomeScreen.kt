@@ -77,7 +77,8 @@ private fun HomeScreenContent(
             placeholder = {
                 Text("https://quizizz.com/quiz/<idhere>")
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
         )
         ElevatedButton(
             onClick = {
