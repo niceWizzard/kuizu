@@ -1,8 +1,5 @@
 package com.coderizzard.quizzerist.presentation.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -25,7 +22,7 @@ fun NavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = RootNav.Home,
+        startDestination = RootRoutes.Home,
         enterTransition = {
             fadeIn(animationSpec = tween(durationMillis = 200))
         },
@@ -41,8 +38,8 @@ fun NavGraph(
 
     ) {
         homeNavGraph(navController)
-        composable<RootNav.QuizSession> {
-            val route = navController.currentBackStackEntry?.toRoute<RootNav.QuizSession>()
+        composable<RootRoutes.QuizSession> {
+            val route = navController.currentBackStackEntry?.toRoute<RootRoutes.QuizSession>()
             Text("Quiz Session $route")
         }
 
@@ -50,7 +47,7 @@ fun NavGraph(
 }
 
 private fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
-    navigation<RootNav.Home>(
+    navigation<RootRoutes.Home>(
         startDestination = HomeRoute.Quiz
     ) {
         composable<HomeRoute.Quiz>(
@@ -68,7 +65,7 @@ private fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
                 ElevatedButton(
                     onClick = {
                         navController.navigate(
-                            RootNav.QuizSession(id = "asdfasdfasdf!")
+                            RootRoutes.QuizSession(id = "asdfasdfasdf!")
                         )
                     }
                 ) {
