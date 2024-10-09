@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.room.TypeConverters
 import com.coderizzard.database.data.DbConverter
 import com.coderizzard.database.data.database.AppDatabase
+import com.coderizzard.database.data.database.QuizDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,5 +29,11 @@ internal object DatabaseModule {
             "quizzerist.db"
         ).allowMainThreadQueries()
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun providesQuizDao(appDb : AppDatabase): QuizDao {
+        return appDb.quizDao
     }
 }
