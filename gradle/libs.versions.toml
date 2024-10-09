@@ -17,6 +17,7 @@ hiltNavigationCompose = "1.2.0"
 retrofit = "2.11.0"
 converterGson = "2.11.0"
 kotlinx-serialization = "1.6.3"
+roomKtx = "2.6.1"
 
 
 
@@ -44,6 +45,9 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomKtx" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomKtx" }
 
 
 [plugins]
