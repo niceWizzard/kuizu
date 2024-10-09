@@ -34,7 +34,45 @@ class ExtractedQuizJsonDeserializer : JsonDeserializer<ExtractedQuiz> {
 
         val createdAtString = info.get("createdAt").asString
 
-        val questions : List<ExtractedQuestion> = emptyList()
+
+        val questions : List<ExtractedQuestion> = info.get("questions").asJsonArray.map {
+            it.asJsonObject
+        }.filter {
+            val type = it.get("type").asString.lowercase()
+            return@filter type == "mcq" || type == "blank"
+        }.map { questionJson ->
+            val type = questionJson.get("type").asString
+            val structure = questionJson.get("structure").asJsonObject
+            val text = structure.get("query").asJsonObject.get("text").asString
+            val options = structure.get("options").asJsonArray.map { it.asJsonObject }
+            return@map when(type.lowercase() ) {
+                "mcq" -> {
+                    ExtractedMultipleChoiceQuestion(
+                        text = text,
+                        options = options.map {
+                            it.get("text").asString
+                        },
+                        answer = structure.get("answer").let {
+                            if(it.isJsonPrimitive) {
+                                return@let listOf(it.asJsonPrimitive.asInt)
+                            }else {
+                                return@let it.asJsonArray.map { it.asJsonPrimitive.asInt }
+                            }
+                        },
+                        remoteId = ""
+                    )
+                }
+                "blank" -> {
+                    ExtractedIdentificationQuestion(
+                        text = text,
+                        answer = options[0].get("text").asString,
+                        remoteId = ""
+                    )
+                }
+                else -> throw Exception("Invalid question type received.")
+            }
+        }
+
 
 
         return ExtractedQuiz(
