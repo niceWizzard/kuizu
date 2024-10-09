@@ -10,6 +10,6 @@ data class MultipleChoiceQuestionEntity(
     override val text: String,
     @ColumnInfo("point")
     override val point: Int,
-    @ColumnInfo("quizId")
+    @ColumnInfo("quiz_id")
     override val quizId: String,
 ): QuestionEntity
