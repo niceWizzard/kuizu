@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Quizzerist"
 include(":app")
-include(":network")
+include(":quiz_extractor")
