@@ -104,6 +104,13 @@ private fun HomeScreenContent(
             is SearchQuizState.Success -> {
                 Text(searchQuizState.data.toString())
             }
+
+            is SearchQuizState.Invalid -> {
+                Text(
+                    searchQuizState.message,
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
         }
 
     }
