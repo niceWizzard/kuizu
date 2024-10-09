@@ -1,8 +1,10 @@
 package com.coderizzard.core.data.database.model.question
 
 import androidx.room.ColumnInfo
+import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+@Entity
 data class MultipleChoiceQuestionEntity(
     @PrimaryKey
     override val id: String,
