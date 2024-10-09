@@ -19,50 +19,41 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.coderizzard.quizzerist.presentation.appbar.HomeAppBar
+import com.coderizzard.quizzerist.presentation.appbar.RootAppBar
 import com.coderizzard.quizzerist.presentation.navigation.HomeRoute
+import com.coderizzard.quizzerist.presentation.navigation.RootRoute
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(navController: NavController) {
-    val routeList = HomeRoute.allRoutes
+    val homeRouteList = HomeRoute.allRoutes
+    val rootRouteList = RootRoute.routes
 
     val backStackEntry by navController.currentBackStackEntryAsState()
     backStackEntry?.let { entry ->
-        val v = routeList.find { navRoute ->
+        val routeRes = homeRouteList.find { navRoute ->
             entry.destination.hierarchy.any {
                 it.hasRoute(navRoute::class)
             }
         }
-        if (v != null) {
-            TopAppBar(
-                title = { Text(v.displayName)},
-            )
+        if (routeRes != null) {
+            HomeAppBar(routeRes)
         }
         else {
-            TopAppBar(
-                title = { },
-                actions = {
-                    Row(
-                        horizontalArrangement = Arrangement.Start,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        IconButton(
-                            onClick = {
-                                navController.popBackStack()
-                            }
-                        ) {
-                            Icon(
-                                Icons.AutoMirrored.Default.ArrowBack,
-                                contentDescription = "Back"
-                            )
-                        }
-                    }
+            RootAppBar(
+                navController,
+                rootRouteList.find { navRoute ->
+                    entry.destination.hasRoute(navRoute::class)
                 }
             )
         }
 
     }
 }
+
+
+
+
 
 
 @Preview
