@@ -1,4 +1,4 @@
-package com.coderizzard.core.data.database.model
+package com.coderizzard.core.data.database.model.question
 
 
 sealed interface QuestionEntity {
