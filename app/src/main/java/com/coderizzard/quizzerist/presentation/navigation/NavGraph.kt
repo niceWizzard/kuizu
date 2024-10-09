@@ -25,16 +25,16 @@ fun NavGraph(
         navController = navController,
         startDestination = RootRoute.Home,
         enterTransition = {
-            fadeIn(animationSpec = tween(durationMillis = 200))
+            fadeIn(animationSpec = tween(durationMillis = 400))
         },
         exitTransition = {
-            fadeOut(animationSpec = tween(durationMillis = 200))
+            fadeOut(animationSpec = tween(durationMillis = 400))
         },
         popEnterTransition = {
-            fadeIn(animationSpec = tween(durationMillis = 200))
+            fadeIn(animationSpec = tween(durationMillis = 400))
         },
         popExitTransition = {
-            fadeOut(animationSpec = tween(durationMillis = 200))
+            fadeOut(animationSpec = tween(durationMillis = 400))
         }
 
     ) {
