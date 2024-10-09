@@ -52,5 +52,22 @@ fun RootAppBar(
                 }
             )
         }
+
+        RootRoute.QuizAdd -> {
+            TopAppBar(
+                title = {  },
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            navController.popBackStack()
+                        }
+                    ) {
+                        Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = "Back")
+                    }
+                }
+            )
+        }
+
+
     }
 }

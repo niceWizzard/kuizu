@@ -27,7 +27,7 @@ fun TopBar(navController: NavController) {
                     )
                 }
                 is HomeRoute -> {
-                    HomeAppBar(it)
+                    HomeAppBar(it, navController)
                 }
             }
         }

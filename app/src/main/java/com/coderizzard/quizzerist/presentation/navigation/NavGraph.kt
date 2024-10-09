@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
+import com.coderizzard.quizzerist.presentation.screens.add_quiz.AddQuizScreen
 import com.coderizzard.quizzerist.presentation.screens.homescreen.HomeScreen
 
 @Composable
@@ -41,6 +42,9 @@ fun NavGraph(
         composable<RootRoute.QuizSession> {
             val route = navController.currentBackStackEntry?.toRoute<RootRoute.QuizSession>()
             Text("Quiz Session $route")
+        }
+        composable<RootRoute.QuizAdd> {
+            AddQuizScreen(navController)
         }
 
     }
