@@ -22,7 +22,7 @@ fun NavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = RootRoutes.Home,
+        startDestination = RootRoute.Home,
         enterTransition = {
             fadeIn(animationSpec = tween(durationMillis = 200))
         },
@@ -38,8 +38,8 @@ fun NavGraph(
 
     ) {
         homeNavGraph(navController)
-        composable<RootRoutes.QuizSession> {
-            val route = navController.currentBackStackEntry?.toRoute<RootRoutes.QuizSession>()
+        composable<RootRoute.QuizSession> {
+            val route = navController.currentBackStackEntry?.toRoute<RootRoute.QuizSession>()
             Text("Quiz Session $route")
         }
 
@@ -47,7 +47,7 @@ fun NavGraph(
 }
 
 private fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
-    navigation<RootRoutes.Home>(
+    navigation<RootRoute.Home>(
         startDestination = HomeRoute.Quiz
     ) {
         composable<HomeRoute.Quiz>(
@@ -65,7 +65,7 @@ private fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
                 ElevatedButton(
                     onClick = {
                         navController.navigate(
-                            RootRoutes.QuizSession(id = "asdfasdfasdf!")
+                            RootRoute.QuizSession(id = "asdfasdfasdf!")
                         )
                     }
                 ) {

@@ -14,14 +14,14 @@ interface NavRoute {
 
 
 @Serializable
-sealed class RootRoutes(
+sealed class RootRoute(
     override val displayName: String=""
 ) : NavRoute {
     @Serializable
-    data object Home : RootRoutes("Home")
+    data object Home : RootRoute("Home")
 
     @Serializable
-    data class QuizSession(val id : String= "") : RootRoutes("Quiz Session")
+    data class QuizSession(val id : String= "") : RootRoute("Quiz Session")
 
     companion object {
         val routes = listOf(
