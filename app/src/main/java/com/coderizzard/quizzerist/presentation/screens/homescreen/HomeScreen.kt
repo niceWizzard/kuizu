@@ -39,160 +39,21 @@ import com.coderizzard.network.data.model.ExtractedMultipleChoiceQuestion
 fun HomeScreen(
     navController: NavController,
 ) {
-    val activity = LocalContext.current as Activity as ViewModelStoreOwner
-    val homeScreenViewModel: HomeScreenViewModel = hiltViewModel(activity)
-    val searchString = homeScreenViewModel.searchString.value
-    val searchQuizState by homeScreenViewModel.searchQuiz.collectAsState()
+
     HomeScreenContent(
-        searchString = searchString,
-        onEvent = homeScreenViewModel::onEvent,
-        searchQuizState = searchQuizState
+
     )
 }
 
 @Composable
-private fun HomeScreenContent(
-    searchString : String,
-    onEvent : (HomeScreenEvent) -> Unit,
-    searchQuizState: SearchQuizState,
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 12.dp, vertical = 6.dp),
-        verticalArrangement = Arrangement.spacedBy(
-            12.dp,
-        )
-    ) {
-        Text("Home Screen")
+private fun HomeScreenContent() {
 
-        OutlinedTextField(
-            value = searchString,
-            onValueChange = { newText ->
-                onEvent(HomeScreenEvent.OnSearchChange(newText))
-            },
-            label = {
-                Text("Quiz id or Url")
-            },
-            placeholder = {
-                Text("https://quizizz.com/quiz/<idhere>")
-            },
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true,
-        )
-        ElevatedButton(
-            onClick = {
-                onEvent(HomeScreenEvent.OnSearchSubmit)
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Search")
-        }
-
-        when(searchQuizState) {
-            SearchQuizState.Default -> {
-                Text("Quiz will appear here.")
-            }
-            is SearchQuizState.Error -> {
-                Text(
-                    "Something went wrong. \n${searchQuizState.err}",
-                    color = MaterialTheme.colorScheme.error
-                )
-            }
-            SearchQuizState.Fetching -> {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(
-                        12.dp,
-                        alignment = Alignment.CenterHorizontally
-                    ),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    CircularProgressIndicator()
-                    Text("Fetching the quiz...")
-                }
-            }
-            is SearchQuizState.Success -> {
-                val quiz = searchQuizState.data
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement
-                        .spacedBy(12.dp)
-                ) {
-                    Text(
-                        quiz.name,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Row {
-                        Text(
-                            "Created by: ${quiz.author}",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Text("Created at: ${quiz.createdAt}",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(32.dp))
-                    quiz.questionList.map { q ->
-                        Card {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 12.dp, vertical = 8.dp),
-                            ) {
-                                Text(
-                                    q.text,
-                                    fontSize = 18.sp,
-                                )
-                                Spacer(Modifier.height(12.dp))
-                                when(q) {
-                                    is ExtractedIdentificationQuestion -> {
-                                        Text("Answer: ${q.answer}")
-                                    }
-                                    is ExtractedMultipleChoiceQuestion -> {
-                                        Column {
-                                            q.options.mapIndexed { index, opt ->
-                                                val isCorrect = q.answer.contains(index)
-                                                Text(buildString {
-                                                    if (isCorrect)
-                                                        append( "Correct - ")
-                                                    append(opt)
-                                                })
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                    }
-                }
-            }
-
-            is SearchQuizState.Invalid -> {
-                Text(
-                    searchQuizState.message,
-                    color = MaterialTheme.colorScheme.error,
-                )
-            }
-        }
-
-    }
 }
 
 @Preview
 @Composable
 private fun HomeScreenPreview() {
     HomeScreenContent(
-        searchString = "",
-        onEvent = {
 
-        },
-        searchQuizState = SearchQuizState.Default
     )
 }
