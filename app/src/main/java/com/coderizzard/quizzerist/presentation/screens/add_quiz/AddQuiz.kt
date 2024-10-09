@@ -36,12 +36,12 @@ import com.coderizzard.network.data.model.ExtractedMultipleChoiceQuestion
 @Composable
 fun AddQuizScreen(navController: NavController) {
     val activity = LocalContext.current as Activity as ViewModelStoreOwner
-    val homeScreenViewModel: AddQuizScreenViewModel = hiltViewModel(activity)
-    val searchString = homeScreenViewModel.searchString.value
-    val searchQuizState by homeScreenViewModel.searchQuiz.collectAsState()
+    val addQuizScreenViewModel: AddQuizScreenViewModel = hiltViewModel(activity)
+    val searchString = addQuizScreenViewModel.searchString.value
+    val searchQuizState by addQuizScreenViewModel.searchQuiz.collectAsState()
     AddQuizScreenContent(
         searchString = searchString,
-        onEvent = homeScreenViewModel::onEvent,
+        onEvent = addQuizScreenViewModel::onEvent,
         searchQuizState = searchQuizState
     )
 }
