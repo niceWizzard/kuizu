@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.coderizzard.database.domain.repository.QuizRepository
 import com.coderizzard.network.data.model.ExtractedQuiz
 import com.coderizzard.network.data.repository.ApiResponse
 import com.coderizzard.network.domain.ExtractedQuizRepository
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddQuizScreenViewModel@Inject constructor(
-    private val extractorRepository : ExtractedQuizRepository
+    private val extractorRepository : ExtractedQuizRepository,
+    val quizRepository: QuizRepository
 ) : ViewModel() {
     private val _searchString  = mutableStateOf("")
 
