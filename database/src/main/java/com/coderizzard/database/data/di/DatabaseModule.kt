@@ -2,8 +2,6 @@ package com.coderizzard.database.data.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.TypeConverters
-import com.coderizzard.database.data.DbConverter
 import com.coderizzard.database.data.database.AppDatabase
 import com.coderizzard.database.data.database.QuizDao
 import com.coderizzard.database.data.repository.QuizRepositoryImpl
@@ -17,9 +15,6 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-@TypeConverters(
-    DbConverter::class
-)
 internal object DatabaseModule {
 
     @Provides
