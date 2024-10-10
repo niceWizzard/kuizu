@@ -1,4 +1,4 @@
-package com.coderizzard.quiz.presentation.screen.homescreen
+package com.coderizzard.quiz.presentation.screen.quiz_list
 
 import androidx.lifecycle.ViewModel
 import com.coderizzard.database.domain.repository.QuizRepository
