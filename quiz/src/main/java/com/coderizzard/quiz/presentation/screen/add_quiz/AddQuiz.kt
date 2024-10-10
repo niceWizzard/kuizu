@@ -1,4 +1,4 @@
-package com.coderizzard.quizzerist.presentation.screens.add_quiz
+package com.coderizzard.quiz.presentation.screen.add_quiz
 
 import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -31,11 +30,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
-import com.coderizzard.database.data.database.model.QuizEntity
 import com.coderizzard.network.data.model.ExtractedIdentificationQuestion
 import com.coderizzard.network.data.model.ExtractedMultipleChoiceQuestion
-import java.time.LocalDateTime
-import java.util.UUID
 
 @Composable
 fun AddQuizScreen(navController: NavController) {

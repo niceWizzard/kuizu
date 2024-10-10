@@ -55,7 +55,6 @@ android {
 
 dependencies {
 
-    implementation(project(":quiz_extractor"))
     implementation(project(":database"))
     implementation(project(":core"))
     implementation(project(":quiz"))
