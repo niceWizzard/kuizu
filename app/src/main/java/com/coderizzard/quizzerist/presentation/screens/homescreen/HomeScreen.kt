@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
-import com.coderizzard.database.data.database.model.QuizEntity
+import com.coderizzard.quiz.data.model.Quiz
 
 @Composable
 fun HomeScreen(
@@ -31,7 +31,7 @@ fun HomeScreen(
 }
 
 @Composable
-private fun HomeScreenContent(quizList: List<QuizEntity>) {
+private fun HomeScreenContent(quizList: List<Quiz>) {
     Column {
         Text("All Quizzes")
         Column(
