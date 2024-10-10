@@ -16,7 +16,7 @@ import androidx.navigation.toRoute
 import com.coderizzard.core.data.navigation.HomeRoute
 import com.coderizzard.core.data.navigation.RootRoute
 import com.coderizzard.quiz.presentation.screen.add_quiz.AddQuizScreen
-import com.coderizzard.quizzerist.presentation.screens.homescreen.HomeScreen
+import com.coderizzard.quiz.presentation.screen.homescreen.QuizListScreen
 
 @Composable
 fun NavGraph(
@@ -58,7 +58,7 @@ private fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
     ) {
         composable<HomeRoute.Quiz>(
         ) {
-            HomeScreen(
+            QuizListScreen(
                 navController = navController,
             )
         }
