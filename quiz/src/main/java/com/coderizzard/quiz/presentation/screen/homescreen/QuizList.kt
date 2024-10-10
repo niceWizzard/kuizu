@@ -1,4 +1,4 @@
-package com.coderizzard.quizzerist.presentation.screens.homescreen
+package com.coderizzard.quiz.presentation.screen.homescreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,8 +17,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.coderizzard.core.data.model.Quiz
-import com.coderizzard.core.data.model.question.IdentificationQuestion
-import com.coderizzard.core.data.model.question.MultipleChoiceQuestion
 import com.coderizzard.core.data.model.question.Question
 
 @Composable

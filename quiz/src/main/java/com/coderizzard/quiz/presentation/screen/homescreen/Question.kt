@@ -1,4 +1,4 @@
-package com.coderizzard.quizzerist.presentation.screens.homescreen
+package com.coderizzard.quiz.presentation.screen.homescreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

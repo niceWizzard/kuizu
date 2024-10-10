@@ -1,17 +1,10 @@
-package com.coderizzard.quizzerist.presentation.screens.homescreen
+package com.coderizzard.quiz.presentation.screen.homescreen
 
 import android.app.Activity
-import android.text.style.UnderlineSpan
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,23 +22,22 @@ import androidx.navigation.NavController
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MultipleChoiceQuestion
-import com.coderizzard.core.data.model.question.Question
 import java.time.LocalDateTime
 
 @Composable
-fun HomeScreen(
+fun QuizListScreen(
     navController: NavController,
 ) {
     val activity = LocalContext.current as Activity as ViewModelStoreOwner
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel(activity)
     val quizList by homeScreenViewModel.allQuizzes.collectAsState(emptyList())
-    HomeScreenContent(
+    QuizListScreenContent(
         quizList
     )
 }
 
 @Composable
-private fun HomeScreenContent(quizList: List<Quiz>) {
+private fun QuizListScreenContent(quizList: List<Quiz>) {
     Column(
         modifier = Modifier.fillMaxSize().padding(12.dp)
     ) {
@@ -61,8 +53,8 @@ private fun HomeScreenContent(quizList: List<Quiz>) {
 
 @Preview
 @Composable
-private fun HomeScreenPreview() {
-    HomeScreenContent(quizList = listOf(
+private fun QuizListScreenPreview() {
+    QuizListScreenContent(quizList = listOf(
         Quiz(
             id = "lakjfsd",
             name = "Example Quiz",
