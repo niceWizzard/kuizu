@@ -21,5 +21,14 @@ data class MultipleChoiceQuestionEntity(
     @ColumnInfo("answer")
     val answer : List<Int>,
 ): QuestionEntity {
-
+    fun toMCQuestion() : MultipleChoiceQuestion {
+        return MultipleChoiceQuestion(
+            id = this.id,
+            text = this.text,
+            point = this.point,
+            answer = this.answer,
+            options =  this.options,
+            quizId = this.quizId,
+        )
+    }
 }

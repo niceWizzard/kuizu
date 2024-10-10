@@ -19,5 +19,13 @@ data class IdentificationQuestionEntity(
     @ColumnInfo("answer")
     val answer : String
 ) : QuestionEntity {
-    
+    fun toIdentificationQuestion() : IdentificationQuestion {
+        return IdentificationQuestion(
+            id = this.id,
+            text = this.text,
+            point = this.point,
+            answer = this.answer,
+            quizId = this.quizId
+        )
+    }
 }
