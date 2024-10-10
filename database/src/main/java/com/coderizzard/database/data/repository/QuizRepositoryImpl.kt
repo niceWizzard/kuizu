@@ -11,14 +11,27 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class QuizRepositoryImpl @Inject constructor(
     private val quizDao: QuizDao,
     private val questionRepository: QuestionRepository,
 ) : QuizRepository {
-    override suspend fun createQuiz(q: QuizEntity) {
-        quizDao.createQuiz(q)
+    override suspend fun createQuiz(
+        name: String,
+        author: String,
+        createdAt: LocalDateTime,
+        imageLink: String
+    ) {
+        quizDao.createQuiz(
+            QuizEntity(
+                name = name,
+                createdAt = createdAt,
+                author = author,
+                imageLink = imageLink,
+            )
+        )
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
