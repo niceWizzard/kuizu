@@ -3,7 +3,7 @@ package com.coderizzard.database.data.database.model.question
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.coderizzard.quiz.data.model.MultipleChoiceQuestion
+import com.coderizzard.core.data.model.question.MultipleChoiceQuestion
 import java.util.UUID
 
 @Entity
@@ -27,7 +27,7 @@ data class MultipleChoiceQuestionEntity(
             text = this.text,
             point = this.point,
             answer = this.answer,
-            options =  this.options,
+            options = this.options,
             quizId = this.quizId,
         )
     }

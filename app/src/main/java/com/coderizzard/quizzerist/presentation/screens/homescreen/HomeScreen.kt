@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
-import com.coderizzard.quiz.data.model.Quiz
+import com.coderizzard.core.data.model.Quiz
 
 @Composable
 fun HomeScreen(

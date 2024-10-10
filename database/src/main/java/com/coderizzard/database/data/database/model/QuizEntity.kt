@@ -3,8 +3,8 @@ package com.coderizzard.database.data.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.coderizzard.quiz.data.model.Question
-import com.coderizzard.quiz.data.model.Quiz
+import com.coderizzard.core.data.model.Quiz
+import com.coderizzard.core.data.model.question.Question
 import java.time.LocalDateTime
 import java.util.UUID
 

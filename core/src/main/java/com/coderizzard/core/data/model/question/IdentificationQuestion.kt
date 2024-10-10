@@ -1,4 +1,4 @@
-package com.coderizzard.quiz.data.model
+package com.coderizzard.core.data.model.question
 
 data class IdentificationQuestion(
     override val id: String,
@@ -6,5 +6,5 @@ data class IdentificationQuestion(
     override val point: Int,
     override val quizId: String,
     val answer  : String,
-)  : Question{
+)  : Question {
 }

@@ -1,7 +1,7 @@
 package com.coderizzard.database.domain.repository
 
+import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.database.data.database.model.QuizEntity
-import com.coderizzard.quiz.data.model.Quiz
 import kotlinx.coroutines.flow.Flow
 
 interface QuizRepository  {

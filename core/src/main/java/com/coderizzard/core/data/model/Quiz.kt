@@ -1,6 +1,7 @@
-package com.coderizzard.quiz.data.model
+package com.coderizzard.core.data.model
 
 import android.media.Image
+import com.coderizzard.core.data.model.question.Question
 import java.time.LocalDateTime
 
 data class Quiz(

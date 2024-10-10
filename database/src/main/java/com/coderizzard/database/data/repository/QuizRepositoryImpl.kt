@@ -1,11 +1,11 @@
 package com.coderizzard.database.data.repository
 
+import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.database.data.database.QuestionDao
 import com.coderizzard.database.data.database.QuizDao
 import com.coderizzard.database.data.database.model.QuizEntity
 import com.coderizzard.database.domain.repository.QuestionRepository
 import com.coderizzard.database.domain.repository.QuizRepository
-import com.coderizzard.quiz.data.model.Quiz
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

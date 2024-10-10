@@ -1,4 +1,4 @@
-package com.coderizzard.quiz.data.model
+package com.coderizzard.core.data.model.question
 
 data class MultipleChoiceQuestion(
     override val id: String,
@@ -7,5 +7,5 @@ data class MultipleChoiceQuestion(
     override val quizId: String,
     val options : List<String>,
     val answer : List<Int>,
-)  : Question{
+)  : Question {
 }
