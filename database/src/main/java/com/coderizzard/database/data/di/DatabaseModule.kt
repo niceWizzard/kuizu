@@ -5,7 +5,9 @@ import androidx.room.Room
 import com.coderizzard.database.data.database.AppDatabase
 import com.coderizzard.database.data.database.QuestionDao
 import com.coderizzard.database.data.database.QuizDao
+import com.coderizzard.database.data.repository.QuestionRepositoryImpl
 import com.coderizzard.database.data.repository.QuizRepositoryImpl
+import com.coderizzard.database.domain.repository.QuestionRepository
 import com.coderizzard.database.domain.repository.QuizRepository
 import dagger.Module
 import dagger.Provides
@@ -45,5 +47,13 @@ internal object DatabaseModule {
     @Singleton
     fun providesQuizRepository(quizDao: QuizDao) : QuizRepository {
         return QuizRepositoryImpl(quizDao)
+    }
+
+    @Provides
+    @Singleton
+    fun providesQuestionRepository(questionDao: QuestionDao) : QuestionRepository {
+        return QuestionRepositoryImpl(
+            questionDao,
+        )
     }
 }
