@@ -9,8 +9,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.coderizzard.quizzerist.presentation.appbar.HomeAppBar
 import com.coderizzard.quizzerist.presentation.appbar.RootAppBar
-import com.coderizzard.quizzerist.presentation.navigation.HomeRoute
-import com.coderizzard.quizzerist.presentation.navigation.RootRoute
+import com.coderizzard.core.data.navigation.HomeRoute
+import com.coderizzard.core.data.navigation.RootRoute
 
 @Composable
 fun TopBar(navController: NavController) {
