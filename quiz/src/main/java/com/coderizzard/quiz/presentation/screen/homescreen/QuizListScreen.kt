@@ -29,8 +29,8 @@ fun QuizListScreen(
     navController: NavController,
 ) {
     val activity = LocalContext.current as Activity as ViewModelStoreOwner
-    val homeScreenViewModel: HomeScreenViewModel = hiltViewModel(activity)
-    val quizList by homeScreenViewModel.allQuizzes.collectAsState(emptyList())
+    val quizListScreenViewModel: QuizListScreenViewModel = hiltViewModel(activity)
+    val quizList by quizListScreenViewModel.allQuizzes.collectAsState(emptyList())
     QuizListScreenContent(
         quizList
     )
