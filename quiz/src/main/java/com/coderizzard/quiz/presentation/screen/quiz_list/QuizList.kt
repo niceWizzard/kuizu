@@ -50,25 +50,11 @@ internal fun QuizList(quizList: List<Quiz>, onQuizClick: (id: String) -> Unit) {
                     Spacer(Modifier.height(12.dp))
                     HorizontalDivider(modifier = Modifier.height(12.dp))
                     Text("Questions (${quiz.questions.size})")
-                    QuestionList(quiz.questions)
                 }
             }
         }
     }
 }
 
-@Composable
-private fun QuestionList(questions : List<Question>) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        questions.mapIndexed { i, q ->
-            Question(q)
-            if(i != questions.size - 1) {
-                HorizontalDivider()
-            }
-        }
-    }
-}
+
 
