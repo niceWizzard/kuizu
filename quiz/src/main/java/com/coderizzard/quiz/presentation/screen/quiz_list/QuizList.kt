@@ -20,7 +20,7 @@ import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.Question
 
 @Composable
-internal fun QuizList(quizList: List<Quiz>) {
+internal fun QuizList(quizList: List<Quiz>, onQuizClick: (id: String) -> Unit) {
     if (quizList.isEmpty()) {
         Text("No quizzes yet.")
     }
@@ -32,7 +32,8 @@ internal fun QuizList(quizList: List<Quiz>) {
             key = Quiz::id
         ) { quiz ->
             Card(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {onQuizClick(quiz.id)}
             ) {
                 Column(
                     modifier = Modifier.padding(

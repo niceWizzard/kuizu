@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MultipleChoiceQuestion
+import com.coderizzard.core.data.navigation.RootRoute
 import java.time.LocalDateTime
 
 @Composable
@@ -32,12 +33,18 @@ fun QuizListScreen(
     val quizListScreenViewModel: QuizListScreenViewModel = hiltViewModel(activity)
     val quizList by quizListScreenViewModel.allQuizzes.collectAsState(emptyList())
     QuizListScreenContent(
-        quizList
+        quizList,
+        onQuizClick = { id ->
+            navController.navigate(RootRoute.Quiz(id))
+        }
     )
 }
 
 @Composable
-private fun QuizListScreenContent(quizList: List<Quiz>) {
+private fun QuizListScreenContent(
+    quizList: List<Quiz>,
+    onQuizClick: (id : String) -> Unit,
+) {
     Column(
         modifier = Modifier.fillMaxSize().padding(12.dp)
     ) {
@@ -45,7 +52,7 @@ private fun QuizListScreenContent(quizList: List<Quiz>) {
         HorizontalDivider(
             modifier = Modifier.height(32.dp)
         )
-        QuizList(quizList)
+        QuizList(quizList, onQuizClick)
     }
 }
 
@@ -54,7 +61,9 @@ private fun QuizListScreenContent(quizList: List<Quiz>) {
 @Preview
 @Composable
 private fun QuizListScreenPreview() {
-    QuizListScreenContent(quizList = listOf(
+    QuizListScreenContent(
+        onQuizClick = {},
+        quizList = listOf(
         Quiz(
             id = "lakjfsd",
             name = "Example Quiz",
