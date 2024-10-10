@@ -21,4 +21,5 @@ import com.coderizzard.database.data.database.model.question.MultipleChoiceQuest
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract val quizDao : QuizDao
+    abstract val questionDao : QuestionDao
 }

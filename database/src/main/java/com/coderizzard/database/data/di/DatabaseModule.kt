@@ -3,6 +3,7 @@ package com.coderizzard.database.data.di
 import android.content.Context
 import androidx.room.Room
 import com.coderizzard.database.data.database.AppDatabase
+import com.coderizzard.database.data.database.QuestionDao
 import com.coderizzard.database.data.database.QuizDao
 import com.coderizzard.database.data.repository.QuizRepositoryImpl
 import com.coderizzard.database.domain.repository.QuizRepository
@@ -32,6 +33,12 @@ internal object DatabaseModule {
     @Singleton
     fun providesQuizDao(appDb : AppDatabase): QuizDao {
         return appDb.quizDao
+    }
+
+    @Provides
+    @Singleton
+    fun providesQuestionDao(appDb : AppDatabase): QuestionDao {
+        return appDb.questionDao
     }
 
     @Provides
