@@ -19,7 +19,7 @@ data class QuizEntity (
     @ColumnInfo("image_link")
     val imageLink : String,
     @ColumnInfo("created_at")
-    val createdAt : LocalDateTime,
+    val createdAt : LocalDateTime = LocalDateTime.now(),
 ) {
     fun toQuiz(questions : List<Question>) : Quiz {
         return Quiz(
