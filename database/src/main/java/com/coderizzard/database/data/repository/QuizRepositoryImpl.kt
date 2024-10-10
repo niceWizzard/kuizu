@@ -1,7 +1,6 @@
 package com.coderizzard.database.data.repository
 
 import com.coderizzard.core.data.model.Quiz
-import com.coderizzard.database.data.database.QuestionDao
 import com.coderizzard.database.data.database.QuizDao
 import com.coderizzard.database.data.database.model.QuizEntity
 import com.coderizzard.database.domain.repository.QuestionRepository
@@ -12,6 +11,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
 import java.time.LocalDateTime
+import java.util.UUID
 import javax.inject.Inject
 
 class QuizRepositoryImpl @Inject constructor(
@@ -24,14 +24,17 @@ class QuizRepositoryImpl @Inject constructor(
         createdAt: LocalDateTime,
         imageLink: String
     ): String {
-        return quizDao.createQuiz(
+        val id = UUID.randomUUID().toString()
+        quizDao.createQuiz(
             QuizEntity(
+                id = id,
                 name = name,
                 createdAt = createdAt,
                 author = author,
                 imageLink = imageLink,
             )
         )
+        return id
 
     }
 
