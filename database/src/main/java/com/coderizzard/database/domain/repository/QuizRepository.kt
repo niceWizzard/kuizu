@@ -13,4 +13,6 @@ interface QuizRepository  {
         imageLink : String,
     ) : String
     fun getAll() : Flow<List<Quiz>>
+
+    fun getById(id : String): Flow<Quiz>
 }
