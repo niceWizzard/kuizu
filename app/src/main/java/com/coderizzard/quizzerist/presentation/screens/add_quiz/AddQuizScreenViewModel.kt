@@ -4,7 +4,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
+import com.coderizzard.database.data.database.model.question.MultipleChoiceQuestionEntity
+import com.coderizzard.database.data.database.model.question.QuestionEntity
+import com.coderizzard.database.domain.repository.QuestionRepository
 import com.coderizzard.database.domain.repository.QuizRepository
+import com.coderizzard.network.data.model.ExtractedIdentificationQuestion
+import com.coderizzard.network.data.model.ExtractedMultipleChoiceQuestion
 import com.coderizzard.network.data.model.ExtractedQuiz
 import com.coderizzard.network.data.repository.ApiResponse
 import com.coderizzard.network.domain.ExtractedQuizRepository
@@ -18,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddQuizScreenViewModel@Inject constructor(
     private val extractorRepository : ExtractedQuizRepository,
-    val quizRepository: QuizRepository
+    private val quizRepository: QuizRepository,
+    private val questionRepository: QuestionRepository,
 ) : ViewModel() {
     private val _searchString  = mutableStateOf("")
 
@@ -44,14 +51,39 @@ class AddQuizScreenViewModel@Inject constructor(
                     } else {
 
                         _searchQuiz.update { SearchQuizState.Fetching }
-                        _searchQuiz.update{
-                            when(val res = extractorRepository.extractQuizById(searchString.value)) {
-                                is ApiResponse.Error -> {
-                                    SearchQuizState.Error(res.message)
+                        when(val res = extractorRepository.extractQuizById(searchString.value)) {
+                            is ApiResponse.Error -> _searchQuiz.update { SearchQuizState.Error(res.message)}
+                            is ApiResponse.Success -> {
+                                _searchQuiz.update { SearchQuizState.Success(res.value) }
+                                val extractedQuiz = res.value
+                                val quizId = quizRepository.createQuiz(
+                                    name = extractedQuiz.name,
+                                    author = extractedQuiz.author,
+                                    createdAt = extractedQuiz.createdAt,
+                                    imageLink = extractedQuiz.imageLink,
+
+                                )
+
+                                extractedQuiz.questionList.forEach {
+                                    questionRepository.createQuestion(
+                                        when(it) {
+                                            is ExtractedIdentificationQuestion -> IdentificationQuestionEntity(
+                                                quizId = quizId,
+                                                answer = it.answer,
+                                                text = it.text,
+                                                point = 1
+                                            )
+                                            is ExtractedMultipleChoiceQuestion -> MultipleChoiceQuestionEntity(
+                                                quizId = quizId,
+                                                point = 1,
+                                                options = it.options,
+                                                answer = it.answer,
+                                                text = it.text
+                                            )
+                                        }
+                                    )
                                 }
-                                is ApiResponse.Success -> {
-                                    SearchQuizState.Success(res.value)
-                                }
+
                             }
                         }
                     }

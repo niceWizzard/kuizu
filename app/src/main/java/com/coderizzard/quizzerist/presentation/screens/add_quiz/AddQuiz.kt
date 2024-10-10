@@ -43,13 +43,6 @@ fun AddQuizScreen(navController: NavController) {
     val addQuizScreenViewModel: AddQuizScreenViewModel = hiltViewModel(activity)
     val searchString = addQuizScreenViewModel.searchString.value
     val searchQuizState by addQuizScreenViewModel.searchQuiz.collectAsState()
-    LaunchedEffect(Unit) {
-        addQuizScreenViewModel.quizRepository.createQuiz(
-                name = UUID.randomUUID().toString(),
-                author = "lakjsdf",
-                imageLink = "",
-        )
-    }
     AddQuizScreenContent(
         searchString = searchString,
         onEvent = addQuizScreenViewModel::onEvent,
