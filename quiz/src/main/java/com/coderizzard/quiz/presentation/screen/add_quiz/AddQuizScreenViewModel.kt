@@ -1,4 +1,4 @@
-package com.coderizzard.quizzerist.presentation.screens.add_quiz
+package com.coderizzard.quiz.presentation.screen.add_quiz
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
 import com.coderizzard.database.data.database.model.question.MultipleChoiceQuestionEntity
-import com.coderizzard.database.data.database.model.question.QuestionEntity
 import com.coderizzard.database.domain.repository.QuestionRepository
 import com.coderizzard.database.domain.repository.QuizRepository
 import com.coderizzard.network.data.model.ExtractedIdentificationQuestion
@@ -52,7 +51,7 @@ class AddQuizScreenViewModel@Inject constructor(
 
                         _searchQuiz.update { SearchQuizState.Fetching }
                         when(val res = extractorRepository.extractQuizById(searchString.value)) {
-                            is ApiResponse.Error -> _searchQuiz.update { SearchQuizState.Error(res.message)}
+                            is ApiResponse.Error -> _searchQuiz.update { SearchQuizState.Error(res.message) }
                             is ApiResponse.Success -> {
                                 _searchQuiz.update { SearchQuizState.Success(res.value) }
                                 val extractedQuiz = res.value
