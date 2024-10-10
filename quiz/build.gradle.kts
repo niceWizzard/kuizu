@@ -36,7 +36,9 @@ android {
 }
 
 dependencies {
-
+    implementation(project(":quiz_extractor"))
+    implementation(project(":database"))
+    implementation(project(":core"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
