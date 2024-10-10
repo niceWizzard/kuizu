@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
@@ -21,16 +23,16 @@ import com.coderizzard.core.data.model.question.Question
 
 @Composable
 internal fun QuizList(quizList: List<Quiz>) {
-    Column(
-        modifier = Modifier.verticalScroll(
-            rememberScrollState()
-        ),
+    if (quizList.isEmpty()) {
+        Text("No quizzes yet.")
+    }
+    LazyColumn(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        if (quizList.isEmpty()) {
-            Text("No quizzes yet.")
-        }
-        quizList.map { quiz ->
+        items(
+            items = quizList,
+            key = Quiz::id
+        ) { quiz ->
             Card(
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -53,7 +55,6 @@ internal fun QuizList(quizList: List<Quiz>) {
                 }
             }
         }
-
     }
 }
 
