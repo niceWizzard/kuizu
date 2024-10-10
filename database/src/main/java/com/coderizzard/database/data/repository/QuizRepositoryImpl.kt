@@ -23,8 +23,8 @@ class QuizRepositoryImpl @Inject constructor(
         author: String,
         createdAt: LocalDateTime,
         imageLink: String
-    ) {
-        quizDao.createQuiz(
+    ): String {
+        return quizDao.createQuiz(
             QuizEntity(
                 name = name,
                 createdAt = createdAt,
@@ -32,6 +32,7 @@ class QuizRepositoryImpl @Inject constructor(
                 imageLink = imageLink,
             )
         )
+
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

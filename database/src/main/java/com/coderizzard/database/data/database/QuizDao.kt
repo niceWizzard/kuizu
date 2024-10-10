@@ -12,5 +12,5 @@ interface QuizDao {
     fun getAll() : Flow<List<QuizEntity>>
 
     @Insert
-    suspend fun createQuiz(q : QuizEntity)
+    suspend fun createQuiz(q : QuizEntity) : String
 }

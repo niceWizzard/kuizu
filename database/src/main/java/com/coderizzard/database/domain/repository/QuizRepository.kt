@@ -11,6 +11,6 @@ interface QuizRepository  {
         author : String,
         createdAt : LocalDateTime = LocalDateTime.now(),
         imageLink : String,
-    )
+    ) : String
     fun getAll() : Flow<List<Quiz>>
 }
