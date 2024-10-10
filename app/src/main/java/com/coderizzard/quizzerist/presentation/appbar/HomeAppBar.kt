@@ -9,8 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import com.coderizzard.quizzerist.presentation.navigation.HomeRoute
-import com.coderizzard.quizzerist.presentation.navigation.RootRoute
+import com.coderizzard.core.data.navigation.HomeRoute
+import com.coderizzard.core.data.navigation.RootRoute
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

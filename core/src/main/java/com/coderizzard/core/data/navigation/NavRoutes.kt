@@ -1,4 +1,4 @@
-package com.coderizzard.quizzerist.presentation.navigation
+package com.coderizzard.core.data.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder

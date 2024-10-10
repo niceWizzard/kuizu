@@ -13,7 +13,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
-import com.coderizzard.quizzerist.presentation.screens.add_quiz.AddQuizScreen
+import com.coderizzard.core.data.navigation.HomeRoute
+import com.coderizzard.core.data.navigation.RootRoute
+import com.coderizzard.quizzerist.presentation.screen.add_quiz.AddQuizScreen
 import com.coderizzard.quizzerist.presentation.screens.homescreen.HomeScreen
 
 @Composable
