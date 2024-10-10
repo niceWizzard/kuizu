@@ -19,6 +19,17 @@ class DbConverter  {
     }
 
     @TypeConverter
+    fun fromListIntToString(v : List<Int>) : String {
+        return Gson().toJson(v)
+    }
+
+    @TypeConverter
+    fun fromStringToListInt(value: String?): List<Int>? {
+        val listType = object : TypeToken<List<String>>() {}.type
+        return Gson().fromJson(value, listType)
+    }
+
+    @TypeConverter
     fun fromStringToLocalDateTime(value : String?) : LocalDateTime {
         return LocalDateTime.parse(value)
     }
