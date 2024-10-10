@@ -49,4 +49,12 @@ class QuizRepositoryImpl @Inject constructor(
             combine(quizzesFlow){it.toList()}
         }
     }
+
+    override fun getById(id: String) : Flow<Quiz> {
+        return questionRepository.getAllByQuizId(id).combine(
+            quizDao.getById(id)
+        ) { question, quiz ->
+            quiz.toQuiz(question)
+        }
+    }
 }
