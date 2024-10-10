@@ -1,6 +1,7 @@
 package com.coderizzard.database.data.database
 
 import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.Query
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
 import com.coderizzard.database.data.database.model.question.MultipleChoiceQuestionEntity
@@ -16,4 +17,9 @@ interface QuestionDao  {
             "WHERE ENT.quiz_id = :quizId")
     fun getQuizIdentificationQuestions(quizId : String) : Flow<List<IdentificationQuestionEntity>>
 
+    @Insert
+    suspend fun createQuestion(q : MultipleChoiceQuestionEntity)
+
+    @Insert
+    suspend fun createQuestion(q : IdentificationQuestionEntity)
 }

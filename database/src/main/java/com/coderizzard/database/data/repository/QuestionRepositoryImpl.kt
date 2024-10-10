@@ -4,6 +4,7 @@ import com.coderizzard.core.data.model.question.Question
 import com.coderizzard.database.data.database.QuestionDao
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
 import com.coderizzard.database.data.database.model.question.MultipleChoiceQuestionEntity
+import com.coderizzard.database.data.database.model.question.QuestionEntity
 import com.coderizzard.database.domain.repository.QuestionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -23,6 +24,13 @@ class QuestionRepositoryImpl @Inject constructor(
                    is MultipleChoiceQuestionEntity -> it.toMCQuestion()
                }
            }
+        }
+    }
+
+    override suspend fun createQuestion(question: QuestionEntity) {
+        when(question) {
+            is IdentificationQuestionEntity -> questionDao.createQuestion(question)
+            is MultipleChoiceQuestionEntity -> questionDao.createQuestion(question)
         }
     }
 }
