@@ -10,8 +10,6 @@ import retrofit2.http.Path
 
 interface QuizExtractorApi {
 
-    @GET("quiz/{id}")
-    suspend fun getQuizByIdRaw(@Path("id") quizId : String) : Response<ResponseBody>
 
     @GET("quiz/{id}")
     suspend fun extractQuizById(@Path("id") quizId: String) : ExtractedQuiz

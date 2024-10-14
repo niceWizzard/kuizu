@@ -6,9 +6,5 @@ import retrofit2.http.Path
 
 interface ExtractedQuizRepository {
 
-    suspend fun extractQuizRaw(id : String) : ApiResponse<String>
-
     suspend fun extractQuizById(quizId: String) : ApiResponse<ExtractedQuiz>
-
-
 }
