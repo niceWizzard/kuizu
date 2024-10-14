@@ -12,9 +12,9 @@ interface QuizRepository  {
         createdAt : LocalDateTime = LocalDateTime.now(),
         imageLink : String,
     ) : String
-    fun getAll() : Flow<List<Quiz>>
+    suspend fun getAll() : Flow<List<Quiz>>
 
-    fun getById(id : String): Flow<Quiz>
+    suspend fun getById(id : String): Quiz
 
     suspend fun deleteQuiz(id : String)
 

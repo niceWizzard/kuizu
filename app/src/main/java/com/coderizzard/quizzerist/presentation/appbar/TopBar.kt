@@ -23,7 +23,8 @@ fun TopBar(navController: NavController) {
                 is RootRoute -> {
                     RootAppBar(
                         navController,
-                        it
+                        it,
+                        entry
                     )
                 }
                 is HomeRoute -> {

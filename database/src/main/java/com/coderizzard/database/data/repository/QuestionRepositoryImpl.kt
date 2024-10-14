@@ -14,17 +14,8 @@ import javax.inject.Inject
 class QuestionRepositoryImpl @Inject constructor(
     private val questionDao: QuestionDao,
 ) : QuestionRepository {
-    override fun getAllByQuizId(quizId: String): Flow<List<Question>> {
-        return questionDao.getQuizMCQuestions(quizId).combine( questionDao.getQuizIdentificationQuestions(quizId)) { a,b ->
-            a + b
-        }.map { list ->
-           list.map {
-               when(it) {
-                   is IdentificationQuestionEntity -> it.toIdentificationQuestion()
-                   is MultipleChoiceQuestionEntity -> it.toMCQuestion()
-               }
-           }
-        }
+    override suspend fun getAllByQuizId(quizId: String): List<Question> {
+        return questionDao.getQuizMCQuestions(quizId).map { it.toMCQuestion() } + questionDao.getQuizIdentificationQuestions(quizId).map { it.toIdentificationQuestion() }
     }
 
     override suspend fun createQuestion(question: QuestionEntity) {
