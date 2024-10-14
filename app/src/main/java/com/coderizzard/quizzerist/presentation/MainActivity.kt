@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.coderizzard.core.data.navigation.NavigationManager
+import com.coderizzard.quizzerist.presentation.appbar.TopBar
 import com.coderizzard.quizzerist.presentation.navigation.NavBar
 import com.coderizzard.quizzerist.presentation.navigation.NavGraph
 import com.coderizzard.quizzerist.ui.theme.QuizzeristTheme
