@@ -16,21 +16,29 @@ import javax.inject.Inject
 @HiltViewModel
  internal class QuizScreenViewModel @Inject constructor(
     private val quizRepository: QuizRepository,
-    private val navigationManager: NavigationManager,
+    val navigationManager: NavigationManager,
 ) : ViewModel() {
     private val _quizState = MutableStateFlow<QuizUiState>(QuizUiState.Loading)
     private var _routeParams : RootRoute.Quiz = navigationManager.getRouteData<RootRoute.Quiz>() ?:   throw Exception("Reached Quiz(#id) without a quiz route")
 
     init {
         viewModelScope.launch {
-            quizRepository.getById(routeParams().id).collect { quiz ->
-                _quizState.update { QuizUiState.Success(quiz) }
-            }
+            _quizState.update { QuizUiState.Success(quizRepository.getById(routeParams().id)) }
+
+
         }
     }
+
     fun routeParams(): RootRoute.Quiz {
         return _routeParams
     }
+
+    fun deleteCurrentQuiz() {
+        viewModelScope.launch {
+            quizRepository.deleteQuiz(routeParams().id)
+        }
+    }
+
     val quizState = _quizState.asStateFlow()
 }
 

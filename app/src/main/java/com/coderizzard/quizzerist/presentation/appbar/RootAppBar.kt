@@ -12,8 +12,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import com.coderizzard.core.data.navigation.RootRoute
+import com.coderizzard.quiz.presentation.QuizScreenAppBar
 
 
 @Composable
@@ -21,6 +23,7 @@ import com.coderizzard.core.data.navigation.RootRoute
 fun RootAppBar(
     navController: NavController,
     route: RootRoute,
+    entry: NavBackStackEntry,
 ) {
     when(route) {
         RootRoute.Home -> throw Exception("Home route should not be handled here.")
@@ -68,25 +71,7 @@ fun RootAppBar(
         }
 
         is RootRoute.Quiz ->  {
-            TopAppBar(
-                title = {  },
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            navController.popBackStack()
-                        }
-                    ) {
-                        Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                actions = {
-                    IconButton(
-                        onClick = {}
-                    ) {
-                        Icon(Icons.Default.MoreVert, contentDescription = "More")
-                    }
-                }
-            )
+            QuizScreenAppBar(entry)
         }
     }
 }

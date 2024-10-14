@@ -38,24 +38,16 @@ class QuizRepositoryImpl @Inject constructor(
 
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getAll(): Flow<List<Quiz>> {
-        return quizDao.getAll().flatMapConcat { quizList ->
-            val quizzesFlow = quizList.map { quizEntity ->
-                questionRepository.getAllByQuizId(quizEntity.id).map { q ->
-                    quizEntity.toQuiz(q)
-                }
-            }
-            combine(quizzesFlow){it.toList()}
+    override suspend fun getAll(): Flow<List<Quiz>> {
+        return quizDao.getAll().map { list ->
+            list.map { it.toQuiz(
+                questionRepository.getAllByQuizId(it.id)
+            ) }
         }
     }
 
-    override fun getById(id: String) : Flow<Quiz> {
-        return questionRepository.getAllByQuizId(id).combine(
-            quizDao.getById(id)
-        ) { question, quiz ->
-            quiz.toQuiz(question)
-        }
+    override suspend fun getById(id: String) : Quiz {
+        return quizDao.getById(id).toQuiz(questionRepository.getAllByQuizId(id))
     }
 
     override suspend fun deleteQuiz(id: String) {

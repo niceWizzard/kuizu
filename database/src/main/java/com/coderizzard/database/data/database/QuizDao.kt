@@ -16,7 +16,7 @@ interface QuizDao {
     suspend fun createQuiz(q : QuizEntity)
 
     @Query("SELECT * FROM QuizEntity AS ent WHERE ent.id = :id")
-    fun getById(id: String) : Flow<QuizEntity>
+    suspend fun getById(id: String) : QuizEntity
 
     @Query("DELETE FROM QuizEntity WHERE id = :id")
     fun deleteQuiz(id : String)
