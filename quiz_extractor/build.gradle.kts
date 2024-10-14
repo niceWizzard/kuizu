@@ -43,6 +43,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.mockk)
+    androidTestImplementation(libs.mockk.android)
 
 //    hilt
     ksp(libs.hilt.compiler)
