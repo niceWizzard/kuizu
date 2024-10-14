@@ -29,12 +29,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
-import androidx.navigation.NavController
 import com.coderizzard.network.data.model.ExtractedIdentificationQuestion
 import com.coderizzard.network.data.model.ExtractedMultipleChoiceQuestion
 
 @Composable
-fun AddQuizScreen(navController: NavController) {
+fun AddQuizScreen() {
     val activity = LocalContext.current as Activity as ViewModelStoreOwner
     val addQuizScreenViewModel: AddQuizScreenViewModel = hiltViewModel(activity)
     val searchString = addQuizScreenViewModel.searchString.value

@@ -6,17 +6,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -27,23 +24,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.toRoute
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
-import com.coderizzard.core.data.navigation.RootRoute
 import java.time.LocalDateTime
 
 @Composable
-fun QuizScreen(
-    navController: NavController
-) {
-    val quizRoute = navController.currentBackStackEntry?.toRoute<RootRoute.Quiz>()
-        ?: throw Exception("Reached Quiz(#id) without a quiz route")
+fun QuizScreen() {
     val viewModel : QuizScreenViewModel = hiltViewModel()
-    LaunchedEffect(Unit) {
-        viewModel.initialize(quizRoute.id)
-    }
+    val quizRoute = viewModel.routeParams()
     val quiz by viewModel.quizState.collectAsState()
     when(quizRoute.id.trim()) {
         "" -> {
