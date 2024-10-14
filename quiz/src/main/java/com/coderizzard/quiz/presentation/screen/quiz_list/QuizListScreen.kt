@@ -31,7 +31,7 @@ fun QuizListScreen(
 ) {
     val activity = LocalContext.current as Activity as ViewModelStoreOwner
     val quizListScreenViewModel: QuizListScreenViewModel = hiltViewModel(activity)
-    val quizList by quizListScreenViewModel.allQuizzes.collectAsState(emptyList())
+    val quizList by quizListScreenViewModel.allQuizzes.collectAsState()
     QuizListScreenContent(
         quizList,
         onQuizClick = { id ->
@@ -42,7 +42,7 @@ fun QuizListScreen(
 
 @Composable
 private fun QuizListScreenContent(
-    quizList: List<Quiz>,
+    quizList: QuizListState,
     onQuizClick: (id : String) -> Unit,
 ) {
     Column(
@@ -63,31 +63,34 @@ private fun QuizListScreenContent(
 private fun QuizListScreenPreview() {
     QuizListScreenContent(
         onQuizClick = {},
-        quizList = listOf(
-        Quiz(
-            id = "lakjfsd",
-            name = "Example Quiz",
-            author = "John Doe",
-            createdAt = LocalDateTime.now(),
-            questions = listOf(
-                IdentificationQuestion(
-                    answer = "2",
-                    text = "What is 1 + 1?",
-                    point = 1,
-                    id = "klasjdfklafsdj",
-                    quizId = "asdf"
-                ),
-                MultipleChoiceQuestion(
-                    text = "What is 2 + 2?",
-                    answer = listOf(0),
-                    options = listOf(
-                        "1", "2", "3", "4"
-                    ),
-                    id = "lkajiolqa",
-                    quizId = "ljkasfd",
-                    point = 1
+        quizList = QuizListState.Success(
+            listOf(
+                Quiz(
+                    id = "lakjfsd",
+                    name = "Example Quiz",
+                    author = "John Doe",
+                    createdAt = LocalDateTime.now(),
+                    questions = listOf(
+                        IdentificationQuestion(
+                            answer = "2",
+                            text = "What is 1 + 1?",
+                            point = 1,
+                            id = "klasjdfklafsdj",
+                            quizId = "asdf"
+                        ),
+                        MultipleChoiceQuestion(
+                            text = "What is 2 + 2?",
+                            answer = listOf(0),
+                            options = listOf(
+                                "1", "2", "3", "4"
+                            ),
+                            id = "lkajiolqa",
+                            quizId = "ljkasfd",
+                            point = 1
+                        )
+                    )
                 )
             )
         )
-    ))
+    )
 }
