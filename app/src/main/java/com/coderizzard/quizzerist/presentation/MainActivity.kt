@@ -8,21 +8,30 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.coderizzard.core.data.navigation.NavigationManager
 import com.coderizzard.quizzerist.presentation.navigation.NavBar
 import com.coderizzard.quizzerist.presentation.navigation.NavGraph
 import com.coderizzard.quizzerist.ui.theme.QuizzeristTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var navigationManager: NavigationManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
+            LaunchedEffect(Unit) {
+                navigationManager.navController = navController
+            }
             QuizzeristTheme {
-                val navController = rememberNavController()
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = { NavBar(navController = navController) },
