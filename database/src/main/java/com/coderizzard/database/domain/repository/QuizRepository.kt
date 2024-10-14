@@ -15,4 +15,7 @@ interface QuizRepository  {
     fun getAll() : Flow<List<Quiz>>
 
     fun getById(id : String): Flow<Quiz>
+
+    suspend fun deleteQuiz(id : String)
+
 }

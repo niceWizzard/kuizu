@@ -57,4 +57,8 @@ class QuizRepositoryImpl @Inject constructor(
             quiz.toQuiz(question)
         }
     }
+
+    override suspend fun deleteQuiz(id: String) {
+        quizDao.deleteQuiz(id)
+    }
 }
