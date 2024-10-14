@@ -19,4 +19,8 @@ class NavigationManager @Inject constructor() {
 
     }
 
+    fun popBackStack() {
+        navController.popBackStack()
+    }
+
 }
