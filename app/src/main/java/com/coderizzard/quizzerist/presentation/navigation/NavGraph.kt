@@ -47,11 +47,11 @@ fun NavGraph(
             Text("Quiz Session $route")
         }
         composable<RootRoute.QuizAdd> {
-            AddQuizScreen(navController)
+            AddQuizScreen()
         }
 
         composable<RootRoute.Quiz> {
-            QuizScreen(navController)
+            QuizScreen()
         }
 
     }
@@ -64,7 +64,9 @@ private fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         composable<HomeRoute.Quiz>(
         ) {
             QuizListScreen(
-                navController = navController,
+                onQuizClick = { id ->
+                    navController.navigate(RootRoute.Quiz(id))
+                }
             )
         }
         composable<HomeRoute.Settings> {

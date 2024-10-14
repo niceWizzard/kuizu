@@ -27,16 +27,14 @@ import java.time.LocalDateTime
 
 @Composable
 fun QuizListScreen(
-    navController: NavController,
+    onQuizClick: (id: String) -> Unit,
 ) {
     val activity = LocalContext.current as Activity as ViewModelStoreOwner
     val quizListScreenViewModel: QuizListScreenViewModel = hiltViewModel(activity)
     val quizList by quizListScreenViewModel.allQuizzes.collectAsState()
     QuizListScreenContent(
         quizList,
-        onQuizClick = { id ->
-            navController.navigate(RootRoute.Quiz(id))
-        }
+        onQuizClick = onQuizClick
     )
 }
 
