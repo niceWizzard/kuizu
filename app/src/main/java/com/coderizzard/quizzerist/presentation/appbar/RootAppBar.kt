@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import com.coderizzard.core.data.navigation.RootRoute
-import com.coderizzard.quiz.presentation.QuizScreenAppBar
+import com.coderizzard.quiz.presentation.screen.quiz.QuizScreenAppBar
 
 
 @Composable

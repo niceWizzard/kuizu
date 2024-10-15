@@ -1,4 +1,4 @@
-package com.coderizzard.quiz.presentation
+package com.coderizzard.quiz.presentation.screen.quiz
 
 import android.widget.Toast
 import androidx.compose.material.icons.Icons
@@ -19,7 +19,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
-import com.coderizzard.quiz.presentation.screen.quiz.QuizScreenViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
