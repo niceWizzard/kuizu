@@ -3,6 +3,7 @@ package com.coderizzard.network.data.util
 import com.coderizzard.network.data.model.ExtractedQuiz
 import com.coderizzard.network.data.repository.ApiResponse
 import com.coderizzard.network.data.repository.ExtractedQuizRepositoryImpl
+import com.coderizzard.network.data.repository.InvalidQuizizzIdOrUrl
 import com.coderizzard.network.domain.QuizExtractorApi
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -94,6 +95,19 @@ class TestExtractedQuizRepository {
 
     }
 
+    @Test
+    fun testInvalidIdOrUrl() = runBlocking {
+        coEvery { api.extractQuizById("!") } returns validQuiz
+        val quiz = repo.extractQuizById("!")
+        Assert.assertTrue(quiz is ApiResponse.Error)
+        if(quiz is ApiResponse.Error) {
+            val error = InvalidQuizizzIdOrUrl("!")
+            Assert.assertTrue(
+                "Error message should contain <invalid id or url>",
+                quiz.message.contains(error.message.toString(), ignoreCase = true)
+            )
+        }
+    }
 
     @Test
     fun testInvalidQuizizzError() = runBlocking {
