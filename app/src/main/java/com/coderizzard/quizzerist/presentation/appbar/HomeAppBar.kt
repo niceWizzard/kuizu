@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.coderizzard.core.data.navigation.HomeRoute
 import com.coderizzard.core.data.navigation.RootRoute
+import com.coderizzard.quiz.presentation.screen.quiz_list.QuizListScreenAppBar
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -20,20 +21,11 @@ fun HomeAppBar(
 ) {
     when(route) {
         HomeRoute.Quiz -> {
-            TopAppBar(
-                title = { Text(route.displayName) },
-                actions = {
-                    IconButton(
-                        onClick = {
-                            navController.navigate(RootRoute.QuizAdd)
-                        }
-                    ) {
-                        Icon(
-                            Icons.Default.Add,
-                            contentDescription = "Add"
-                        )
-                    }
-                }
+            QuizListScreenAppBar(
+                onAddButtonClick = {
+                    navController.navigate(RootRoute.QuizAdd)
+                },
+                route = route,
             )
         }
         HomeRoute.Sessions, HomeRoute.Settings -> {
