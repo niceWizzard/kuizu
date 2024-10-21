@@ -55,34 +55,31 @@ class AddQuizScreenViewModel@Inject constructor(
                             is ApiResponse.Success -> {
                                 _searchQuiz.update { SearchQuizState.Success(res.value) }
                                 val extractedQuiz = res.value
-                                val quizId = quizRepository.createQuiz(
+                                quizRepository.createQuiz(
                                     name = extractedQuiz.name,
                                     author = extractedQuiz.author,
                                     createdAt = extractedQuiz.createdAt,
                                     imageLink = extractedQuiz.imageLink,
-
-                                )
-
-                                extractedQuiz.questionList.forEach {
-                                    questionRepository.createQuestion(
-                                        when(it) {
-                                            is ExtractedIdentificationQuestion -> IdentificationQuestionEntity(
-                                                quizId = quizId,
-                                                answer = it.answer,
-                                                text = it.text,
-                                                point = 1
-                                            )
-                                            is ExtractedMultipleChoiceQuestion -> MultipleChoiceQuestionEntity(
-                                                quizId = quizId,
-                                                point = 1,
-                                                options = it.options,
-                                                answer = it.answer,
-                                                text = it.text
-                                            )
+                                    questionListBuilder = { quizId ->
+                                        extractedQuiz.questionList.map {
+                                            when(it) {
+                                                is ExtractedIdentificationQuestion -> IdentificationQuestionEntity(
+                                                    quizId = quizId,
+                                                    answer = it.answer,
+                                                    text = it.text,
+                                                    point = 1
+                                                )
+                                                is ExtractedMultipleChoiceQuestion -> MultipleChoiceQuestionEntity(
+                                                    quizId = quizId,
+                                                    point = 1,
+                                                    options = it.options,
+                                                    answer = it.answer,
+                                                    text = it.text
+                                                )
+                                            }
                                         }
-                                    )
-                                }
-
+                                    }
+                                )
                             }
                         }
                     }
