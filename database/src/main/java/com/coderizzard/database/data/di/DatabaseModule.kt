@@ -45,8 +45,11 @@ internal object DatabaseModule {
 
     @Provides
     @Singleton
-    fun providesQuizRepository(quizDao: QuizDao, questionRepository: QuestionRepository) : QuizRepository {
-        return QuizRepositoryImpl(quizDao, questionRepository)
+    fun providesQuizRepository(
+        quizDao: QuizDao, questionRepository: QuestionRepository,
+        questionDao: QuestionDao
+    ) : QuizRepository {
+        return QuizRepositoryImpl(quizDao, questionRepository, questionDao)
     }
 
     @Provides
