@@ -1,6 +1,6 @@
 package com.coderizzard.network.data
 
-import com.coderizzard.network.data.model.ExtractedQuiz
+import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.network.data.repository.ExtractedQuizRepositoryImpl
 import com.coderizzard.network.domain.ExtractedQuizRepository
 import com.coderizzard.network.domain.QuizExtractorApi
@@ -22,7 +22,7 @@ object NetworkModule {
     @Singleton
     fun providesRetrofit() : Retrofit {
         val gson = GsonBuilder()
-            .registerTypeAdapter(ExtractedQuiz::class.java, ExtractedQuizJsonDeserializer())
+            .registerTypeAdapter(Quiz::class.java, QuizJsonDeserializer())
             .create()
 
         return Retrofit.Builder()

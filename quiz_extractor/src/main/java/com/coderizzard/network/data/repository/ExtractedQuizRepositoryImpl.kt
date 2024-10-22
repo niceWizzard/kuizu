@@ -1,6 +1,6 @@
 package com.coderizzard.network.data.repository
 
-import com.coderizzard.network.data.model.ExtractedQuiz
+import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.network.data.util.resolveQuizId
 import com.coderizzard.network.domain.ExtractedQuizRepository
 import com.coderizzard.network.domain.QuizExtractorApi
@@ -12,7 +12,7 @@ class ExtractedQuizRepositoryImpl @Inject constructor(
     private val extractorApi: QuizExtractorApi
 ) : ExtractedQuizRepository {
 
-    override suspend fun extractQuizById(quizId: String): ApiResponse<ExtractedQuiz> {
+    override suspend fun extractQuizById(quizId: String): ApiResponse<Quiz> {
         return try {
             val id = resolveQuizId(quizId) ?: throw InvalidQuizizzIdOrUrl(quizId)
             ApiResponse.Success(extractorApi.extractQuizById(

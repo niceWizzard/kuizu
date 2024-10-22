@@ -12,7 +12,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-class ExtractedQuizJsonDeserializer : JsonDeserializer<Quiz> {
+class QuizJsonDeserializer : JsonDeserializer<Quiz> {
 
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Quiz {
         val jsonObject = json.asJsonObject

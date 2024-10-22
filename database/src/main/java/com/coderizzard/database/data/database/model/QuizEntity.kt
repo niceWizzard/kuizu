@@ -27,7 +27,9 @@ data class QuizEntity (
             author = this.author,
             name = this.name,
             createdAt = this.createdAt,
-            questions = questions
+            questions = questions,
+            remoteId = "",
+            imageLink = this.imageLink
         )
     }
 }
