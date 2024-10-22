@@ -20,6 +20,8 @@ data class QuizEntity (
     val imageLink : String,
     @ColumnInfo("created_at")
     val createdAt : LocalDateTime = LocalDateTime.now(),
+    @ColumnInfo("remote_id")
+    val remoteId : String,
 ) {
     fun toQuiz(questions : List<Question>) : Quiz {
         return Quiz(
@@ -28,7 +30,7 @@ data class QuizEntity (
             name = this.name,
             createdAt = this.createdAt,
             questions = questions,
-            remoteId = "",
+            remoteId = this.remoteId,
             imageLink = this.imageLink
         )
     }
