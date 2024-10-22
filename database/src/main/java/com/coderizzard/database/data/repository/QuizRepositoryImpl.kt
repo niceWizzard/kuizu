@@ -39,16 +39,18 @@ class QuizRepositoryImpl @Inject constructor(
                 when(it) {
                     is IdentificationQuestion -> IdentificationQuestionEntity(
                         quizId = id,
+                        remoteId = it.remoteId,
                         answer = it.answer,
                         text = it.text,
-                        point = it.point
+                        point = it.point,
                     )
                     is MCQuestion -> MCQuestionEntity(
                         quizId = id,
                         point = it.point,
                         options = it.options,
                         answer = it.answer,
-                        text = it.text
+                        text = it.text,
+                        remoteId = it.remoteId,
                     )
                 }
             },

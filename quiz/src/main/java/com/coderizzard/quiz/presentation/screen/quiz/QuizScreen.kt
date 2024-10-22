@@ -119,6 +119,7 @@ private fun QuizScreenPreview() {
                     point = 1,
                     id = "klasfjdadsfiow",
                     answer = "lkajsdf",
+                    remoteId = "lakjsdfqw"
                 )
             ),
             remoteId = ""

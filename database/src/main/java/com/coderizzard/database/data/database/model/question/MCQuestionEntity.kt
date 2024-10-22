@@ -10,6 +10,8 @@ import java.util.UUID
 data class MCQuestionEntity(
     @PrimaryKey
     override val id: String = UUID.randomUUID().toString(),
+    @ColumnInfo("remote_id")
+    override val remoteId : String,
     @ColumnInfo("text")
     override val text: String,
     @ColumnInfo("point")
@@ -24,6 +26,7 @@ data class MCQuestionEntity(
     fun toMCQuestion() : MCQuestion {
         return MCQuestion(
             id = this.id,
+            remoteId = this.remoteId,
             text = this.text,
             point = this.point,
             answer = this.answer,

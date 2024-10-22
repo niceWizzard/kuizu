@@ -5,4 +5,5 @@ sealed interface Question {
     val text : String
     val point : Int
     val quizId : String
+    val remoteId : String
 }
