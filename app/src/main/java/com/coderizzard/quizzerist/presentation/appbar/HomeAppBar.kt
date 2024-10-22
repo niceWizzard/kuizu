@@ -20,15 +20,7 @@ fun HomeAppBar(
     navController: NavController
 ) {
     when(route) {
-        HomeRoute.Quiz -> {
-            QuizListScreenAppBar(
-                onAddButtonClick = {
-                    navController.navigate(RootRoute.QuizAdd)
-                },
-                route = route,
-            )
-        }
-        HomeRoute.Sessions, HomeRoute.Settings -> {
+        else -> {
             TopAppBar(
                 title = { Text(route.displayName) },
             )

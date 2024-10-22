@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.coderizzard.core.data.navigation.NavigationManager
+import com.coderizzard.quizzerist.presentation.action_button.AppActionButton
 import com.coderizzard.quizzerist.presentation.appbar.TopBar
 import com.coderizzard.quizzerist.presentation.navigation.NavBar
 import com.coderizzard.quizzerist.presentation.navigation.NavGraph
@@ -36,7 +37,8 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = { NavBar(navController = navController) },
-                    topBar = { TopBar(navController = navController) }
+                    topBar = { TopBar(navController = navController) },
+                    floatingActionButton = { AppActionButton(navController) }
                 ) { innerPadding ->
                     Surface(
                         modifier = Modifier.padding(innerPadding)
