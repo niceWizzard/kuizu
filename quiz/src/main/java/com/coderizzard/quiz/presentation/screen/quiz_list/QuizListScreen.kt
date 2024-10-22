@@ -18,11 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
-import androidx.navigation.NavController
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
-import com.coderizzard.core.data.model.question.MultipleChoiceQuestion
-import com.coderizzard.core.data.navigation.RootRoute
+import com.coderizzard.core.data.model.question.MCQuestion
 import java.time.LocalDateTime
 
 @Composable
@@ -76,7 +74,7 @@ private fun QuizListScreenPreview() {
                             id = "klasjdfklafsdj",
                             quizId = "asdf"
                         ),
-                        MultipleChoiceQuestion(
+                        MCQuestion(
                             text = "What is 2 + 2?",
                             answer = listOf(0),
                             options = listOf(
