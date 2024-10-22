@@ -1,6 +1,5 @@
 package com.coderizzard.quiz.presentation.screen.add_quiz
 
-import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,16 +16,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModelStoreOwner
 
 @Composable
 fun AddQuizScreen() {
-    val activity = LocalContext.current as Activity as ViewModelStoreOwner
-    val addQuizScreenViewModel: AddQuizScreenViewModel = hiltViewModel(activity)
+    val addQuizScreenViewModel: AddQuizScreenViewModel = hiltViewModel()
     val searchString = addQuizScreenViewModel.searchString.value
     val searchQuizState by addQuizScreenViewModel.searchQuiz.collectAsState()
     AddQuizScreenContent(
