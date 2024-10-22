@@ -45,11 +45,13 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
             val type = questionJson.get("type").asString
             val structure = questionJson.get("structure").asJsonObject
             val text = structure.get("query").asJsonObject.get("text").asString
+            val questionId = questionJson.get("_id").asString
             val options = structure.get("options").asJsonArray.map { it.asJsonObject }
             return@map when(type.lowercase() ) {
                 "mcq" -> {
                     MCQuestion(
                         id = "",
+                        remoteId = questionId,
                         text = text,
                         options = options.map {
                             it.get("text").asString
@@ -68,6 +70,7 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
                 "blank" -> {
                     IdentificationQuestion(
                         id = "",
+                        remoteId = questionId,
                         quizId = "",
                         text = text,
                         answer = options[0].get("text").asString,

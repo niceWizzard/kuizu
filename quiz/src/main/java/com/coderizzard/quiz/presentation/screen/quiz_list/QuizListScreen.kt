@@ -73,7 +73,8 @@ private fun QuizListScreenPreview() {
                             text = "What is 1 + 1?",
                             point = 1,
                             id = "klasjdfklafsdj",
-                            quizId = "asdf"
+                            quizId = "asdf",
+                            remoteId = "remoteIdlkajsdf"
                         ),
                         MCQuestion(
                             text = "What is 2 + 2?",
@@ -83,7 +84,8 @@ private fun QuizListScreenPreview() {
                             ),
                             id = "lkajiolqa",
                             quizId = "ljkasfd",
-                            point = 1
+                            point = 1,
+                            remoteId = "lkasdf89f"
                         )
                     )
                 )

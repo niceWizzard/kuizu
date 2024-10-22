@@ -2,6 +2,7 @@ package com.coderizzard.core.data.model.question
 
 data class MCQuestion(
     override val id: String,
+    override val remoteId: String,
     override val text: String,
     override val point: Int,
     override val quizId: String,

@@ -10,6 +10,8 @@ import java.util.UUID
 data class IdentificationQuestionEntity(
     @PrimaryKey
     override val id: String = UUID.randomUUID().toString(),
+    @ColumnInfo("remote_id")
+    override val remoteId : String,
     @ColumnInfo("text")
     override val text: String,
     @ColumnInfo("point")
@@ -25,7 +27,8 @@ data class IdentificationQuestionEntity(
             text = this.text,
             point = this.point,
             answer = this.answer,
-            quizId = this.quizId
+            quizId = this.quizId,
+            remoteId = this.remoteId,
         )
     }
 }
