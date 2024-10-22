@@ -56,30 +56,7 @@ class AddQuizScreenViewModel@Inject constructor(
                                 _searchQuiz.update { SearchQuizState.Success(res.value) }
                                 val extractedQuiz = res.value
                                 quizRepository.createQuiz(
-                                    name = extractedQuiz.name,
-                                    author = extractedQuiz.author,
-                                    createdAt = extractedQuiz.createdAt,
-                                    imageLink = extractedQuiz.imageLink,
-                                    remoteId = extractedQuiz.remoteId,
-                                    questionListBuilder = { quizId ->
-                                        extractedQuiz.questions.map {
-                                            when(it) {
-                                                is IdentificationQuestion -> IdentificationQuestionEntity(
-                                                    quizId = quizId,
-                                                    answer = it.answer,
-                                                    text = it.text,
-                                                    point = 1
-                                                )
-                                                is MCQuestion -> MCQuestionEntity(
-                                                    quizId = quizId,
-                                                    point = 1,
-                                                    options = it.options,
-                                                    answer = it.answer,
-                                                    text = it.text
-                                                )
-                                            }
-                                        }
-                                    }
+                                    extractedQuiz
                                 )
                             }
                         }

@@ -14,11 +14,6 @@ interface QuizRepository  {
     suspend fun deleteQuiz(id : String)
 
     suspend fun createQuiz(
-        name: String,
-        author: String,
-        createdAt: LocalDateTime,
-        imageLink: String,
-        remoteId : String,
-        questionListBuilder : (id : String) -> List<QuestionEntity>
+        quiz : Quiz
     )
 }

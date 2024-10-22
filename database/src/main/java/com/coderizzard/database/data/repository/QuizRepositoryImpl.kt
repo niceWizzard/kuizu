@@ -1,9 +1,13 @@
 package com.coderizzard.database.data.repository
 
 import com.coderizzard.core.data.model.Quiz
+import com.coderizzard.core.data.model.question.IdentificationQuestion
+import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.database.data.database.QuestionDao
 import com.coderizzard.database.data.database.QuizDao
 import com.coderizzard.database.data.database.model.QuizEntity
+import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
+import com.coderizzard.database.data.database.model.question.MCQuestionEntity
 import com.coderizzard.database.data.database.model.question.QuestionEntity
 import com.coderizzard.database.domain.repository.QuestionRepository
 import com.coderizzard.database.domain.repository.QuizRepository
@@ -19,24 +23,35 @@ class QuizRepositoryImpl @Inject constructor(
     private val questionDao: QuestionDao
 ) : QuizRepository {
     override suspend fun createQuiz(
-        name: String,
-        author: String,
-        createdAt: LocalDateTime,
-        imageLink: String,
-        remoteId : String,
-        questionListBuilder : (id : String) -> List<QuestionEntity>
+        quiz : Quiz
     ) {
         val id = UUID.randomUUID().toString()
         quizDao.createQuiz(
             QuizEntity(
                 id = id,
-                name = name,
-                createdAt = createdAt,
-                author = author,
-                imageLink = imageLink,
-                remoteId = remoteId,
+                name = quiz.name,
+                createdAt = quiz.createdAt,
+                author = quiz.author,
+                imageLink = quiz.imageLink,
+                remoteId = quiz.remoteId,
             ),
-            questionListBuilder(id),
+            questions = quiz.questions.map {
+                when(it) {
+                    is IdentificationQuestion -> IdentificationQuestionEntity(
+                        quizId = id,
+                        answer = it.answer,
+                        text = it.text,
+                        point = it.point
+                    )
+                    is MCQuestion -> MCQuestionEntity(
+                        quizId = id,
+                        point = it.point,
+                        options = it.options,
+                        answer = it.answer,
+                        text = it.text
+                    )
+                }
+            },
             questionDao = questionDao,
         )
     }
