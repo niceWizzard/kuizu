@@ -1,6 +1,6 @@
 package com.coderizzard.core.data.model.question
 
-data class MultipleChoiceQuestion(
+data class MCQuestion(
     override val id: String,
     override val text: String,
     override val point: Int,

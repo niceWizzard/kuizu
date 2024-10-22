@@ -6,12 +6,12 @@ import androidx.room.TypeConverters
 import com.coderizzard.database.data.DbConverter
 import com.coderizzard.database.data.database.model.QuizEntity
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
-import com.coderizzard.database.data.database.model.question.MultipleChoiceQuestionEntity
+import com.coderizzard.database.data.database.model.question.MCQuestionEntity
 
 @Database(
     entities = [
         QuizEntity::class,
-        MultipleChoiceQuestionEntity::class,
+        MCQuestionEntity::class,
         IdentificationQuestionEntity::class,
     ],
     version = 1

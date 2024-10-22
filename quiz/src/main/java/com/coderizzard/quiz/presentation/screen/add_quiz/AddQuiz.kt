@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import com.coderizzard.network.data.model.ExtractedIdentificationQuestion
-import com.coderizzard.network.data.model.ExtractedMultipleChoiceQuestion
+import com.coderizzard.network.data.model.ExtractedMCQuestion
 
 @Composable
 fun AddQuizScreen() {
@@ -150,7 +150,7 @@ private fun AddQuizScreenContent(
                                     is ExtractedIdentificationQuestion -> {
                                         Text("Answer: ${q.answer}")
                                     }
-                                    is ExtractedMultipleChoiceQuestion -> {
+                                    is ExtractedMCQuestion -> {
                                         Column {
                                             q.options.mapIndexed { index, opt ->
                                                 val isCorrect = q.answer.contains(index)

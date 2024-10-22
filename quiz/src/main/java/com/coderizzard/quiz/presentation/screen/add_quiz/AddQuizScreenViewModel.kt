@@ -5,11 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
-import com.coderizzard.database.data.database.model.question.MultipleChoiceQuestionEntity
+import com.coderizzard.database.data.database.model.question.MCQuestionEntity
 import com.coderizzard.database.domain.repository.QuestionRepository
 import com.coderizzard.database.domain.repository.QuizRepository
 import com.coderizzard.network.data.model.ExtractedIdentificationQuestion
-import com.coderizzard.network.data.model.ExtractedMultipleChoiceQuestion
+import com.coderizzard.network.data.model.ExtractedMCQuestion
 import com.coderizzard.network.data.model.ExtractedQuiz
 import com.coderizzard.network.data.repository.ApiResponse
 import com.coderizzard.network.domain.ExtractedQuizRepository
@@ -69,7 +69,7 @@ class AddQuizScreenViewModel@Inject constructor(
                                                     text = it.text,
                                                     point = 1
                                                 )
-                                                is ExtractedMultipleChoiceQuestion -> MultipleChoiceQuestionEntity(
+                                                is ExtractedMCQuestion -> MCQuestionEntity(
                                                     quizId = quizId,
                                                     point = 1,
                                                     options = it.options,

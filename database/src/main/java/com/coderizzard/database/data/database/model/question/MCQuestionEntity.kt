@@ -3,11 +3,11 @@ package com.coderizzard.database.data.database.model.question
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.coderizzard.core.data.model.question.MultipleChoiceQuestion
+import com.coderizzard.core.data.model.question.MCQuestion
 import java.util.UUID
 
 @Entity
-data class MultipleChoiceQuestionEntity(
+data class MCQuestionEntity(
     @PrimaryKey
     override val id: String = UUID.randomUUID().toString(),
     @ColumnInfo("text")
@@ -21,8 +21,8 @@ data class MultipleChoiceQuestionEntity(
     @ColumnInfo("answer")
     val answer : List<Int>,
 ): QuestionEntity {
-    fun toMCQuestion() : MultipleChoiceQuestion {
-        return MultipleChoiceQuestion(
+    fun toMCQuestion() : MCQuestion {
+        return MCQuestion(
             id = this.id,
             text = this.text,
             point = this.point,

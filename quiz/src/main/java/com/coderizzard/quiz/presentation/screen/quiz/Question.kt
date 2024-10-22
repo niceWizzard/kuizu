@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.coderizzard.core.data.model.question.IdentificationQuestion
-import com.coderizzard.core.data.model.question.MultipleChoiceQuestion
+import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.question.Question
 
 @Composable
@@ -31,7 +31,7 @@ internal fun QuestionComp(q: Question) {
                     Text("Answer: ${q.answer}")
                 }
 
-                is MultipleChoiceQuestion -> {
+                is MCQuestion -> {
                     q.options.mapIndexed { i, it ->
                         Text(
                             buildString {

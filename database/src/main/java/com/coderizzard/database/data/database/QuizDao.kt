@@ -6,7 +6,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.coderizzard.database.data.database.model.QuizEntity
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
-import com.coderizzard.database.data.database.model.question.MultipleChoiceQuestionEntity
+import com.coderizzard.database.data.database.model.question.MCQuestionEntity
 import com.coderizzard.database.data.database.model.question.QuestionEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -26,7 +26,7 @@ interface QuizDao {
                 is IdentificationQuestionEntity -> {
                     questionDao.createQuestion(question)
                 }
-                is MultipleChoiceQuestionEntity -> {
+                is MCQuestionEntity -> {
                     questionDao.createQuestion(question)
                 }
             }
