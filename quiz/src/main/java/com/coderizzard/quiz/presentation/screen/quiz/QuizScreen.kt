@@ -118,9 +118,10 @@ private fun QuizScreenPreview() {
                     quizId = "lajksdf",
                     point = 1,
                     id = "klasfjdadsfiow",
-                    answer = "lkajsdf"
+                    answer = "lkajsdf",
                 )
-            )
+            ),
+            remoteId = ""
         )
     )
 }

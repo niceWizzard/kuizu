@@ -11,5 +11,7 @@ data class Quiz(
     val author : String,
     val createdAt : LocalDateTime,
     val questions : List<Question>,
+    val imageLink : String = "",
+    val remoteId : String ,
 ) {
 }

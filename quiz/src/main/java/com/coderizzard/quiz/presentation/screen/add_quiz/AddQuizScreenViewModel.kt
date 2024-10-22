@@ -4,13 +4,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.coderizzard.core.data.model.Quiz
+import com.coderizzard.core.data.model.question.IdentificationQuestion
+import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
 import com.coderizzard.database.data.database.model.question.MCQuestionEntity
 import com.coderizzard.database.domain.repository.QuestionRepository
 import com.coderizzard.database.domain.repository.QuizRepository
-import com.coderizzard.network.data.model.ExtractedIdentificationQuestion
-import com.coderizzard.network.data.model.ExtractedMCQuestion
-import com.coderizzard.network.data.model.ExtractedQuiz
 import com.coderizzard.network.data.repository.ApiResponse
 import com.coderizzard.network.domain.ExtractedQuizRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -61,15 +61,15 @@ class AddQuizScreenViewModel@Inject constructor(
                                     createdAt = extractedQuiz.createdAt,
                                     imageLink = extractedQuiz.imageLink,
                                     questionListBuilder = { quizId ->
-                                        extractedQuiz.questionList.map {
+                                        extractedQuiz.questions.map {
                                             when(it) {
-                                                is ExtractedIdentificationQuestion -> IdentificationQuestionEntity(
+                                                is IdentificationQuestion -> IdentificationQuestionEntity(
                                                     quizId = quizId,
                                                     answer = it.answer,
                                                     text = it.text,
                                                     point = 1
                                                 )
-                                                is ExtractedMCQuestion -> MCQuestionEntity(
+                                                is MCQuestion -> MCQuestionEntity(
                                                     quizId = quizId,
                                                     point = 1,
                                                     options = it.options,
@@ -97,7 +97,7 @@ class AddQuizScreenViewModel@Inject constructor(
 sealed interface SearchQuizState {
     data object Default : SearchQuizState
     data class Error(val err : String ) : SearchQuizState
-    data class Success(val data : ExtractedQuiz) : SearchQuizState
+    data class Success(val data : Quiz) : SearchQuizState
     data object Fetching : SearchQuizState
     data class Invalid(val message : String) : SearchQuizState
 }

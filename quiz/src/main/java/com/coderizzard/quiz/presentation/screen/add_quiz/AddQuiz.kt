@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
-import com.coderizzard.network.data.model.ExtractedIdentificationQuestion
-import com.coderizzard.network.data.model.ExtractedMCQuestion
+import com.coderizzard.core.data.model.question.IdentificationQuestion
+import com.coderizzard.core.data.model.question.MCQuestion
 
 @Composable
 fun AddQuizScreen() {
@@ -134,7 +134,7 @@ private fun AddQuizScreenContent(
                         )
                     }
                     Spacer(modifier = Modifier.height(32.dp))
-                    quiz.questionList.map { q ->
+                    quiz.questions.map { q ->
                         Card {
                             Column(
                                 modifier = Modifier
@@ -147,10 +147,10 @@ private fun AddQuizScreenContent(
                                 )
                                 Spacer(Modifier.height(12.dp))
                                 when(q) {
-                                    is ExtractedIdentificationQuestion -> {
+                                    is IdentificationQuestion -> {
                                         Text("Answer: ${q.answer}")
                                     }
-                                    is ExtractedMCQuestion -> {
+                                    is MCQuestion -> {
                                         Column {
                                             q.options.mapIndexed { index, opt ->
                                                 val isCorrect = q.answer.contains(index)

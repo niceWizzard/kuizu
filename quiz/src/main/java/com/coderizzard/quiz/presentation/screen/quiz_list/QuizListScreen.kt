@@ -66,6 +66,7 @@ private fun QuizListScreenPreview() {
                     name = "Example Quiz",
                     author = "John Doe",
                     createdAt = LocalDateTime.now(),
+                    remoteId = "",
                     questions = listOf(
                         IdentificationQuestion(
                             answer = "2",
