@@ -23,6 +23,7 @@ class QuizRepositoryImpl @Inject constructor(
         author: String,
         createdAt: LocalDateTime,
         imageLink: String,
+        remoteId : String,
         questionListBuilder : (id : String) -> List<QuestionEntity>
     ) {
         val id = UUID.randomUUID().toString()
@@ -33,6 +34,7 @@ class QuizRepositoryImpl @Inject constructor(
                 createdAt = createdAt,
                 author = author,
                 imageLink = imageLink,
+                remoteId = remoteId,
             ),
             questionListBuilder(id),
             questionDao = questionDao,

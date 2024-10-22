@@ -18,6 +18,7 @@ interface QuizRepository  {
         author: String,
         createdAt: LocalDateTime,
         imageLink: String,
+        remoteId : String,
         questionListBuilder : (id : String) -> List<QuestionEntity>
     )
 }

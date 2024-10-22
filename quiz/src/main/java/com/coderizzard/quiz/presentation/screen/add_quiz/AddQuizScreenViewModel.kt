@@ -60,6 +60,7 @@ class AddQuizScreenViewModel@Inject constructor(
                                     author = extractedQuiz.author,
                                     createdAt = extractedQuiz.createdAt,
                                     imageLink = extractedQuiz.imageLink,
+                                    remoteId = extractedQuiz.remoteId,
                                     questionListBuilder = { quizId ->
                                         extractedQuiz.questions.map {
                                             when(it) {

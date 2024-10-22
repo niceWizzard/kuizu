@@ -23,6 +23,8 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
 
         val quiz = jsonObject.getAsJsonObject("data").getAsJsonObject("quiz")
 
+        val quizId = quiz.get("_id").asString
+
         val author = quiz.get("createdBy").asJsonObject.get("local").asJsonObject.get("username").asString
 
         val info = quiz.get("info").asJsonObject
@@ -79,8 +81,8 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
 
 
         return Quiz(
-            id ="",
-            remoteId = "",
+            id = "",
+            remoteId = quizId,
             name = name,
             author = author,
             imageLink = imageLink,
