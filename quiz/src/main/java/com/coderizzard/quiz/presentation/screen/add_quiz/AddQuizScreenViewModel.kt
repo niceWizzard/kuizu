@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MCQuestion
+import com.coderizzard.core.data.navigation.NavigationManager
+import com.coderizzard.core.data.navigation.RootRoute
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
 import com.coderizzard.database.data.database.model.question.MCQuestionEntity
 import com.coderizzard.database.domain.repository.QuestionRepository
@@ -25,6 +27,7 @@ class AddQuizScreenViewModel@Inject constructor(
     private val extractorRepository : ExtractedQuizRepository,
     private val quizRepository: QuizRepository,
     private val questionRepository: QuestionRepository,
+    private val navigationManager: NavigationManager
 ) : ViewModel() {
     private val _searchString  = mutableStateOf("")
 
@@ -54,9 +57,12 @@ class AddQuizScreenViewModel@Inject constructor(
                             is ApiResponse.Error -> _searchQuiz.update { SearchQuizState.Error(res.message) }
                             is ApiResponse.Success -> {
                                 _searchQuiz.update { SearchQuizState.Success(res.value) }
-                                val extractedQuiz = res.value
-                                quizRepository.createQuiz(
-                                    extractedQuiz
+                                val quizId = quizRepository.createQuiz(
+                                    res.value
+                                )
+                                navigationManager.popBackStack()
+                                navigationManager.navController.navigate(
+                                    RootRoute.Quiz(id = quizId)
                                 )
                             }
                         }
@@ -66,7 +72,6 @@ class AddQuizScreenViewModel@Inject constructor(
             }
             is AddQuizEvent.OnSearchChange -> {
                 _searchString.value = event.s
-
             }
         }
     }

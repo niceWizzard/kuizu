@@ -24,7 +24,7 @@ class QuizRepositoryImpl @Inject constructor(
 ) : QuizRepository {
     override suspend fun createQuiz(
         quiz : Quiz
-    ) {
+    ): String {
         val id = UUID.randomUUID().toString()
         quizDao.createQuiz(
             QuizEntity(
@@ -56,6 +56,7 @@ class QuizRepositoryImpl @Inject constructor(
             },
             questionDao = questionDao,
         )
+        return id
     }
 
     override suspend fun getAll(): Flow<List<Quiz>> {

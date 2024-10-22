@@ -15,5 +15,5 @@ interface QuizRepository  {
 
     suspend fun createQuiz(
         quiz : Quiz
-    )
+    ) : String
 }
