@@ -52,7 +52,7 @@ class AddQuizScreenViewModel@Inject constructor(
                         when(val res = extractorRepository.extractQuizById(searchString.value)) {
                             is ApiResponse.Error -> _searchQuiz.update { SearchQuizState.Error(res.message) }
                             is ApiResponse.Success -> {
-                                _searchQuiz.update { SearchQuizState.Success(res.value) }
+                                event.action()
                                 val quizId = quizRepository.createQuiz(
                                     res.value
                                 )
@@ -68,6 +68,10 @@ class AddQuizScreenViewModel@Inject constructor(
             is AddQuizEvent.OnSearchChange -> {
                 _searchString.value = event.s
             }
+            is AddQuizEvent.OnReset -> {
+                _searchQuiz.update { SearchQuizState.Default }
+                _searchString.value = ""
+            }
         }
     }
 }
@@ -75,12 +79,12 @@ class AddQuizScreenViewModel@Inject constructor(
 sealed interface SearchQuizState {
     data object Default : SearchQuizState
     data class Error(val err : String ) : SearchQuizState
-    data class Success(val data : Quiz) : SearchQuizState
     data object Fetching : SearchQuizState
     data class Invalid(val message : String) : SearchQuizState
 }
 
 sealed interface AddQuizEvent {
     data class OnSearchChange(val s : String ) : AddQuizEvent
-    data object OnSearchSubmit : AddQuizEvent
+    data class OnSearchSubmit(val action : () -> Unit) : AddQuizEvent
+    data object OnReset : AddQuizEvent
 }
