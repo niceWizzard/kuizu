@@ -33,6 +33,9 @@ interface QuizDao {
         }
     }
 
+    @Query("SELECT EXISTS(SELECT 1 FROM QuizEntity WHERE remote_id = :remoteId )")
+    suspend fun isRemoteIdUsed(remoteId : String) : Boolean
+
     @Query("SELECT * FROM QuizEntity AS ent WHERE ent.id = :id")
     suspend fun getById(id: String) : QuizEntity
 
