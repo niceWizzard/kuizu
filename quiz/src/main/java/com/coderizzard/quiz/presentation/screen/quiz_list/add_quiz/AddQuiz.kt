@@ -20,6 +20,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,16 +29,23 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun AddQuizDialog(
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    addQuizFieldFocusRequester: FocusRequester
 ) {
     val addQuizViewModel: AddQuizScreenViewModel = hiltViewModel()
     val searchString = addQuizViewModel.searchString.value
     val searchQuizState by addQuizViewModel.searchQuiz.collectAsState()
+    DisposableEffect(Unit) {
+        onDispose {
+            addQuizViewModel.onEvent(AddQuizEvent.OnReset)
+        }
+    }
     AddQuizDialogContent(
         searchString = searchString,
         onEvent = addQuizViewModel::onEvent,
         searchQuizState = searchQuizState,
-        onDismissRequest = onDismissRequest
+        onDismissRequest = onDismissRequest,
+        focusRequester = addQuizFieldFocusRequester
     )
 }
 
@@ -47,12 +56,8 @@ private fun AddQuizDialogContent(
     onEvent : (AddQuizEvent) -> Unit,
     searchQuizState: SearchQuizState,
     onDismissRequest: () -> Unit,
+    focusRequester: FocusRequester
     ) {
-    DisposableEffect(Unit) {
-        onDispose {
-            onEvent(AddQuizEvent.OnReset)
-        }
-    }
     BasicAlertDialog(
         onDismissRequest = {
             if (searchQuizState is SearchQuizState.Error
@@ -86,7 +91,9 @@ private fun AddQuizDialogContent(
                             placeholder = {
                                 Text("https://quizizz.com/quiz/<idhere>")
                             },
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth().focusRequester(
+                                focusRequester
+                            ),
                             singleLine = true,
                         )
                         Row(
@@ -162,7 +169,8 @@ private fun AddQuizScreenPreview() {
 
         },
         searchQuizState = SearchQuizState.Default,
-        onDismissRequest = {}
+        onDismissRequest = {},
+        focusRequester = FocusRequester()
     )
 
 }

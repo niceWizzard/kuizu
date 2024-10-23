@@ -6,18 +6,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import com.coderizzard.core.data.model.Quiz
@@ -34,11 +35,19 @@ fun QuizListScreen(
     val quizListScreenViewModel: QuizListScreenViewModel = hiltViewModel(activity)
     val quizList by quizListScreenViewModel.allQuizzes.collectAsState()
     val addQuizDialogState by quizListScreenViewModel.addQuizListState.collectAsState()
+
+    val addQuizFieldFocusRequester = remember { FocusRequester() }
+    LaunchedEffect(addQuizDialogState) {
+        if(addQuizDialogState is AddQuizDialogState.Shown) {
+            addQuizFieldFocusRequester.requestFocus()
+        }
+    }
     if(addQuizDialogState !is AddQuizDialogState.Hidden) {
         AddQuizDialog(
             onDismissRequest = {
                 quizListScreenViewModel.dismissAddQuizDialog()
-            }
+            },
+            addQuizFieldFocusRequester,
         )
     }
     QuizListScreenContent(
