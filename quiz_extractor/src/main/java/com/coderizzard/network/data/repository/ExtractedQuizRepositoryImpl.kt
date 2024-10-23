@@ -5,7 +5,9 @@ import com.coderizzard.network.data.util.resolveQuizId
 import com.coderizzard.network.domain.ExtractedQuizRepository
 import com.coderizzard.network.domain.QuizExtractorApi
 import com.google.gson.JsonParser
+import okhttp3.ResponseBody
 import retrofit2.HttpException
+import retrofit2.Response
 import javax.inject.Inject
 
 class ExtractedQuizRepositoryImpl @Inject constructor(
@@ -34,6 +36,16 @@ class ExtractedQuizRepositoryImpl @Inject constructor(
             }
         } catch (e : Exception) {
             ApiResponse.Error("Some error happened: \n${e}")
+        }
+    }
+
+    override suspend fun extractImage(imageUrl : String): ApiResponse<Response<ResponseBody>> {
+        return try {
+             ApiResponse.Success(extractorApi.downloadImage(imageUrl))
+        }catch (e : Exception) {
+            ApiResponse.Error(
+                message = e.message.toString()
+            )
         }
     }
 }

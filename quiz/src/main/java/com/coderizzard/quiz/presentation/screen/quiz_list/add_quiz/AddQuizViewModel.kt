@@ -1,5 +1,7 @@
 package com.coderizzard.quiz.presentation.screen.quiz_list.add_quiz
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -11,6 +13,7 @@ import com.coderizzard.database.domain.repository.QuestionRepository
 import com.coderizzard.database.domain.repository.QuizRepository
 import com.coderizzard.network.data.repository.ApiResponse
 import com.coderizzard.network.domain.ExtractedQuizRepository
+import com.coderizzard.quiz.domain.repository.ImageManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +26,8 @@ class AddQuizScreenViewModel@Inject constructor(
     private val extractorRepository : ExtractedQuizRepository,
     private val quizRepository: QuizRepository,
     private val questionRepository: QuestionRepository,
-    private val navigationManager: NavigationManager
+    private val navigationManager: NavigationManager,
+    private val imageManager: ImageManager,
 ) : ViewModel() {
     private val _searchString  = mutableStateOf("")
 
@@ -53,7 +57,7 @@ class AddQuizScreenViewModel@Inject constructor(
                             is ApiResponse.Error -> _searchQuiz.update { SearchQuizState.Error(res.message) }
                             is ApiResponse.Success -> {
                                 if(!quizRepository.isRemoteIdUsed(res.value.remoteId)) {
-                                    createQuiz(res.value, event.action)
+                                    createQuiz(res.value, event.action, event.context)
                                 } else {
                                     _searchQuiz.update { SearchQuizState.DuplicatedQuiz(res.value) }
                                 }
@@ -73,18 +77,23 @@ class AddQuizScreenViewModel@Inject constructor(
 
             is AddQuizEvent.OnDuplicatedQuizAdd -> {
                 viewModelScope.launch {
-                    createQuiz(event.q, event.action)
+                    createQuiz(event.q, event.action, event.context)
                 }
             }
         }
     }
-    private suspend fun createQuiz(quiz: Quiz, actionBeforeNavigate: () -> Unit) {
+    private suspend fun createQuiz(quiz: Quiz, actionBeforeNavigate: () -> Unit, context: Context) {
+
+        imageManager.saveQuizImages(quiz, context)
         actionBeforeNavigate()
         val quizId = quizRepository.createQuiz(quiz)
         navigationManager.navController.navigate(
             RootRoute.Quiz(id = quizId)
         )
     }
+
+
+
 }
 
 sealed interface SearchQuizState {
@@ -97,7 +106,7 @@ sealed interface SearchQuizState {
 
 sealed interface AddQuizEvent {
     data class OnSearchChange(val s : String ) : AddQuizEvent
-    data class OnSearchSubmit(val action : () -> Unit) : AddQuizEvent
-    data class OnDuplicatedQuizAdd(val q : Quiz, val action : () -> Unit) : AddQuizEvent
+    data class OnSearchSubmit(val action : () -> Unit, val context : Context) : AddQuizEvent
+    data class OnDuplicatedQuizAdd(val q : Quiz, val action : () -> Unit, val context : Context) : AddQuizEvent
     data object OnReset : AddQuizEvent
 }
