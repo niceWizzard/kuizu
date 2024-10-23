@@ -26,6 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.coderizzard.core.data.model.Quiz
+import java.time.LocalDateTime
 
 @Composable
 fun AddQuizDialog(
@@ -66,6 +68,16 @@ private fun AddQuizDialogContent(
             }
         },
     ) {
+        val primaryButtonColors = ButtonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+            disabledContainerColor = MaterialTheme.colorScheme.onSurface.copy(
+                alpha = 0.12f
+            ), // Disabled background color
+            disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(
+                alpha = 0.38f
+            ),
+        )
         Surface {
             Column(
                 modifier = Modifier
@@ -109,18 +121,14 @@ private fun AddQuizDialogContent(
                             ) {
                                 Text("Cancel")
                             }
+
                             ElevatedButton(
                                 onClick = {
                                     onEvent(
                                         AddQuizEvent.OnSearchSubmit(onDismissRequest)
                                     )
                                 },
-                                colors = ButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary,
-                                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                                    disabledContainerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f), // Disabled background color
-                                    disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
-                                ),
+                                colors = primaryButtonColors,
                             ) {
                                 Text("Add")
                             }
@@ -151,6 +159,42 @@ private fun AddQuizDialogContent(
                             color = MaterialTheme.colorScheme.error,
                         )
                     }
+                    is SearchQuizState.DuplicatedQuiz -> {
+                        val quiz = searchQuizState.quiz
+                        Text(
+                            "Duplicate quiz found.",
+                            fontSize = 24.sp
+                        )
+                        Text(
+                            "Quiz with quizizz id <${quiz.remoteId}> already exists. Are you sure you want to re-add this?"
+                        )
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.End),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            ElevatedButton(
+                                onClick = {onDismissRequest()},
+                                colors = primaryButtonColors
+                            ) {
+                                Text("Abort")
+                            }
+                            ElevatedButton(
+                                onClick = {
+                                    onEvent(
+                                        AddQuizEvent.OnDuplicatedQuizAdd(
+                                            searchQuizState.quiz,
+                                            action = {
+                                                onEvent(AddQuizEvent.OnReset)
+                                                onDismissRequest()
+                                            }
+                                        )
+                                    )
+                                }
+                            ) {
+                                Text("Continue")
+                            }
+                        }
+                    }
                 }
             }
 
@@ -168,9 +212,19 @@ private fun AddQuizScreenPreview() {
         onEvent = {
 
         },
-        searchQuizState = SearchQuizState.Default,
         onDismissRequest = {},
-        focusRequester = FocusRequester()
+        focusRequester = FocusRequester(),
+        searchQuizState = SearchQuizState.DuplicatedQuiz(
+            Quiz(
+                id = "1",
+                remoteId = "1",
+                name = "Duplicated Quiz",
+                author = "Some author",
+                questions = emptyList(),
+                createdAt = LocalDateTime.now(),
+                imageLink = ""
+            ),
+        ),
     )
 
 }
