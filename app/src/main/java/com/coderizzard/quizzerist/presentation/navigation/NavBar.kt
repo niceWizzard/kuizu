@@ -29,15 +29,15 @@ fun NavBar(
         }?.let {
             NavigationBar {
                 routes.forEach{  route ->
-                    val isSelected = route == it
+                    val isActive = route == it
                     NavigationBarItem(
                         icon = {
-                            Icon(HomeRoute.getImage(route), contentDescription = "App bar button")
+                            Icon(HomeRoute.getImage(route, isActive), contentDescription = "App bar button")
                         },
                         label = {Text(route.displayName)},
-                        selected = isSelected,
+                        selected = isActive,
                         onClick = {
-                            if(!isSelected) {
+                            if(!isActive) {
                                 navController.navigate(route)
                             }
                         }
