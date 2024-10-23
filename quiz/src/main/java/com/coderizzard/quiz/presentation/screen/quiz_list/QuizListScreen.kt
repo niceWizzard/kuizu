@@ -35,15 +35,11 @@ fun QuizListScreen(
     val quizList by quizListScreenViewModel.allQuizzes.collectAsState()
     val addQuizDialogState by quizListScreenViewModel.addQuizListState.collectAsState()
     if(addQuizDialogState !is AddQuizDialogState.Hidden) {
-        Dialog(
+        AddQuizDialog(
             onDismissRequest = {
                 quizListScreenViewModel.dismissAddQuizDialog()
             }
-        ) {
-            Surface() {
-                AddQuizDialog()
-            }
-        }
+        )
     }
     QuizListScreenContent(
         quizList,
