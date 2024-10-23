@@ -12,10 +12,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,6 +43,10 @@ private fun AddQuizScreenContent(
     searchQuizState: SearchQuizState,
 
     ) {
+    val focusRequester = remember {FocusRequester()}
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,8 +68,9 @@ private fun AddQuizScreenContent(
             placeholder = {
                 Text("https://quizizz.com/quiz/<idhere>")
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
             singleLine = true,
+
         )
         ElevatedButton(
             onClick = {
