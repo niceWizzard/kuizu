@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,6 +61,7 @@ private fun AddQuizDialogContent(
     onDismissRequest: () -> Unit,
     focusRequester: FocusRequester
     ) {
+    val context = LocalContext.current
     BasicAlertDialog(
         onDismissRequest = {
             if (searchQuizState is SearchQuizState.Error
@@ -125,7 +127,7 @@ private fun AddQuizDialogContent(
                             ElevatedButton(
                                 onClick = {
                                     onEvent(
-                                        AddQuizEvent.OnSearchSubmit(onDismissRequest)
+                                        AddQuizEvent.OnSearchSubmit(onDismissRequest, context)
                                     )
                                 },
                                 colors = primaryButtonColors,
@@ -186,7 +188,8 @@ private fun AddQuizDialogContent(
                                             action = {
                                                 onEvent(AddQuizEvent.OnReset)
                                                 onDismissRequest()
-                                            }
+                                            },
+                                            context
                                         )
                                     )
                                 }
