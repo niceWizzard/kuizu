@@ -55,7 +55,11 @@ fun RootAppBar(
             )
         }
 
-        RootRoute.QuizAdd -> {
+        is RootRoute.Quiz ->  {
+            QuizScreenAppBar(entry)
+        }
+
+        else -> {
             TopAppBar(
                 title = {  },
                 navigationIcon = {
@@ -68,10 +72,6 @@ fun RootAppBar(
                     }
                 }
             )
-        }
-
-        is RootRoute.Quiz ->  {
-            QuizScreenAppBar(entry)
         }
     }
 }

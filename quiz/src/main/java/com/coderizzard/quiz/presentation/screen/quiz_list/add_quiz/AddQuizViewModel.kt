@@ -1,16 +1,12 @@
-package com.coderizzard.quiz.presentation.screen.add_quiz
+package com.coderizzard.quiz.presentation.screen.quiz_list.add_quiz
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.coderizzard.core.data.model.Quiz
-import com.coderizzard.core.data.model.question.IdentificationQuestion
-import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.navigation.NavigationManager
 import com.coderizzard.core.data.navigation.RootRoute
-import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
-import com.coderizzard.database.data.database.model.question.MCQuestionEntity
 import com.coderizzard.database.domain.repository.QuestionRepository
 import com.coderizzard.database.domain.repository.QuizRepository
 import com.coderizzard.network.data.repository.ApiResponse
@@ -60,7 +56,6 @@ class AddQuizScreenViewModel@Inject constructor(
                                 val quizId = quizRepository.createQuiz(
                                     res.value
                                 )
-                                navigationManager.popBackStack()
                                 navigationManager.navController.navigate(
                                     RootRoute.Quiz(id = quizId)
                                 )

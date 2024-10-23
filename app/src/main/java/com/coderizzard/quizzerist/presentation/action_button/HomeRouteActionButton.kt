@@ -7,6 +7,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import com.coderizzard.core.data.navigation.HomeRoute
 import com.coderizzard.core.data.navigation.RootRoute
+import com.coderizzard.quiz.presentation.screen.quiz_list.QuizListScreenActionButton
 
 @Composable
 fun HomeRouteActionButton(
@@ -15,14 +16,7 @@ fun HomeRouteActionButton(
 ) {
     when(route) {
         is HomeRoute.Quiz -> {
-            FloatingActionButton(
-                onClick = {navigate(RootRoute.QuizAdd)}
-            ) {
-                Icon(
-                    Icons.Filled.Add,
-                    "Add"
-                )
-            }
+            QuizListScreenActionButton()
         }
         else -> {}
     }
