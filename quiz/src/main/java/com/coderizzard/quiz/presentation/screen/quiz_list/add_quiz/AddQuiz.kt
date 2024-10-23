@@ -98,7 +98,7 @@ private fun AddQuizDialogContent(
                                 onEvent(AddQuizEvent.OnSearchChange(newText))
                             },
                             label = {
-                                Text("Quiz id or Url")
+                                Text("Quiz id or Url", maxLines = 1)
                             },
                             placeholder = {
                                 Text("https://quizizz.com/quiz/<idhere>")
