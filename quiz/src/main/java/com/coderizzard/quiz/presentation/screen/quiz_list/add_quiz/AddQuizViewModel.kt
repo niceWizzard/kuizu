@@ -52,13 +52,11 @@ class AddQuizScreenViewModel@Inject constructor(
                         when(val res = extractorRepository.extractQuizById(searchString.value)) {
                             is ApiResponse.Error -> _searchQuiz.update { SearchQuizState.Error(res.message) }
                             is ApiResponse.Success -> {
-                                event.action()
-                                val quizId = quizRepository.createQuiz(
-                                    res.value
-                                )
-                                navigationManager.navController.navigate(
-                                    RootRoute.Quiz(id = quizId)
-                                )
+                                if(!quizRepository.isRemoteIdUsed(res.value.remoteId)) {
+                                    createQuiz(res.value, event.action)
+                                } else {
+                                    _searchQuiz.update { SearchQuizState.DuplicatedQuiz(res.value) }
+                                }
                             }
                         }
                     }
@@ -72,7 +70,20 @@ class AddQuizScreenViewModel@Inject constructor(
                 _searchQuiz.update { SearchQuizState.Default }
                 _searchString.value = ""
             }
+
+            is AddQuizEvent.OnDuplicatedQuizAdd -> {
+                viewModelScope.launch {
+                    createQuiz(event.q, event.action)
+                }
+            }
         }
+    }
+    private suspend fun createQuiz(quiz: Quiz, actionBeforeNavigate: () -> Unit) {
+        actionBeforeNavigate()
+        val quizId = quizRepository.createQuiz(quiz)
+        navigationManager.navController.navigate(
+            RootRoute.Quiz(id = quizId)
+        )
     }
 }
 
@@ -81,10 +92,12 @@ sealed interface SearchQuizState {
     data class Error(val err : String ) : SearchQuizState
     data object Fetching : SearchQuizState
     data class Invalid(val message : String) : SearchQuizState
+    data class DuplicatedQuiz(val quiz : Quiz) : SearchQuizState
 }
 
 sealed interface AddQuizEvent {
     data class OnSearchChange(val s : String ) : AddQuizEvent
     data class OnSearchSubmit(val action : () -> Unit) : AddQuizEvent
+    data class OnDuplicatedQuizAdd(val q : Quiz, val action : () -> Unit) : AddQuizEvent
     data object OnReset : AddQuizEvent
 }
