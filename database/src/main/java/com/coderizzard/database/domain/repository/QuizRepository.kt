@@ -13,6 +13,8 @@ interface QuizRepository  {
 
     suspend fun deleteQuiz(id : String)
 
+    suspend fun isRemoteIdUsed(remoteId : String) : Boolean
+
     suspend fun createQuiz(
         quiz : Quiz
     ) : String

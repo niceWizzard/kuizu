@@ -74,4 +74,8 @@ class QuizRepositoryImpl @Inject constructor(
     override suspend fun deleteQuiz(id: String) {
         quizDao.deleteQuiz(id)
     }
+
+    override suspend fun isRemoteIdUsed(remoteId: String): Boolean {
+        return quizDao.isRemoteIdUsed(remoteId)
+    }
 }
