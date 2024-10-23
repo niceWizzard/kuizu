@@ -1,9 +1,8 @@
-package com.coderizzard.quiz.presentation.screen.add_quiz
+package com.coderizzard.quiz.presentation.screen.quiz_list.add_quiz
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
@@ -25,19 +24,19 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun AddQuizScreen() {
-    val addQuizScreenViewModel: AddQuizScreenViewModel = hiltViewModel()
-    val searchString = addQuizScreenViewModel.searchString.value
-    val searchQuizState by addQuizScreenViewModel.searchQuiz.collectAsState()
-    AddQuizScreenContent(
+fun AddQuizDialog() {
+    val addQuizViewModel: AddQuizScreenViewModel = hiltViewModel()
+    val searchString = addQuizViewModel.searchString.value
+    val searchQuizState by addQuizViewModel.searchQuiz.collectAsState()
+    AddQuizDialogContent(
         searchString = searchString,
-        onEvent = addQuizScreenViewModel::onEvent,
+        onEvent = addQuizViewModel::onEvent,
         searchQuizState = searchQuizState
     )
 }
 
 @Composable
-private fun AddQuizScreenContent(
+private fun AddQuizDialogContent(
     searchString : String,
     onEvent : (AddQuizEvent) -> Unit,
     searchQuizState: SearchQuizState,
@@ -49,7 +48,6 @@ private fun AddQuizScreenContent(
     }
     Column(
         modifier = Modifier
-            .fillMaxSize()
             .padding(horizontal = 12.dp, vertical = 6.dp),
         verticalArrangement = Arrangement.spacedBy(
             12.dp,
@@ -123,7 +121,7 @@ private fun AddQuizScreenContent(
 @Preview
 @Composable
 private fun AddQuizScreenPreview() {
-    AddQuizScreenContent(
+    AddQuizDialogContent(
         searchString = "",
         onEvent = {
 

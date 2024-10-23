@@ -15,7 +15,6 @@ import javax.inject.Inject
 internal class QuizListScreenViewModel  @Inject constructor(
     private val quizRepository: QuizRepository
 ) : ViewModel() {
-
     init {
         viewModelScope.launch {
             quizRepository.getAll().collect { list ->
@@ -27,7 +26,18 @@ internal class QuizListScreenViewModel  @Inject constructor(
     }
     private val _allQuizzesFlow = MutableStateFlow<QuizListState>(QuizListState.Loading)
 
+    private val _addQuizDialogState = MutableStateFlow<AddQuizDialogState>(AddQuizDialogState.Hidden)
+
+    val addQuizListState = _addQuizDialogState.asStateFlow()
     val allQuizzes = _allQuizzesFlow.asStateFlow()
+
+    fun dismissAddQuizDialog() {
+        _addQuizDialogState.update { AddQuizDialogState.Hidden }
+    }
+
+    fun showAddQuizDialog() {
+        _addQuizDialogState.update { AddQuizDialogState.Shown }
+    }
 }
 
 internal sealed interface QuizListState {
@@ -36,3 +46,11 @@ internal sealed interface QuizListState {
     data class Success(val data : List<Quiz>) : QuizListState
 }
 
+
+
+internal sealed interface AddQuizDialogState {
+    data object Hidden : AddQuizDialogState
+    data object Shown : AddQuizDialogState
+    data object Loading : AddQuizDialogState
+    data class Error(val msg : String) : AddQuizDialogState
+}

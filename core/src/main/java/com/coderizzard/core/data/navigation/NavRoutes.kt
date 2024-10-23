@@ -27,16 +27,12 @@ sealed class RootRoute(
     data class QuizSession(val id : String= "") : RootRoute("Quiz Session")
 
     @Serializable
-    data object QuizAdd : RootRoute("Add Quiz")
-
-    @Serializable
     data class Quiz(val id : String="") : RootRoute("Quiz - $id")
 
     companion object {
         val routes = listOf(
             Home,
             QuizSession(),
-            QuizAdd,
             Quiz()
         )
         val allRoutes =  routes + HomeRoute.allRoutes
