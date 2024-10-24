@@ -15,6 +15,10 @@ import java.time.ZoneId
 class QuizJsonDeserializer : JsonDeserializer<Quiz> {
 
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Quiz {
+        return deserializeJson(json)
+    }
+
+    internal fun deserializeJson(json : JsonElement): Quiz {
         val jsonObject = json.asJsonObject
 
         if(!jsonObject.getAsJsonPrimitive("success").asBoolean) {
@@ -50,8 +54,8 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
             val options = structure.get("options").asJsonArray.map { it.asJsonObject }
             val media  = query.get("media").asJsonArray
             val image = if(media.size() > 0)
-                    media.filter { it.asJsonObject.get("type").asString.lowercase() == "image" }[0].asJsonObject.get("url").asString
-                else ""
+                media.filter { it.asJsonObject.get("type").asString.lowercase() == "image" }[0].asJsonObject.get("url").asString
+            else ""
             return@map when(type.lowercase() ) {
                 "mcq" -> {
                     MCQuestion(
@@ -102,7 +106,5 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
                 ZoneId.systemDefault()
             )
         )
-
-
     }
 }
