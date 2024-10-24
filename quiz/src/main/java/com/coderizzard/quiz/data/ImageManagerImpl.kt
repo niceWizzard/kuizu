@@ -3,6 +3,9 @@ package com.coderizzard.quiz.data
 import android.content.Context
 import android.util.Log
 import com.coderizzard.core.data.model.Quiz
+import com.coderizzard.core.data.model.question.IdentificationQuestion
+import com.coderizzard.core.data.model.question.MCQuestion
+import com.coderizzard.core.data.model.question.Question
 import com.coderizzard.network.data.repository.ApiResponse
 import com.coderizzard.network.domain.ExtractedQuizRepository
 import com.coderizzard.quiz.domain.repository.ImageManager
@@ -18,9 +21,18 @@ class ImageManagerImpl @Inject constructor(
     override suspend fun saveQuizImages(quiz: Quiz, context: Context): Quiz {
         var newQuiz = quiz
         if (quiz.imageLink.isNotBlank()) {
-            newQuiz = saveQuizMainImage(quiz, context)
+            newQuiz = saveQuizMainImage(newQuiz, context)
         }
+        newQuiz = saveQuestionImages(newQuiz, context)
         return newQuiz
+    }
+
+    private suspend fun saveQuestionImages(quiz: Quiz, context: Context): Quiz {
+        return quiz.copy(
+            questions = quiz.questions.map {
+                saveQuizQuestionImage(it, context)
+            }
+        )
     }
 
     override suspend fun deleteImage(path: String): Boolean {
@@ -29,6 +41,39 @@ class ImageManagerImpl @Inject constructor(
             file.delete()
         } else {
             false
+        }
+    }
+
+    override suspend fun saveQuizQuestionImage(question: Question, context: Context): Question {
+        if(question.imageLink.isBlank()) {
+            return question
+        }
+        return when (val resp = extractorRepository.extractImage(question.imageLink)) {
+            is ApiResponse.Error -> {
+                Log.e(
+                    "AddQuizViewModel.saveImages",
+                    "Couldn't extract the question image. \n${resp.message}"
+                )
+                question
+            }
+            is ApiResponse.Success -> {
+                val questionImagePath = resp.value.body()?.byteStream()?.use { inputStream ->
+                    saveImageToInternalStorage(
+                        context,
+                        inputStream,
+                        "question-${question.remoteId}_${UUID.randomUUID()}.jpg"
+                    )
+                } ?: return question
+                return when(question) {
+                    is IdentificationQuestion -> {
+                        question.copy(localImagePath = questionImagePath)
+                    }
+                    is MCQuestion -> {
+                        question.copy(localImagePath = questionImagePath)
+                    }
+                }
+
+            }
         }
     }
 
