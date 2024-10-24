@@ -19,19 +19,12 @@ class ImageManagerImpl @Inject constructor(
     private val extractorRepository: ExtractedQuizRepository
 ) : ImageManager {
     override suspend fun saveQuizImages(quiz: Quiz, context: Context): Quiz {
-        var newQuiz = quiz
-        if (quiz.imageLink.isNotBlank()) {
-            newQuiz = saveQuizMainImage(newQuiz, context)
-        }
-        newQuiz = saveQuestionImages(newQuiz, context)
-        return newQuiz
-    }
-
-    private suspend fun saveQuestionImages(quiz: Quiz, context: Context): Quiz {
         return quiz.copy(
-            questions = quiz.questions.map {
-                saveQuizQuestionImage(it, context)
-            }
+            localImagePath =  if (quiz.imageLink.isNotBlank())
+                    saveQuizMainImage(quiz.imageLink,quiz.remoteId, context)
+                else "",
+            questions = quiz.questions.map { saveQuizQuestionImage(it,context) }
+
         )
     }
 
@@ -77,25 +70,24 @@ class ImageManagerImpl @Inject constructor(
         }
     }
 
-    private suspend fun saveQuizMainImage(quiz: Quiz, context: Context) : Quiz {
-        return when (val resp = extractorRepository.extractImage(quiz.imageLink)) {
+    private suspend fun saveQuizMainImage(imageLink: String, quizId : String,context: Context) : String {
+        return when (val resp = extractorRepository.extractImage(imageLink)) {
             is ApiResponse.Error -> {
                 Log.e(
                     "AddQuizViewModel.saveImages",
                     "Couldn't extract the quiz image. \n${resp.message}"
                 )
-                quiz
+                ""
             }
 
             is ApiResponse.Success -> {
-                val quizImagePath = resp.value.body()?.byteStream()?.use { inputStream ->
+                return resp.value.body()?.byteStream()?.use { inputStream ->
                     saveImageToInternalStorage(
                         context,
                         inputStream,
-                        "quiz-${quiz.remoteId}_${UUID.randomUUID()}.jpg"
+                        "quiz-${quizId}_${UUID.randomUUID()}.jpg"
                     )
-                } ?: return quiz
-                return quiz.copy(localImagePath = quizImagePath)
+                } ?: ""
             }
         }
     }
