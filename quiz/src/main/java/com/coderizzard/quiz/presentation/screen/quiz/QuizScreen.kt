@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -24,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
 import java.time.LocalDateTime
@@ -70,23 +72,33 @@ private fun QuizScreenContent(quiz: Quiz) {
             modifier = Modifier.padding(12.dp).verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text(
-                quiz.name,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Medium,
-            )
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.padding(horizontal = 4.dp)
-            ) {
-                Text(
-                    quiz.author,
-                    fontSize = 12.sp,
+            Row {
+                AsyncImage(
+                    model = quiz.localImagePath,
+                    contentDescription = "Nice",
+                    modifier = Modifier.heightIn(min = 64.dp, max=90.dp),
                 )
-                Text(
-                    "Created at: ${quiz.createdAt}",
-                    fontSize = 12.sp,
-                )
+                Column(
+                ) {
+                    Text(
+                        quiz.name,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Medium,
+                    )
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.padding(horizontal = 4.dp)
+                    ) {
+                        Text(
+                            quiz.author,
+                            fontSize = 12.sp,
+                        )
+                        Text(
+                            "Created at: ${quiz.createdAt}",
+                            fontSize = 12.sp,
+                        )
+                    }
+                }
             }
             HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
             if(quiz.questions.isEmpty()) {
