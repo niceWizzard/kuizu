@@ -17,7 +17,7 @@ import retrofit2.HttpException
 import retrofit2.Response
 import java.time.LocalDateTime
 
-class TestExtractedQuizRepository {
+internal class TestExtractedQuizRepository {
     private lateinit var repo: ExtractedQuizRepositoryImpl
     private lateinit var api: QuizExtractorApi
     private val validQuiz = Quiz(
