@@ -1,6 +1,6 @@
 package com.coderizzard.network.data.util
 
-import com.coderizzard.network.data.model.ExtractedQuiz
+import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.network.data.repository.ApiResponse
 import com.coderizzard.network.data.repository.ExtractedQuizRepositoryImpl
 import com.coderizzard.network.data.repository.InvalidQuizizzIdOrUrl
@@ -20,12 +20,15 @@ import java.time.LocalDateTime
 class TestExtractedQuizRepository {
     private lateinit var repo: ExtractedQuizRepositoryImpl
     private lateinit var api: QuizExtractorApi
-    private val validQuiz = ExtractedQuiz(
+    private val validQuiz = Quiz(
         name = "valid",
         author = "valid",
         imageLink = "valid",
-        questionList = emptyList(),
-        createdAt = LocalDateTime.now()
+        questions = emptyList(),
+        createdAt = LocalDateTime.now(),
+        remoteId = "",
+        localImagePath = "",
+        id = "123",
     )
     @Before
     fun initialize() {
