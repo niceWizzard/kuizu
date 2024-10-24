@@ -22,6 +22,10 @@ data class MCQuestionEntity(
     val options : List<String>,
     @ColumnInfo("answer")
     val answer : List<Int>,
+    @ColumnInfo("image_link")
+    override val imageLink: String,
+    @ColumnInfo("local_imagePath")
+    override val localImagePath: String
 ): QuestionEntity {
     fun toMCQuestion() : MCQuestion {
         return MCQuestion(
@@ -32,6 +36,9 @@ data class MCQuestionEntity(
             answer = this.answer,
             options = this.options,
             quizId = this.quizId,
+            imageLink = this.imageLink,
+            localImagePath = this.localImagePath
+
         )
     }
 }
