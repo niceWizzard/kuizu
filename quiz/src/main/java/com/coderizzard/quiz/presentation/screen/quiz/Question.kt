@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.question.Question
@@ -24,6 +25,12 @@ internal fun QuestionComp(q: Question) {
             verticalArrangement = Arrangement.spacedBy(6.dp),
             modifier = Modifier.fillMaxWidth().padding(12.dp)
         ) {
+            if(q.imageLink.isNotBlank()) {
+                AsyncImage(
+                    model = q.imageLink,
+                    contentDescription = "Image of question<${q.id}>",
+                )
+            }
             Text(q.text)
             Spacer(Modifier.height(6.dp))
             when (q) {
