@@ -84,9 +84,9 @@ class AddQuizScreenViewModel@Inject constructor(
     }
     private suspend fun createQuiz(quiz: Quiz, actionBeforeNavigate: () -> Unit, context: Context) {
 
-        imageManager.saveQuizImages(quiz, context)
+        val quizWithImages = imageManager.saveQuizImages(quiz, context)
         actionBeforeNavigate()
-        val quizId = quizRepository.createQuiz(quiz)
+        val quizId = quizRepository.createQuiz(quizWithImages)
         navigationManager.navController.navigate(
             RootRoute.Quiz(id = quizId)
         )
