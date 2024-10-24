@@ -6,6 +6,8 @@ data class MCQuestion(
     override val text: String,
     override val point: Int,
     override val quizId: String,
+    override val imageLink: String = "",
+    override val localImagePath: String = "",
     val options : List<String>,
     val answer : List<Int>,
 )  : Question {

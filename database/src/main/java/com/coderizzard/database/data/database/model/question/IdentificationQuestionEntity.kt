@@ -19,7 +19,11 @@ data class IdentificationQuestionEntity(
     @ColumnInfo("quiz_id")
     override val quizId: String,
     @ColumnInfo("answer")
-    val answer : String
+    val answer : String,
+    @ColumnInfo("image_link")
+    override val imageLink: String,
+    @ColumnInfo("local_imagePath")
+    override val localImagePath: String
 ) : QuestionEntity {
     fun toIdentificationQuestion() : IdentificationQuestion {
         return IdentificationQuestion(
@@ -29,6 +33,8 @@ data class IdentificationQuestionEntity(
             answer = this.answer,
             quizId = this.quizId,
             remoteId = this.remoteId,
+            imageLink = this.imageLink,
+            localImagePath = this.localImagePath
         )
     }
 }

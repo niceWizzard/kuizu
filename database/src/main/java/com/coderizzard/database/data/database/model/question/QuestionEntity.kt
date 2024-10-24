@@ -7,4 +7,6 @@ sealed interface QuestionEntity {
     val point : Int
     val quizId : String
     val remoteId : String
+    val imageLink : String
+    val localImagePath : String
 }

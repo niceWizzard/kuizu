@@ -44,6 +44,8 @@ class QuizRepositoryImpl @Inject constructor(
                         answer = it.answer,
                         text = it.text,
                         point = it.point,
+                        localImagePath = it.localImagePath,
+                        imageLink = it.imageLink,
                     )
                     is MCQuestion -> MCQuestionEntity(
                         quizId = id,
@@ -52,6 +54,8 @@ class QuizRepositoryImpl @Inject constructor(
                         answer = it.answer,
                         text = it.text,
                         remoteId = it.remoteId,
+                        localImagePath = it.localImagePath,
+                        imageLink = it.imageLink,
                     )
                 }
             },
