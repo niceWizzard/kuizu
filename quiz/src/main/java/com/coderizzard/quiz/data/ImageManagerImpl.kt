@@ -23,6 +23,15 @@ class ImageManagerImpl @Inject constructor(
         return newQuiz
     }
 
+    override suspend fun deleteImage(path: String): Boolean {
+        val file = File(path)
+        return if (file.exists()) {
+            file.delete()
+        } else {
+            false
+        }
+    }
+
     private suspend fun saveQuizMainImage(quiz: Quiz, context: Context) : Quiz {
         return when (val resp = extractorRepository.extractImage(quiz.imageLink)) {
             is ApiResponse.Error -> {
