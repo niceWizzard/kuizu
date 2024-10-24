@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.coderizzard.core.data.model.Quiz
 
 @Composable
@@ -61,6 +62,10 @@ internal fun QuizList(quizList: QuizListState, onQuizClick: (id: String) -> Unit
                                 12.dp, 8.dp
                             )
                         ) {
+                            AsyncImage(
+                                model = quiz.imageLink,
+                                contentDescription = "Nice",
+                            )
                             Text(
                                 quiz.name,
                                 fontSize = 18.sp
