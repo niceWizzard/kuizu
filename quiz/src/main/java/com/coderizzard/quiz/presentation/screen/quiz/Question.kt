@@ -27,7 +27,7 @@ internal fun QuestionComp(q: Question) {
         ) {
             if(q.imageLink.isNotBlank()) {
                 AsyncImage(
-                    model = q.imageLink,
+                    model = q.localImagePath,
                     contentDescription = "Image of question<${q.id}>",
                 )
             }
