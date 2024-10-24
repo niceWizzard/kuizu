@@ -44,9 +44,14 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
         }.map { questionJson ->
             val type = questionJson.get("type").asString
             val structure = questionJson.get("structure").asJsonObject
-            val text = structure.get("query").asJsonObject.get("text").asString
+            val query = structure.get("query").asJsonObject
+            val text = query.get("text").asString
             val questionId = questionJson.get("_id").asString
             val options = structure.get("options").asJsonArray.map { it.asJsonObject }
+            val media  = query.get("media").asJsonArray
+            val image = if(media.size() > 0)
+                    media.filter { it.asJsonObject.get("type").asString.lowercase() == "image" }[0].asJsonObject.get("url").asString
+                else ""
             return@map when(type.lowercase() ) {
                 "mcq" -> {
                     MCQuestion(
@@ -58,6 +63,7 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
                         },
                         point = 1,
                         quizId = "",
+                        imageLink = image,
                         answer = structure.get("answer").let {
                             if(it.isJsonPrimitive) {
                                 return@let listOf(it.asJsonPrimitive.asInt)
@@ -73,6 +79,7 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
                         remoteId = questionId,
                         quizId = "",
                         text = text,
+                        imageLink = image,
                         answer = options[0].get("text").asString,
                         point = 1,
                     )
