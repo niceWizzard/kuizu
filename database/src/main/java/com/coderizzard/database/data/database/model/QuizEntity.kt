@@ -18,6 +18,8 @@ data class QuizEntity (
     val author : String,
     @ColumnInfo("image_link")
     val imageLink : String,
+    @ColumnInfo("local_image_path")
+    val localImagePath : String,
     @ColumnInfo("created_at")
     val createdAt : LocalDateTime = LocalDateTime.now(),
     @ColumnInfo("remote_id")
@@ -31,7 +33,8 @@ data class QuizEntity (
             createdAt = this.createdAt,
             questions = questions,
             remoteId = this.remoteId,
-            imageLink = this.imageLink
+            imageLink = this.imageLink,
+            localImagePath = this.localImagePath
         )
     }
 }
