@@ -71,11 +71,13 @@ internal fun QuizList(quizList: QuizListState, onQuizClick: (id: String) -> Unit
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.Start)
                             ) {
-                                AsyncImage(
-                                    model = quiz.localImagePath,
-                                    contentDescription = "Nice",
-                                    modifier = Modifier.heightIn(min = 64.dp, max=90.dp),
-                                )
+                                if(quiz.localImagePath.isNotBlank()) {
+                                    AsyncImage(
+                                        model = quiz.localImagePath,
+                                        contentDescription = "Nice",
+                                        modifier = Modifier.heightIn(min = 64.dp, max=90.dp),
+                                    )
+                                }
                                 Column {
                                     Text(
                                         quiz.name,

@@ -73,11 +73,13 @@ private fun QuizScreenContent(quiz: Quiz) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Row {
-                AsyncImage(
-                    model = quiz.localImagePath,
-                    contentDescription = "Nice",
-                    modifier = Modifier.heightIn(min = 64.dp, max=90.dp),
-                )
+                if(quiz.localImagePath.isNotBlank()) {
+                    AsyncImage(
+                        model = quiz.localImagePath,
+                        contentDescription = "Nice",
+                        modifier = Modifier.heightIn(min = 64.dp, max=90.dp),
+                    )
+                }
                 Column(
                 ) {
                     Text(
