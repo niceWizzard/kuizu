@@ -34,6 +34,7 @@ class QuizRepositoryImpl @Inject constructor(
                 author = quiz.author,
                 imageLink = quiz.imageLink,
                 remoteId = quiz.remoteId,
+                localImagePath = quiz.localImagePath
             ),
             questions = quiz.questions.map {
                 when(it) {

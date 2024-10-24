@@ -11,5 +11,6 @@ data class Quiz(
     val questions : List<Question>,
     val imageLink : String = "",
     val remoteId : String ,
+    val localImagePath : String = "",
 ) {
 }
