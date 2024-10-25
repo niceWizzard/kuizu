@@ -189,6 +189,11 @@ private fun Header(quiz : Quiz) {
             }
         }
     }
+    Row(modifier = Modifier.fillMaxWidth()) {
+        Text("${quiz.questions.size} questions",
+            fontWeight = FontWeight.Light
+        )
+    }
 }
 
 @Preview
