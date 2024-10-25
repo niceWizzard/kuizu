@@ -1,5 +1,6 @@
 package com.coderizzard.quiz.presentation.screen.quiz_list.add_quiz
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -65,7 +66,7 @@ private fun AddQuizDialogContent(
     BasicAlertDialog(
         onDismissRequest = {
             if (searchQuizState is SearchQuizState.Error
-                || searchQuizState is SearchQuizState.Default) {
+                || searchQuizState is SearchQuizState.Invalid) {
                 onDismissRequest()
             }
         },
@@ -105,9 +106,11 @@ private fun AddQuizDialogContent(
                             placeholder = {
                                 Text("https://quizizz.com/quiz/<idhere>")
                             },
-                            modifier = Modifier.fillMaxWidth().focusRequester(
-                                focusRequester
-                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .focusRequester(
+                                    focusRequester
+                                ),
                             singleLine = true,
                         )
                         Row(
