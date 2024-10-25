@@ -6,19 +6,25 @@ import com.coderizzard.database.data.database.model.question.IdentificationQuest
 import com.coderizzard.database.data.database.model.question.MCQuestionEntity
 import com.coderizzard.database.data.database.model.question.QuestionEntity
 import com.coderizzard.database.domain.repository.QuestionRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class QuestionRepositoryImpl @Inject constructor(
     private val questionDao: QuestionDao,
 ) : QuestionRepository {
     override suspend fun getAllByQuizId(quizId: String): List<Question> {
-        return questionDao.getQuizMCQuestions(quizId).map { it.toMCQuestion() } + questionDao.getQuizIdentificationQuestions(quizId).map { it.toIdentificationQuestion() }
+        return withContext(Dispatchers.IO) {
+            questionDao.getQuizMCQuestions(quizId).map { it.toMCQuestion() } + questionDao.getQuizIdentificationQuestions(quizId).map { it.toIdentificationQuestion() }
+        }
     }
 
     override suspend fun createQuestion(question: QuestionEntity) {
-        when(question) {
-            is IdentificationQuestionEntity -> questionDao.createQuestion(question)
-            is MCQuestionEntity -> questionDao.createQuestion(question)
+        withContext(Dispatchers.IO) {
+            when(question) {
+                is IdentificationQuestionEntity -> questionDao.createQuestion(question)
+                is MCQuestionEntity -> questionDao.createQuestion(question)
+            }
         }
     }
 }

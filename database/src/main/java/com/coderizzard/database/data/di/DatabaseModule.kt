@@ -27,7 +27,7 @@ internal object DatabaseModule {
             context,
             AppDatabase::class.java,
             "kuizu.db"
-        ).allowMainThreadQueries()
+        )
             .build()
     }
 
