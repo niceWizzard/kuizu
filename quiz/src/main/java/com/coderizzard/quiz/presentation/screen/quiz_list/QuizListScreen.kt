@@ -25,6 +25,7 @@ import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.quiz.presentation.screen.quiz_list.add_quiz.AddQuizDialog
+import kotlinx.coroutines.delay
 import java.time.LocalDateTime
 
 @Composable
@@ -39,6 +40,7 @@ fun QuizListScreen(
     val addQuizFieldFocusRequester = remember { FocusRequester() }
     LaunchedEffect(addQuizDialogState) {
         if(addQuizDialogState is AddQuizDialogState.Shown) {
+            delay(10)
             addQuizFieldFocusRequester.requestFocus()
         }
     }
