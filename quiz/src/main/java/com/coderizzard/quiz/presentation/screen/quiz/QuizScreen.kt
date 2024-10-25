@@ -29,6 +29,7 @@ import coil.compose.AsyncImage
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.presentation.clickable_image.ClickableImage
+import retrofit2.http.Header
 import java.time.LocalDateTime
 
 @Composable
@@ -70,39 +71,12 @@ private fun QuizScreenContent(quiz: Quiz) {
         modifier =  Modifier.fillMaxSize()
     ) {
         Column(
-            modifier = Modifier.padding(12.dp).verticalScroll(rememberScrollState()),
+            modifier = Modifier
+                .padding(12.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Row {
-                if(quiz.localImagePath.isNotBlank()) {
-                    ClickableImage(
-                        modifier = Modifier.heightIn(min = 64.dp, max=90.dp),
-                        imageUrl = quiz.localImagePath,
-                        contentDescription = "Quiz image"
-                    )
-                }
-                Column(
-                ) {
-                    Text(
-                        quiz.name,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Medium,
-                    )
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(horizontal = 4.dp)
-                    ) {
-                        Text(
-                            quiz.author,
-                            fontSize = 12.sp,
-                        )
-                        Text(
-                            "Created at: ${quiz.createdAt}",
-                            fontSize = 12.sp,
-                        )
-                    }
-                }
-            }
+            Header(quiz)
             HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
             if(quiz.questions.isEmpty()) {
                 Text(
@@ -114,6 +88,43 @@ private fun QuizScreenContent(quiz: Quiz) {
             quiz.questions.mapIndexed {i,q ->
                 QuestionComp(q,i)
             }
+        }
+    }
+}
+
+@Composable
+private fun Header(quiz : Quiz) {
+    Row(
+        modifier = Modifier.fillMaxSize(),
+        horizontalArrangement = Arrangement.spacedBy(
+            18.dp, alignment = Alignment.CenterHorizontally,
+        ),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        if(quiz.localImagePath.isNotBlank()) {
+            ClickableImage(
+                modifier = Modifier.heightIn(min = 64.dp, max=128.dp),
+                imageUrl = quiz.localImagePath,
+                contentDescription = "Quiz image"
+            )
+        }
+        Column(
+        ) {
+            Text(
+                quiz.name,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Medium,
+            )
+            Text(
+                quiz.author,
+                fontSize = 12.sp,
+                modifier = Modifier.padding(start = 6.dp)
+            )
+            Text(
+                "Created at: ${quiz.createdAt}",
+                fontSize = 12.sp,
+                modifier = Modifier.padding(start = 6.dp)
+            )
         }
     }
 }
