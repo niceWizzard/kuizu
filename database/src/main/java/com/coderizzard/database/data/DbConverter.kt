@@ -25,7 +25,7 @@ class DbConverter  {
 
     @TypeConverter
     fun fromStringToListInt(value: String?): List<Int>? {
-        val listType = object : TypeToken<List<String>>() {}.type
+        val listType = object : TypeToken<List<Int>>() {}.type
         return Gson().fromJson(value, listType)
     }
 
