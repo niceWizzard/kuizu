@@ -12,6 +12,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -21,6 +22,7 @@ import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.question.Question
 import com.coderizzard.core.data.stripHtmlTags
 import com.coderizzard.core.data.toAnnotatedString
+import com.coderizzard.core.presentation.clickable_image.ClickableImage
 
 @Composable
 internal fun QuestionComp(q: Question, index : Int) {
@@ -50,9 +52,12 @@ internal fun QuestionComp(q: Question, index : Int) {
             HorizontalDivider()
             Spacer(Modifier.height(6.dp))
             if(q.imageLink.isNotBlank()) {
-                AsyncImage(
-                    model = q.localImagePath,
+                ClickableImage(
+                    imageUrl = q.localImagePath,
                     contentDescription = "Image of question<${q.id}>",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.CenterHorizontally)
                 )
             }
             Text(q.text.toAnnotatedString())
