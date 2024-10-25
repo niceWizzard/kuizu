@@ -1,24 +1,39 @@
 package com.coderizzard.quiz.presentation.screen.quiz
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -77,7 +92,7 @@ private fun QuizScreenContent(quiz: Quiz) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Header(quiz)
-            HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
+            HorizontalDivider()
             if(quiz.questions.isEmpty()) {
                 Text(
                     "Empty quiz...",
@@ -95,7 +110,7 @@ private fun QuizScreenContent(quiz: Quiz) {
 @Composable
 private fun Header(quiz : Quiz) {
     Row(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().padding(vertical = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(
             18.dp, alignment = Alignment.CenterHorizontally,
         ),
@@ -125,6 +140,49 @@ private fun Header(quiz : Quiz) {
                 fontSize = 12.sp,
                 modifier = Modifier.padding(start = 6.dp)
             )
+        }
+    }
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        val context = LocalContext.current
+        TextButton(
+            onClick = {
+                Toast.makeText(context, "To be implemented", Toast.LENGTH_SHORT).show()
+            }
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(Icons.Default.FavoriteBorder, contentDescription = "Favorites")
+                Text("Favorite")
+            }
+        }
+        TextButton(
+            onClick = {
+                Toast.makeText(context, "To be implemented", Toast.LENGTH_SHORT).show()
+            }
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(Icons.Default.Refresh, contentDescription = "Update")
+                Text("Update")
+            }
+        }
+        TextButton(
+            onClick = {
+                Toast.makeText(context, "To be implemented", Toast.LENGTH_SHORT).show()
+            }
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(Icons.Default.Create, contentDescription = "Tags")
+                Text("Tags")
+            }
         }
     }
 }
