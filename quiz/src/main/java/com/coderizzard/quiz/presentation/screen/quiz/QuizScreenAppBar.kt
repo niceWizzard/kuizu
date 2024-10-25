@@ -12,6 +12,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -28,42 +29,52 @@ fun QuizScreenAppBar(
     var isMoreShown by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
     val quizScreenViewModel : QuizScreenViewModel = hiltViewModel(backStackEntry)
-    TopAppBar(
-        title = {  },
-        navigationIcon = {
-            IconButton(
-                onClick = {
-                    quizScreenViewModel.navigationManager.popBackStack()
-                }
-            ) {
-                Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = "Back")
-            }
-        },
-        actions = {
-            IconButton(
-                onClick = {
-                    isMoreShown = !isMoreShown
-                }
-            ) {
-                Icon(Icons.Default.MoreVert, contentDescription = "More")
-                DropdownMenu(
-                    expanded = isMoreShown,
-                    onDismissRequest = {
-                        isMoreShown = false
-                    },
-                ) {
-                    DropdownMenuItem(
-                        text = { Text("Delete Quiz") },
+    val quizState by quizScreenViewModel.quizState.collectAsState()
+    when(val state = quizState) {
+        is QuizUiState.Error -> {
+            Text(state.msg)
+        }
+        QuizUiState.Loading -> {}
+        is QuizUiState.Success -> {
+            val quiz = state.quiz
+            TopAppBar(
+                title = {  },
+                navigationIcon = {
+                    IconButton(
                         onClick = {
-                            isMoreShown = false
-                            Toast.makeText(context, "Deleting ${quizScreenViewModel.routeParams().id}", Toast.LENGTH_SHORT).show()
-                            quizScreenViewModel.deleteCurrentQuiz()
                             quizScreenViewModel.navigationManager.popBackStack()
                         }
-                    )
-                }
-            }
+                    ) {
+                        Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    IconButton(
+                        onClick = {
+                            isMoreShown = !isMoreShown
+                        }
+                    ) {
+                        Icon(Icons.Default.MoreVert, contentDescription = "More")
+                        DropdownMenu(
+                            expanded = isMoreShown,
+                            onDismissRequest = {
+                                isMoreShown = false
+                            },
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text("Delete Quiz") },
+                                onClick = {
+                                    isMoreShown = false
+                                    quizScreenViewModel.deleteCurrentQuiz()
+                                    Toast.makeText(context, "Deleting ${quiz.id}", Toast.LENGTH_SHORT).show()
+                                    quizScreenViewModel.navigationManager.popBackStack()
+                                }
+                            )
+                        }
+                    }
 
+                }
+            )
         }
-    )
+    }
 }
