@@ -122,7 +122,9 @@ private fun Header(quiz : Quiz) {
     ) {
         if(quiz.localImagePath.isNotBlank()) {
             ClickableImage(
-                modifier = Modifier.heightIn(min = 64.dp, max=128.dp),
+                modifier = Modifier
+                    .heightIn(min = 64.dp, max=128.dp)
+                    .fillMaxWidth(0.4F),
                 imageUrl = quiz.localImagePath,
                 contentDescription = "Quiz image"
             )

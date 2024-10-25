@@ -75,7 +75,9 @@ internal fun QuizList(quizList: QuizListState, onQuizClick: (id: String) -> Unit
                                     AsyncImage(
                                         model = quiz.localImagePath,
                                         contentDescription = "Nice",
-                                        modifier = Modifier.heightIn(min = 64.dp, max=90.dp),
+                                        modifier = Modifier
+                                            .heightIn(min = 64.dp, max=90.dp)
+                                            .fillMaxWidth(0.4F),
                                     )
                                 }
                                 Column {
