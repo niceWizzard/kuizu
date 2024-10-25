@@ -1,5 +1,8 @@
 package com.coderizzard.quiz.presentation.screen.quiz
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -68,6 +71,16 @@ fun QuizScreenAppBar(
                                     quizScreenViewModel.deleteCurrentQuiz()
                                     Toast.makeText(context, "Deleting ${quiz.id}", Toast.LENGTH_SHORT).show()
                                     quizScreenViewModel.navigationManager.popBackStack()
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Copy quiz link") },
+                                onClick = {
+                                    isMoreShown = false
+                                    val clipboard : ClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                    val clip = ClipData.newPlainText("Copied!", "https://quizizz.com/join/quiz/${quiz.remoteId}/start")
+                                    clipboard.setPrimaryClip(clip)
+                                    Toast.makeText(context, "Quiz url copied!", Toast.LENGTH_SHORT).show()
                                 }
                             )
                         }
