@@ -16,13 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.question.Question
-import com.coderizzard.core.data.stripHtmlTags
 import com.coderizzard.core.data.toAnnotatedString
-import com.coderizzard.core.presentation.clickable_image.ClickableImage
+import com.coderizzard.core.presentation.clickable_image.ExpandableImage
 
 @Composable
 internal fun QuestionComp(q: Question, index : Int) {
@@ -52,7 +50,7 @@ internal fun QuestionComp(q: Question, index : Int) {
             HorizontalDivider()
             Spacer(Modifier.height(6.dp))
             if(q.imageLink.isNotBlank()) {
-                ClickableImage(
+                ExpandableImage(
                     imageUrl = q.localImagePath,
                     contentDescription = "Image of question<${q.id}>",
                     modifier = Modifier

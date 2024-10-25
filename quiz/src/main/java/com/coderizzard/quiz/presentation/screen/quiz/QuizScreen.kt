@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
@@ -37,8 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
-import com.coderizzard.core.data.model.question.Question
-import com.coderizzard.core.presentation.clickable_image.ClickableImage
+import com.coderizzard.core.presentation.clickable_image.ExpandableImage
 import java.time.LocalDateTime
 
 @Composable
@@ -121,7 +119,7 @@ private fun Header(quiz : Quiz) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if(quiz.localImagePath.isNotBlank()) {
-            ClickableImage(
+            ExpandableImage(
                 modifier = Modifier
                     .heightIn(min = 64.dp, max=128.dp)
                     .fillMaxWidth(0.4F),
