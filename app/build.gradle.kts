@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.coderizzard.quizzerist"
+    namespace = "com.coderizzard.kuizu"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.coderizzard.quizzerist"
+        applicationId = "com.coderizzard.kuizu"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

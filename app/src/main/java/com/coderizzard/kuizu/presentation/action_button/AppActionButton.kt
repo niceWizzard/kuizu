@@ -1,4 +1,4 @@
-package com.coderizzard.quizzerist.presentation.action_button
+package com.coderizzard.kuizu.presentation.action_button
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue

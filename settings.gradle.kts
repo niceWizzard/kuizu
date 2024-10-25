@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Quizzerist"
+rootProject.name = "Kuizu"
 include(":app")
 include(":quiz_extractor")
 include(":quiz")

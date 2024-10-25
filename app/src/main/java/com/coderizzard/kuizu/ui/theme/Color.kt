@@ -1,4 +1,4 @@
-package com.coderizzard.quizzerist.ui.theme
+package com.coderizzard.kuizu.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

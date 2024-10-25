@@ -1,4 +1,4 @@
-package com.coderizzard.quizzerist.presentation.appbar
+package com.coderizzard.kuizu.presentation.appbar
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

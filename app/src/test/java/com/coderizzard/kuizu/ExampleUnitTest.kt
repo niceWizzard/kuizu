@@ -1,4 +1,4 @@
-package com.coderizzard.quizzerist
+package com.coderizzard.kuizu
 
 import org.junit.Test
 

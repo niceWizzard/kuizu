@@ -1,4 +1,4 @@
-package com.coderizzard.quizzerist.presentation
+package com.coderizzard.kuizu.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,11 +12,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.coderizzard.core.data.navigation.NavigationManager
-import com.coderizzard.quizzerist.presentation.action_button.AppActionButton
-import com.coderizzard.quizzerist.presentation.appbar.TopBar
-import com.coderizzard.quizzerist.presentation.navigation.NavBar
-import com.coderizzard.quizzerist.presentation.navigation.NavGraph
-import com.coderizzard.quizzerist.ui.theme.QuizzeristTheme
+import com.coderizzard.kuizu.presentation.action_button.AppActionButton
+import com.coderizzard.kuizu.presentation.appbar.TopBar
+import com.coderizzard.kuizu.presentation.navigation.NavBar
+import com.coderizzard.kuizu.presentation.navigation.NavGraph
+import com.coderizzard.kuizu.ui.theme.KuizuTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(Unit) {
                 navigationManager.navController = navController
             }
-            QuizzeristTheme {
+            KuizuTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = { NavBar(navController = navController) },

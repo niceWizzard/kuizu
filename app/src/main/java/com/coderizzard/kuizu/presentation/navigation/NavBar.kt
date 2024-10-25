@@ -1,4 +1,4 @@
-package com.coderizzard.quizzerist.presentation.navigation
+package com.coderizzard.kuizu.presentation.navigation
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar

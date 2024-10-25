@@ -1,8 +1,7 @@
-package com.coderizzard.quizzerist.presentation.action_button
+package com.coderizzard.kuizu.presentation.action_button
 
 import android.widget.Toast
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon

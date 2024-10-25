@@ -1,4 +1,4 @@
-package com.coderizzard.quizzerist
+package com.coderizzard.kuizu
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.coderizzard.quizzerist", appContext.packageName)
+        assertEquals("com.coderizzard.kuizu", appContext.packageName)
     }
 }
