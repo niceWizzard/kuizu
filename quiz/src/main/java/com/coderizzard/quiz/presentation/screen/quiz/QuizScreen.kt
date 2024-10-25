@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
+import com.coderizzard.core.presentation.clickable_image.ClickableImage
 import java.time.LocalDateTime
 
 @Composable
@@ -74,10 +75,10 @@ private fun QuizScreenContent(quiz: Quiz) {
         ) {
             Row {
                 if(quiz.localImagePath.isNotBlank()) {
-                    AsyncImage(
-                        model = quiz.localImagePath,
-                        contentDescription = "Nice",
+                    ClickableImage(
                         modifier = Modifier.heightIn(min = 64.dp, max=90.dp),
+                        imageUrl = quiz.localImagePath,
+                        contentDescription = "Quiz image"
                     )
                 }
                 Column(
