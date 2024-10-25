@@ -12,8 +12,6 @@ fun stripHtmlTags(s : String ): String {
 fun String.toAnnotatedString(): AnnotatedString {
     val spanned: Spanned = Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
     return buildAnnotatedString {
-        append(spanned.toString())
-        // You can add further parsing for specific tags here if needed.
-        // For example, if you want to handle <b> or <i>, you can loop through the spans.
+        append(spanned.toString().trim())
     }
 }
