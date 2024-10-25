@@ -201,6 +201,19 @@ private fun AddQuizDialogContent(
                             }
                         }
                     }
+                    SearchQuizState.Creating -> {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(
+                                12.dp,
+                                alignment = Alignment.CenterHorizontally
+                            ),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            CircularProgressIndicator()
+                            Text("Creating the quiz...")
+                        }
+                    }
                 }
             }
 

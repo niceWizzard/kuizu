@@ -83,7 +83,7 @@ class AddQuizScreenViewModel@Inject constructor(
         }
     }
     private suspend fun createQuiz(quiz: Quiz, actionBeforeNavigate: () -> Unit, context: Context) {
-
+        _searchQuiz.update { SearchQuizState.Creating }
         val quizWithImages = imageManager.saveQuizImages(quiz, context)
         actionBeforeNavigate()
         val quizId = quizRepository.createQuiz(quizWithImages)
@@ -102,6 +102,7 @@ sealed interface SearchQuizState {
     data object Fetching : SearchQuizState
     data class Invalid(val message : String) : SearchQuizState
     data class DuplicatedQuiz(val quiz : Quiz) : SearchQuizState
+    data object Creating : SearchQuizState
 }
 
 sealed interface AddQuizEvent {
