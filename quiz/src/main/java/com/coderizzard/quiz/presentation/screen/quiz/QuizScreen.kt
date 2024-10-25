@@ -111,8 +111,8 @@ private fun QuizScreenContent(quiz: Quiz) {
                     textAlign = TextAlign.Center
                 )
             }
-            quiz.questions.map {q ->
-                QuestionComp(q)
+            quiz.questions.mapIndexed {i,q ->
+                QuestionComp(q,i)
             }
         }
     }

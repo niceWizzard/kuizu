@@ -1,5 +1,7 @@
 package com.coderizzard.core.data.model.question
 
+import com.coderizzard.core.data.stripHtmlTags
+
 sealed interface Question {
     val id : String
     val text : String
@@ -8,4 +10,9 @@ sealed interface Question {
     val remoteId : String
     val imageLink: String
     val localImagePath: String
+
+    fun plainText(): String {
+        return stripHtmlTags(text)
+    }
+
 }

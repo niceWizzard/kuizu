@@ -15,9 +15,10 @@ import coil.compose.AsyncImage
 import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.question.Question
+import com.coderizzard.core.data.stripHtmlTags
 
 @Composable
-internal fun QuestionComp(q: Question) {
+internal fun QuestionComp(q: Question, index : Int) {
     Card(
 
     ) {
@@ -31,11 +32,11 @@ internal fun QuestionComp(q: Question) {
                     contentDescription = "Image of question<${q.id}>",
                 )
             }
-            Text(q.text)
+            Text(q.plainText())
             Spacer(Modifier.height(6.dp))
             when (q) {
                 is IdentificationQuestion -> {
-                    Text("Answer: ${q.answer}")
+                    Text("Answer: ${stripHtmlTags(q.answer)}")
                 }
 
                 is MCQuestion -> {
@@ -44,7 +45,7 @@ internal fun QuestionComp(q: Question) {
                             buildString {
                                 if (q.answer.contains(i))
                                     append("Correct - ")
-                                append(it)
+                                append(stripHtmlTags(it))
                             }
                         )
                     }
