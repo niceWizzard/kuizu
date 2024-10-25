@@ -6,26 +6,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -41,11 +35,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
+import com.coderizzard.core.data.model.question.Question
 import com.coderizzard.core.presentation.clickable_image.ClickableImage
-import retrofit2.http.Header
 import java.time.LocalDateTime
 
 @Composable
@@ -90,22 +83,26 @@ private fun QuizScreenContent(quiz: Quiz) {
     Surface(
         modifier =  Modifier.fillMaxSize()
     ) {
-        Column(
+        LazyColumn(
             modifier = Modifier
-                .padding(12.dp)
-                .verticalScroll(rememberScrollState()),
+                .fillMaxWidth()
+                .padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Header(quiz)
-            HorizontalDivider()
-            if(quiz.questions.isEmpty()) {
-                Text(
-                    "Empty quiz...",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                )
+            item {
+                Header(quiz)
+                HorizontalDivider()
+                if(quiz.questions.isEmpty()) {
+                    Text(
+                        "Empty quiz...",
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
-            quiz.questions.mapIndexed {i,q ->
+            itemsIndexed(
+                items = quiz.questions,
+            ) { i,q ->
                 QuestionComp(q,i)
             }
         }
