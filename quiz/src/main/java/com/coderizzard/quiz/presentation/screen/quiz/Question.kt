@@ -20,6 +20,7 @@ import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.question.Question
 import com.coderizzard.core.data.stripHtmlTags
+import com.coderizzard.core.data.toAnnotatedString
 
 @Composable
 internal fun QuestionComp(q: Question, index : Int) {
@@ -54,11 +55,11 @@ internal fun QuestionComp(q: Question, index : Int) {
                     contentDescription = "Image of question<${q.id}>",
                 )
             }
-            Text(q.plainText())
+            Text(q.text.toAnnotatedString())
             Spacer(Modifier.height(6.dp))
             when (q) {
                 is IdentificationQuestion -> {
-                    Text("✅ ${stripHtmlTags(q.answer)}")
+                    Text("✅ ${q.answer.toAnnotatedString()}")
                 }
 
                 is MCQuestion -> {
@@ -70,7 +71,7 @@ internal fun QuestionComp(q: Question, index : Int) {
                                 else "",
                                 modifier = Modifier.widthIn(min=24.dp)
                             )
-                            Text(stripHtmlTags(it))
+                            Text(it.toAnnotatedString())
                         }
 
                     }
