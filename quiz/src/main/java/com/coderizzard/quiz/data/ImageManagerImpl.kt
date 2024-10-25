@@ -9,6 +9,8 @@ import com.coderizzard.core.data.model.question.Question
 import com.coderizzard.network.data.repository.ApiResponse
 import com.coderizzard.network.domain.ExtractedQuizRepository
 import com.coderizzard.quiz.domain.repository.ImageManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -18,8 +20,8 @@ import javax.inject.Inject
 class ImageManagerImpl @Inject constructor(
     private val extractorRepository: ExtractedQuizRepository
 ) : ImageManager {
-    override suspend fun saveQuizImages(quiz: Quiz, context: Context): Quiz {
-        return quiz.copy(
+    override suspend fun saveQuizImages(quiz: Quiz, context: Context): Quiz = withContext(Dispatchers.IO) {
+        quiz.copy(
             localImagePath =  if (quiz.imageLink.isNotBlank())
                     saveQuizMainImage(quiz.imageLink,quiz.remoteId, context)
                 else "",
