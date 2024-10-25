@@ -8,6 +8,7 @@ import com.coderizzard.core.data.navigation.RootRoute
 import com.coderizzard.database.domain.repository.QuizRepository
 import com.coderizzard.quiz.domain.repository.ImageManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -25,9 +26,12 @@ import javax.inject.Inject
 
     init {
         viewModelScope.launch {
-            _quizState.update { QuizUiState.Success(quizRepository.getById(routeParams().id)) }
-
-
+            try {
+                val quiz = quizRepository.getById(routeParams().id)
+                _quizState.update { QuizUiState.Success(quiz) }
+            } catch(e : Exception) {
+                _quizState.update { QuizUiState.Error(e.message.toString()) }
+            }
         }
     }
 

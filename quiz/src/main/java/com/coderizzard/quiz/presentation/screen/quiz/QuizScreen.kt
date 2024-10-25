@@ -1,5 +1,6 @@
 package com.coderizzard.quiz.presentation.screen.quiz
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -59,6 +60,8 @@ fun QuizScreen() {
         else -> {
             when(val state = quiz) {
                 is QuizUiState.Loading -> {
+                    Log.d("quizz", "Loading")
+                    Toast.makeText(LocalContext.current, "Loading", Toast.LENGTH_LONG).show()
                     Box(
                         modifier = Modifier.fillMaxSize() ,
                         contentAlignment = Alignment.Center
@@ -71,6 +74,8 @@ fun QuizScreen() {
                 }
 
                 is QuizUiState.Success -> {
+                    Log.d("quizz", "Success")
+                    Toast.makeText(LocalContext.current, "Success", Toast.LENGTH_SHORT).show()
                     QuizScreenContent(state.quiz)
                 }
             }
@@ -110,7 +115,9 @@ private fun QuizScreenContent(quiz: Quiz) {
 @Composable
 private fun Header(quiz : Quiz) {
     Row(
-        modifier = Modifier.fillMaxSize().padding(vertical = 12.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(
             18.dp, alignment = Alignment.CenterHorizontally,
         ),
