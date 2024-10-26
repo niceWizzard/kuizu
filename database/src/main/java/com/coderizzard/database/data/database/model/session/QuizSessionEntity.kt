@@ -30,7 +30,7 @@ data class QuizSessionEntity(
     @ColumnInfo("question_order")
     val questionOrder : List<String>,
     @ColumnInfo("current_question_index")
-    val currentQuestionIndex : Int,
+    val currentQuestionIndex : Int=0,
 ) {
     fun toQuizSession(quiz : Quiz) : QuizSession {
         return QuizSession(
