@@ -68,41 +68,52 @@ private fun Content(
             items(
                 items = sessionList,
             ) { session ->
-                Card {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 12.dp, horizontal = 8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        AsyncImage(
-                            model = session.quiz.localImagePath,
-                            contentDescription = "Quiz session",
-                            modifier = Modifier.heightIn(
-                                max = 124.dp,
-                            ).fillMaxWidth(0.2F)
-                        )
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                    Card {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .heightIn(min = 124.dp)
+                                .padding(vertical = 12.dp, horizontal = 16.dp),
+                            horizontalArrangement = Arrangement.SpaceAround,
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            Text(session.quiz.name)
-                            Text(
-                                text = "${session.currentQuestionIndex + 1}/${session.quiz.questions.size} questions answered",
-                                fontWeight = FontWeight.Light,
-                                fontSize = 12.sp,
+                            AsyncImage(
+                                model = session.quiz.localImagePath,
+                                contentDescription = "Quiz session",
+                                modifier = Modifier.heightIn(
+                                    max = 124.dp,
+                                ).fillMaxWidth(0.2F)
                             )
-                        }
-                        val context = LocalContext.current
-                        IconButton(
-                            onClick = {
-                                Toast.makeText(context, "To be implemented", Toast.LENGTH_SHORT).show()
-                            },
-                        ) {
-                            Icon(Icons.Default.PlayArrow, contentDescription = "Continue")
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(
+                                    12.dp,
+                                ),
+                                modifier = Modifier
+                                    .fillMaxWidth(0.8F)
+                                    .padding(horizontal = 12.dp),
+                            ) {
+                                Text(session.quiz.name)
+                                Text(
+                                    text = "${session.currentQuestionIndex + 1}/${session.quiz.questions.size} questions answered",
+                                    fontWeight = FontWeight.Light,
+                                    fontSize = 12.sp,
+                                )
+                            }
+                            val context = LocalContext.current
+                            IconButton(
+                                onClick = {
+                                    Toast.makeText(context, "To be implemented", Toast.LENGTH_SHORT).show()
+                                },
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Icon(
+                                    Icons.Default.PlayArrow,
+                                    contentDescription = "Continue",
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            }
                         }
                     }
-                }
             }
         }
 
