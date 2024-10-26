@@ -19,6 +19,7 @@ fun AppActionButton(navController: NavController) {
                 is RootRoute -> {
                     RootRouteActionButton(
                         route = it,
+                        entry,
                     )
                 }
                 is HomeRoute -> {

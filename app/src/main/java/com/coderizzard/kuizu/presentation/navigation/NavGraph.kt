@@ -17,6 +17,7 @@ import com.coderizzard.core.data.navigation.HomeRoute
 import com.coderizzard.core.data.navigation.RootRoute
 import com.coderizzard.quiz.presentation.screen.quiz.QuizScreen
 import com.coderizzard.quiz.presentation.screen.quiz_list.QuizListScreen
+import com.coderizzard.quiz.session.presentation.screen.create.CreateSessionScreen
 
 @Composable
 fun NavGraph(
@@ -47,6 +48,12 @@ fun NavGraph(
         }
         composable<RootRoute.Quiz> {
             QuizScreen()
+        }
+
+        composable<RootRoute.CreateSession> {
+            val route = navController.currentBackStackEntry?.toRoute<RootRoute.CreateSession>() ?: throw Exception("Null route received.")
+
+            CreateSessionScreen(route.quizId)
         }
 
     }
