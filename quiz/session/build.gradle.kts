@@ -32,10 +32,15 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.14"
+    }
 }
 
 dependencies {
-
     implementation(project(":database"))
     implementation(project(":core"))
     implementation(libs.androidx.core.ktx)
