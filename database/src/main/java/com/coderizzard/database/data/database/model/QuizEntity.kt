@@ -9,22 +9,32 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 @Entity
-data class QuizEntity (
-    @PrimaryKey
-    val id : String = UUID.randomUUID().toString(),
-    @ColumnInfo("name")
-    val name : String,
-    @ColumnInfo("author")
-    val author : String,
-    @ColumnInfo("image_link")
-    val imageLink : String,
-    @ColumnInfo("local_image_path")
-    val localImagePath : String,
-    @ColumnInfo("created_at")
-    val createdAt : LocalDateTime = LocalDateTime.now(),
-    @ColumnInfo("remote_id")
-    val remoteId : String,
+data class QuizEntity(
+    @PrimaryKey()
+    @ColumnInfo(ID)
+    val id: String = UUID.randomUUID().toString(),
+    @ColumnInfo(name = NAME)
+    val name: String,
+    @ColumnInfo(name = AUTHOR)
+    val author: String,
+    @ColumnInfo(name = IMAGE_LINK)
+    val imageLink: String,
+    @ColumnInfo(name = LOCAL_IMAGE_PATH)
+    val localImagePath: String,
+    @ColumnInfo(name = CREATED_AT)
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+    @ColumnInfo(name = REMOTE_ID)
+    val remoteId: String,
 ) {
+    companion object {
+        const val ID = "id"
+        const val NAME = "name"
+        const val AUTHOR = "author"
+        const val IMAGE_LINK = "image_link"
+        const val LOCAL_IMAGE_PATH = "local_image_path"
+        const val CREATED_AT = "created_at"
+        const val REMOTE_ID = "remote_id"
+    }
     fun toQuiz(questions : List<Question>) : Quiz {
         return Quiz(
             id = this.id,

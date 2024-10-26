@@ -9,22 +9,26 @@ import java.util.UUID
 @Entity
 data class IdentificationQuestionEntity(
     @PrimaryKey
+    @ColumnInfo(name = QuestionEntity.ID)
     override val id: String = UUID.randomUUID().toString(),
-    @ColumnInfo("remote_id")
-    override val remoteId : String,
-    @ColumnInfo("text")
+    @ColumnInfo(name = QuestionEntity.REMOTE_ID)
+    override val remoteId: String,
+    @ColumnInfo(name = QuestionEntity.TEXT)
     override val text: String,
-    @ColumnInfo("point")
+    @ColumnInfo(name = QuestionEntity.POINT)
     override val point: Int,
-    @ColumnInfo("quiz_id")
+    @ColumnInfo(name = QuestionEntity.QUIZ_ID)
     override val quizId: String,
-    @ColumnInfo("answer")
-    val answer : String,
-    @ColumnInfo("image_link")
+    @ColumnInfo(name = ANSWER)
+    val answer: String,
+    @ColumnInfo(name = QuestionEntity.IMAGE_LINK)
     override val imageLink: String,
-    @ColumnInfo("local_imagePath")
+    @ColumnInfo(name = QuestionEntity.LOCAL_IMAGE_PATH)
     override val localImagePath: String
 ) : QuestionEntity {
+    companion object {
+        const val ANSWER = "answer"
+    }
     fun toIdentificationQuestion() : IdentificationQuestion {
         return IdentificationQuestion(
             id = this.id,
