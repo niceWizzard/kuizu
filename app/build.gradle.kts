@@ -58,6 +58,7 @@ dependencies {
     implementation(project(":database"))
     implementation(project(":core"))
     implementation(project(":quiz"))
+    implementation(project(":quiz:session"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
