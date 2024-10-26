@@ -3,6 +3,7 @@ package com.coderizzard.database.data.database.model.session.answers
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import com.coderizzard.core.data.model.session.answer.MCQuestionAnswer
 import com.coderizzard.database.data.database.model.QuizEntity
 import com.coderizzard.database.data.database.model.session.QuizSessionEntity
 import com.coderizzard.database.data.database.model.session.answers.SessionAnswer.Companion.IS_CORRECT
@@ -45,5 +46,15 @@ internal data class MCQuestionAnswerEntity (
 ) : SessionAnswer {
     companion object {
         const val ANSWER_ID = "answer_id"
+    }
+
+    fun toMCQuestionAnswer() : MCQuestionAnswer {
+        return MCQuestionAnswer(
+            sessionId = this.sessionId,
+            answerId = this.answerId,
+            questionId = this.questionId,
+            quizId = this.quizId,
+            isCorrect = this.isCorrect,
+        )
     }
 }

@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.coderizzard.core.data.model.Quiz
+import com.coderizzard.core.data.model.session.QuizSession
 import com.coderizzard.database.data.database.model.QuizEntity
 import java.time.LocalDateTime
 
@@ -25,4 +27,13 @@ internal data class QuizSessionEntity(
     val quizId : String,
     @ColumnInfo("started_at")
     val startedAt : LocalDateTime
-)
+) {
+    fun toQuizSession(quiz : Quiz) : QuizSession {
+        return QuizSession(
+            id = this.id,
+            quizId = this.quizId,
+            quiz = quiz,
+            startedAt = this.startedAt,
+        )
+    }
+}

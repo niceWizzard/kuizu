@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.coderizzard.core.data.model.session.SessionResult
 import com.coderizzard.database.data.database.model.QuizEntity
 import java.time.LocalDateTime
 
@@ -29,4 +30,14 @@ internal data class SessionResultEntity(
     val marks : Int,
     @ColumnInfo("date_finished")
     val dateFinished : LocalDateTime
-)
+) {
+    fun toSessionResult() : SessionResult {
+        return SessionResult(
+            id = this.id,
+            quizId = this.quizId,
+            totalPoints = this.totalPoints,
+            marks = this.marks,
+            dateFinished = this.dateFinished,
+        )
+    }
+}
