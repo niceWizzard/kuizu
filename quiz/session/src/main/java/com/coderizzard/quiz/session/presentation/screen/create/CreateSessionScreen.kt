@@ -41,38 +41,40 @@ private fun Content(state: CreateState) {
     Surface(
         modifier = Modifier.fillMaxSize(),
     ) {
-        BasicAlertDialog(
-            onDismissRequest = {}
-        ) {
-            Card {
-                Box(
-                    modifier = Modifier.padding(24.dp),
-                    contentAlignment = Alignment.Center,
-                ){
-                    Row(
-                        modifier = Modifier.fillMaxWidth().padding(12.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement
-                            .spacedBy(12.dp, alignment = Alignment.Start)
-                    ) {
-                        when(state) {
-                            CreateState.Creating -> {
+        if(state != CreateState.Finished) {
+            BasicAlertDialog(
+                onDismissRequest = {}
+            ) {
+                Card {
+                    Box(
+                        modifier = Modifier.padding(24.dp),
+                        contentAlignment = Alignment.Center,
+                    ){
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement
+                                .spacedBy(12.dp, alignment = Alignment.Start)
+                        ) {
+                            when(state) {
+                                CreateState.Creating -> {
                                     CircularProgressIndicator()
                                     Text(
                                         "Creating...",
                                         fontSize = 18.sp,
                                     )
-                            }
-                            is CreateState.Error -> {
-                                Text(state.message)
-                            }
-                            CreateState.Finished -> {
-                                Text("Done creating session")
+                                }
+                                is CreateState.Error -> {
+                                    Text(state.message)
+                                }
+                                CreateState.Finished -> {
+                                    Text("Done creating session")
+                                }
                             }
                         }
                     }
-                }
 
+                }
             }
         }
     }
