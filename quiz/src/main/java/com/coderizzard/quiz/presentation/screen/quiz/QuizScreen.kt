@@ -51,8 +51,6 @@ fun QuizScreen() {
         else -> {
             when(val state = quiz) {
                 is QuizUiState.Loading -> {
-                    Log.d("quizz", "Loading")
-                    Toast.makeText(LocalContext.current, "Loading", Toast.LENGTH_LONG).show()
                     Box(
                         modifier = Modifier.fillMaxSize() ,
                         contentAlignment = Alignment.Center
@@ -65,8 +63,6 @@ fun QuizScreen() {
                 }
 
                 is QuizUiState.Success -> {
-                    Log.d("quizz", "Success")
-                    Toast.makeText(LocalContext.current, "Success", Toast.LENGTH_SHORT).show()
                     QuizScreenContent(state.quiz)
                 }
             }
