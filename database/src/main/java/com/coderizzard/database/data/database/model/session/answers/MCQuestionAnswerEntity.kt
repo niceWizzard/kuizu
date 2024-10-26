@@ -32,7 +32,7 @@ import com.coderizzard.database.data.database.model.session.answers.SessionAnswe
         QUESTION_ID
     ]
 )
-internal data class MCQuestionAnswerEntity (
+data class MCQuestionAnswerEntity (
     @ColumnInfo(SESSION_ID)
     override val sessionId : String,
     @ColumnInfo(QUIZ_ID)

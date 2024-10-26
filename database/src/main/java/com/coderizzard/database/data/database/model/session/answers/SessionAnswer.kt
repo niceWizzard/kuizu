@@ -1,6 +1,6 @@
 package com.coderizzard.database.data.database.model.session.answers
 
-internal sealed interface SessionAnswer {
+sealed interface SessionAnswer {
     val sessionId : String
     val quizId : String
     val questionId : String

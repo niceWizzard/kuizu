@@ -20,7 +20,7 @@ import java.time.LocalDateTime
         )
     ]
 )
-internal data class QuizSessionEntity(
+data class QuizSessionEntity(
     @PrimaryKey
     val id : String,
     @ColumnInfo("quiz_id")
