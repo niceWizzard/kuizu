@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidthIn
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -78,9 +80,8 @@ private fun Content(
                             model = session.quiz.localImagePath,
                             contentDescription = "Quiz session",
                             modifier = Modifier.heightIn(
-                                max = 256.dp,
-                                min = 96.dp
-                            )
+                                max = 124.dp,
+                            ).fillMaxWidth(0.2F)
                         )
                         Column(
                             verticalArrangement = Arrangement.spacedBy(12.dp)
