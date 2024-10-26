@@ -74,7 +74,7 @@ internal fun QuestionComp(q: Question, index : Int) {
                                 else "",
                                 modifier = Modifier.widthIn(min=24.dp)
                             )
-                            Text(it.toAnnotatedString())
+                            Text(it.text.toAnnotatedString())
                         }
 
                     }

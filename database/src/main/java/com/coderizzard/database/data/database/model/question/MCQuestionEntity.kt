@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.coderizzard.core.data.model.question.MCOption
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.database.data.database.model.QuizEntity
 import java.util.UUID
@@ -31,8 +32,6 @@ data class MCQuestionEntity(
     override val point: Int,
     @ColumnInfo(name = QuestionEntity.QUIZ_ID)
     override val quizId: String,
-    @ColumnInfo(name = OPTIONS)
-    val options: List<String>,
     @ColumnInfo(name = ANSWER)
     val answer: List<Int>,
     @ColumnInfo(name = QuestionEntity.IMAGE_LINK)
@@ -41,17 +40,16 @@ data class MCQuestionEntity(
     override val localImagePath: String
 ) : QuestionEntity {
     companion object {
-        const val OPTIONS = "options"
         const val ANSWER = "answer"
     }
-    fun toMCQuestion() : MCQuestion {
+    fun toMCQuestion(options : List<MCOption>) : MCQuestion {
         return MCQuestion(
             id = this.id,
             remoteId = this.remoteId,
             text = this.text,
             point = this.point,
             answer = this.answer,
-            options = this.options,
+            options = options,
             quizId = this.quizId,
             imageLink = this.imageLink,
             localImagePath = this.localImagePath

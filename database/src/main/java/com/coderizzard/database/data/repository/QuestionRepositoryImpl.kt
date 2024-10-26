@@ -3,6 +3,7 @@ package com.coderizzard.database.data.repository
 import com.coderizzard.core.data.model.question.Question
 import com.coderizzard.database.data.database.QuestionDao
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
+import com.coderizzard.database.data.database.model.question.MCOptionEntity
 import com.coderizzard.database.data.database.model.question.MCQuestionEntity
 import com.coderizzard.database.data.database.model.question.QuestionEntity
 import com.coderizzard.database.domain.repository.QuestionRepository
@@ -15,7 +16,10 @@ class QuestionRepositoryImpl @Inject constructor(
 ) : QuestionRepository {
     override suspend fun getAllByQuizId(quizId: String): List<Question> {
         return withContext(Dispatchers.IO) {
-            questionDao.getQuizMCQuestions(quizId).map { it.toMCQuestion() } + questionDao.getQuizIdentificationQuestions(quizId).map { it.toIdentificationQuestion() }
+            questionDao.getQuizMCQuestions(quizId).map { q ->
+                val options = questionDao.getMCQuestionOptions(q.id).map{opt -> opt.toMCOption()}
+                q.toMCQuestion(options)
+            } + questionDao.getQuizIdentificationQuestions(quizId).map { it.toIdentificationQuestion() }
         }
     }
 

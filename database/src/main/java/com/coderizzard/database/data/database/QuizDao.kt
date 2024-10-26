@@ -6,6 +6,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.coderizzard.database.data.database.model.QuizEntity
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
+import com.coderizzard.database.data.database.model.question.MCOptionEntity
 import com.coderizzard.database.data.database.model.question.MCQuestionEntity
 import com.coderizzard.database.data.database.model.question.QuestionEntity
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +20,12 @@ interface QuizDao {
     suspend fun createQuiz(q : QuizEntity)
 
     @Transaction
-    suspend fun createQuiz(q : QuizEntity, questions : List<QuestionEntity>, questionDao : QuestionDao) {
+    suspend fun createQuiz(
+        q : QuizEntity,
+        questions : List<QuestionEntity>,
+        questionDao : QuestionDao,
+        options : List<MCOptionEntity>,
+    ) {
         createQuiz(q)
         questions.forEach { question ->
             when(question) {
@@ -30,6 +36,9 @@ interface QuizDao {
                     questionDao.createQuestion(question)
                 }
             }
+        }
+        options.forEach { opt ->
+            questionDao.createMCOption(opt)
         }
     }
 

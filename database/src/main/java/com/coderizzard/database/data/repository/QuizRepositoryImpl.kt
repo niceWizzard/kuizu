@@ -2,11 +2,13 @@ package com.coderizzard.database.data.repository
 
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
+import com.coderizzard.core.data.model.question.MCOption
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.database.data.database.QuestionDao
 import com.coderizzard.database.data.database.QuizDao
 import com.coderizzard.database.data.database.model.QuizEntity
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
+import com.coderizzard.database.data.database.model.question.MCOptionEntity
 import com.coderizzard.database.data.database.model.question.MCQuestionEntity
 import com.coderizzard.database.data.database.model.question.QuestionEntity
 import com.coderizzard.database.domain.repository.QuestionRepository
@@ -29,6 +31,7 @@ class QuizRepositoryImpl @Inject constructor(
     ): String {
         return withContext(Dispatchers.IO) {
             val id = UUID.randomUUID().toString()
+            val options = mutableListOf<MCOptionEntity>()
             quizDao.createQuiz(
                 QuizEntity(
                     id = id,
@@ -50,19 +53,32 @@ class QuizRepositoryImpl @Inject constructor(
                             localImagePath = it.localImagePath,
                             imageLink = it.imageLink,
                         )
-                        is MCQuestion -> MCQuestionEntity(
-                            quizId = id,
-                            point = it.point,
-                            options = it.options,
-                            answer = it.answer,
-                            text = it.text,
-                            remoteId = it.remoteId,
-                            localImagePath = it.localImagePath,
-                            imageLink = it.imageLink,
-                        )
+                        is MCQuestion -> {
+                            val questionId = UUID.randomUUID().toString()
+                            options.addAll(
+                                it.options.map { opt ->
+                                    MCOptionEntity(
+                                        questionId =  questionId,
+                                        text = opt.text,
+                                        remoteId = opt.remoteId,
+                                    )
+                                }
+                            )
+                            MCQuestionEntity(
+                                id = questionId,
+                                quizId = id,
+                                point = it.point,
+                                answer = it.answer,
+                                text = it.text,
+                                remoteId = it.remoteId,
+                                localImagePath = it.localImagePath,
+                                imageLink = it.imageLink,
+                            )
+                        }
                     }
                 },
                 questionDao = questionDao,
+                options = options
             )
             id
         }
