@@ -1,4 +1,4 @@
-package com.coderizzard.session
+package com.coderizzard.quiz.session
 
 import org.junit.Test
 

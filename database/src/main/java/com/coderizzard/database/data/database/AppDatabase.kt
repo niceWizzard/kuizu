@@ -8,6 +8,10 @@ import com.coderizzard.database.data.database.model.QuizEntity
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
 import com.coderizzard.database.data.database.model.question.MCOptionEntity
 import com.coderizzard.database.data.database.model.question.MCQuestionEntity
+import com.coderizzard.database.data.database.model.session.QuizSessionEntity
+import com.coderizzard.database.data.database.model.session.SessionResultEntity
+import com.coderizzard.database.data.database.model.session.answers.IdentificationAnswerEntity
+import com.coderizzard.database.data.database.model.session.answers.MCQuestionAnswerEntity
 
 @Database(
     entities = [
@@ -15,6 +19,10 @@ import com.coderizzard.database.data.database.model.question.MCQuestionEntity
         MCQuestionEntity::class,
         IdentificationQuestionEntity::class,
         MCOptionEntity::class,
+        IdentificationAnswerEntity::class,
+        MCQuestionAnswerEntity::class,
+        QuizSessionEntity::class,
+        SessionResultEntity::class
     ],
     version = 1
 )
