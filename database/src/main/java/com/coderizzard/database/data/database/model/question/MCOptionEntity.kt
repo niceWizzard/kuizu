@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.coderizzard.core.data.model.question.MCOption
 
 @Entity(
     tableName = "mc_option",
@@ -23,11 +24,23 @@ data class MCOptionEntity(
     @ColumnInfo(name = QUESTION_ID)
     val questionId: String,
     @ColumnInfo(name = TEXT)
-    val text: String
+    val text: String,
+    @ColumnInfo(name = REMOTE_ID)
+    val remoteId : String
 ) {
     companion object {
         const val ID = "id"
         const val QUESTION_ID = "question_id"
         const val TEXT = "text"
+        const val REMOTE_ID = "remote_id"
+    }
+
+    fun toMCOption() : MCOption {
+        return MCOption(
+            id = this.id,
+            text = this.text,
+            questionId = this.questionId,
+            remoteId = this.remoteId,
+        )
     }
 }
