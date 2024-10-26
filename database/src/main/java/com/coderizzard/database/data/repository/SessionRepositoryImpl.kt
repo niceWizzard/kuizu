@@ -19,8 +19,19 @@ class SessionRepositoryImpl @Inject constructor(
     private val sessionDao: SessionDao,
     private val quizRepository: QuizRepository,
 ) : SessionRepository {
-    override suspend fun createSession(quizId: String) {
-        TODO("Not yet implemented")
+    override suspend fun createSession(quizId: String) = withContext(Dispatchers.IO) {
+        val quiz = quizRepository.getById(quizId)
+        val questionOrder = quiz.questions.shuffled().map { question ->
+            question.id
+        }
+        sessionDao.createSession(
+            QuizSessionEntity(
+                quizId = quizId,
+                startedAt = LocalDateTime.now(),
+                questionOrder = questionOrder ,
+                id = UUID.randomUUID().toString(),
+            )
+        )
     }
 
     override suspend fun getSession(quizId: String): QuizSession {

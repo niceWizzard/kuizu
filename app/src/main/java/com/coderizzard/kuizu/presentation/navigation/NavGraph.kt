@@ -18,6 +18,7 @@ import com.coderizzard.core.data.navigation.RootRoute
 import com.coderizzard.quiz.presentation.screen.quiz.QuizScreen
 import com.coderizzard.quiz.presentation.screen.quiz_list.QuizListScreen
 import com.coderizzard.quiz.session.presentation.screen.create.CreateSessionScreen
+import com.coderizzard.quiz.session.presentation.screen.sessions.SessionListScreen
 
 @Composable
 fun NavGraph(
@@ -75,18 +76,7 @@ private fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
             Text("SEttings ")
         }
         composable<HomeRoute.Sessions> {
-            Column {
-                Text("SESSIONS")
-                ElevatedButton(
-                    onClick = {
-                        navController.navigate(
-                            RootRoute.QuizSession(id = "asdfasdfasdf!")
-                        )
-                    }
-                ) {
-                    Text("Start Session")
-                }
-            }
+            SessionListScreen()
         }
     }
 }

@@ -80,9 +80,13 @@ internal object DatabaseModule {
 
     @Provides
     @Singleton
-    fun providesSessionRepository(sessionDao: SessionDao) : SessionRepository {
+    fun providesSessionRepository(
+        sessionDao: SessionDao,
+        quizRepository: QuizRepository
+    ) : SessionRepository {
         return SessionRepositoryImpl(
-            sessionDao = sessionDao
+            sessionDao = sessionDao,
+            quizRepository = quizRepository,
         )
     }
 
