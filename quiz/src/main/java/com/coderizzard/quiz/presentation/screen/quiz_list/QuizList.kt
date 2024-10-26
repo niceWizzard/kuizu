@@ -55,10 +55,14 @@ internal fun QuizList(quizList: QuizListState, onQuizClick: (id: String) -> Unit
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
+                item {
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
                 items(
                     items = list,
                     key = Quiz::id
                 ) { quiz ->
+
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = {onQuizClick(quiz.id)}
@@ -95,6 +99,9 @@ internal fun QuizList(quizList: QuizListState, onQuizClick: (id: String) -> Unit
                             Text("Questions (${quiz.questions.size})")
                         }
                     }
+                }
+                item {
+                    Spacer(modifier = Modifier.height(12.dp))
                 }
             }
         }
