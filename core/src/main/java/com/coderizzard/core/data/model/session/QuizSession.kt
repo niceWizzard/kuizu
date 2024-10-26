@@ -7,5 +7,7 @@ data class QuizSession(
     val id : String,
     val startedAt : LocalDateTime,
     val quizId : String,
-    val quiz : Quiz
+    val quiz : Quiz,
+    val questionOrder : List<String>,
+    val currentQuestionIndex : Int,
 )

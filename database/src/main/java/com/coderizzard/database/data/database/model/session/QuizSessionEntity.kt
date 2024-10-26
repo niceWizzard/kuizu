@@ -26,7 +26,11 @@ data class QuizSessionEntity(
     @ColumnInfo("quiz_id")
     val quizId : String,
     @ColumnInfo("started_at")
-    val startedAt : LocalDateTime
+    val startedAt : LocalDateTime,
+    @ColumnInfo("question_order")
+    val questionOrder : List<String>,
+    @ColumnInfo("current_question_index")
+    val currentQuestionIndex : Int,
 ) {
     fun toQuizSession(quiz : Quiz) : QuizSession {
         return QuizSession(
@@ -34,6 +38,8 @@ data class QuizSessionEntity(
             quizId = this.quizId,
             quiz = quiz,
             startedAt = this.startedAt,
+            currentQuestionIndex = this.currentQuestionIndex,
+            questionOrder = this.questionOrder,
         )
     }
 }
