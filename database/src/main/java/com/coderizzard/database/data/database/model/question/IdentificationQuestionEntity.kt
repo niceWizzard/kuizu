@@ -2,12 +2,22 @@ package com.coderizzard.database.data.database.model.question
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.coderizzard.core.data.model.question.IdentificationQuestion
+import com.coderizzard.database.data.database.model.QuizEntity
 import java.util.UUID
 
 @Entity(
     tableName = "identification_question",
+    foreignKeys = [
+        ForeignKey(
+            parentColumns = [QuizEntity.ID],
+            onDelete = ForeignKey.CASCADE,
+            entity = QuizEntity::class,
+            childColumns = [QuestionEntity.QUIZ_ID]
+        )
+    ]
 )
 data class IdentificationQuestionEntity(
     @PrimaryKey
