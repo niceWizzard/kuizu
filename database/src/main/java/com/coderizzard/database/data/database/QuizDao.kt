@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface QuizDao {
-    @Query("SELECT * FROM QuizEntity")
+    @Query("SELECT * FROM QuizEntity ORDER BY created_at ASC")
     fun getAll() : Flow<List<QuizEntity>>
 
     @Insert
