@@ -5,5 +5,5 @@ data class MCQuestionAnswer(
     override val quizId : String,
     override val questionId : String,
     override val isCorrect : Boolean,
-    val answerId : String,
+    val correctAnswerIds : List<String>,
 )  : SessionAnswer

@@ -42,16 +42,16 @@ internal data class MCQuestionAnswerEntity (
     @ColumnInfo(IS_CORRECT)
     override val isCorrect : Boolean,
     @ColumnInfo(ANSWER_ID)
-    val answerId : String,
+    val correctAnswerIds : List<String>,
 ) : SessionAnswer {
     companion object {
-        const val ANSWER_ID = "answer_id"
+        const val ANSWER_ID = "answer_ids"
     }
 
     fun toMCQuestionAnswer() : MCQuestionAnswer {
         return MCQuestionAnswer(
             sessionId = this.sessionId,
-            answerId = this.answerId,
+            correctAnswerIds = this.correctAnswerIds,
             questionId = this.questionId,
             quizId = this.quizId,
             isCorrect = this.isCorrect,
