@@ -1,10 +1,9 @@
-package com.coderizzard.database.data.database
+package com.coderizzard.database.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.coderizzard.core.data.model.session.answer.IdentificationAnswer
 import com.coderizzard.database.data.database.model.session.answers.IdentificationAnswerEntity
 import com.coderizzard.database.data.database.model.session.answers.MCQuestionAnswerEntity
 import com.coderizzard.database.data.database.model.session.answers.SessionAnswer

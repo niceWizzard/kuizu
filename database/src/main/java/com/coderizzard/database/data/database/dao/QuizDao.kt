@@ -1,4 +1,4 @@
-package com.coderizzard.database.data.database
+package com.coderizzard.database.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
