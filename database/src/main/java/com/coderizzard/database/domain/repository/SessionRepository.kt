@@ -1,6 +1,7 @@
 package com.coderizzard.database.domain.repository
 
 import com.coderizzard.core.data.model.session.QuizSession
+import kotlinx.coroutines.flow.Flow
 
 interface SessionRepository {
     suspend fun createSession(quizId : String)
@@ -9,5 +10,5 @@ interface SessionRepository {
 
     suspend fun deleteSession(quizId: String)
 
-    suspend fun getAll() : List<QuizSession>
+    fun getAll() : Flow<List<QuizSession>>
 }
