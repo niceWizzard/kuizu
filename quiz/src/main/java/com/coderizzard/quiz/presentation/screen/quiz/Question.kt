@@ -66,15 +66,15 @@ internal fun QuestionComp(q: Question, index : Int) {
                 }
 
                 is MCQuestion -> {
-                    q.options.mapIndexed { i, it ->
+                    q.options.mapIndexed { i, mcOption ->
                         Row {
                             Text(
-                                if(q.answer.contains(i))
+                                if(q.answer.find { it == mcOption.remoteId } != null)
                                     "✅"
                                 else "",
                                 modifier = Modifier.widthIn(min=24.dp)
                             )
-                            Text(it.text.toAnnotatedString())
+                            Text(mcOption.text.toAnnotatedString())
                         }
 
                     }

@@ -102,7 +102,9 @@ private fun QuizListScreenPreview() {
                         ),
                         MCQuestion(
                             text = "What is 2 + 2?",
-                            answer = listOf(0),
+                            answer = listOf(
+                                "akl;jds"
+                            ),
                             options = List(4) {
                                 MCOption(
                                     remoteId = UUID.randomUUID().toString(),

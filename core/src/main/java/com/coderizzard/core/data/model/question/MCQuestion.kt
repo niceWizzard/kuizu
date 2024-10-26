@@ -9,6 +9,6 @@ data class MCQuestion(
     override val imageLink: String = "",
     override val localImagePath: String = "",
     val options : List<MCOption>,
-    val answer : List<Int>,
+    val answer : List<String>,
 )  : Question {
 }

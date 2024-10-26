@@ -33,7 +33,7 @@ data class MCQuestionEntity(
     @ColumnInfo(name = QuestionEntity.QUIZ_ID)
     override val quizId: String,
     @ColumnInfo(name = ANSWER)
-    val answer: List<Int>,
+    val answer: List<String>,
     @ColumnInfo(name = QuestionEntity.IMAGE_LINK)
     override val imageLink: String,
     @ColumnInfo(name = QuestionEntity.LOCAL_IMAGE_PATH)
@@ -53,7 +53,6 @@ data class MCQuestionEntity(
             quizId = this.quizId,
             imageLink = this.imageLink,
             localImagePath = this.localImagePath
-
         )
     }
 }

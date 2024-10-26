@@ -59,28 +59,31 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
             else ""
             return@map when(type.lowercase() ) {
                 "mcq" -> {
+                    val optionsList = options.map {
+                        val optionText = it.get("text").asString
+                        val optionId = it.get("id").asString
+                        MCOption(
+                            id = "",
+                            questionId = "",
+                            remoteId = optionId,
+                            text = optionText,
+                        )
+                    }
                     MCQuestion(
                         id = "",
                         remoteId = questionId,
                         text = text,
-                        options = options.map {
-                            val optionText = it.get("text").asString
-                            val optionId = it.get("id").asString
-                            MCOption(
-                                id = "",
-                                questionId = "",
-                                remoteId = optionId,
-                                text = optionText,
-                            )
-                        },
+                        options = optionsList,
                         point = 1,
                         quizId = "",
                         imageLink = image,
-                        answer = structure.get("answer").let {
-                            if(it.isJsonPrimitive) {
-                                return@let listOf(it.asJsonPrimitive.asInt)
+                        answer = structure.get("answer").let { answer ->
+                            if(answer.isJsonPrimitive) {
+                                return@let listOf(
+                                    optionsList[answer.asJsonPrimitive.asInt].remoteId
+                                )
                             }else {
-                                return@let it.asJsonArray.map { it.asJsonPrimitive.asInt }
+                                return@let answer.asJsonArray.map { optionsList[it.asJsonPrimitive.asInt].remoteId }
                             }
                         },
                     )
