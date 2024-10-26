@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.coderizzard.core.data.model.question.MCOption
+import java.util.UUID
 
 @Entity(
     tableName = "mc_option",
@@ -20,7 +21,7 @@ import com.coderizzard.core.data.model.question.MCOption
 data class MCOptionEntity(
     @PrimaryKey
     @ColumnInfo(name = ID)
-    val id: String,
+    val id: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = QUESTION_ID)
     val questionId: String,
     @ColumnInfo(name = TEXT)
