@@ -6,6 +6,8 @@ import androidx.room.TypeConverters
 import com.coderizzard.database.data.DbConverter
 import com.coderizzard.database.data.database.dao.QuestionDao
 import com.coderizzard.database.data.database.dao.QuizDao
+import com.coderizzard.database.data.database.dao.SessionAnswerDao
+import com.coderizzard.database.data.database.dao.SessionDao
 import com.coderizzard.database.data.database.model.QuizEntity
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
 import com.coderizzard.database.data.database.model.question.MCOptionEntity
@@ -34,4 +36,6 @@ import com.coderizzard.database.data.database.model.session.answers.MCQuestionAn
 abstract class AppDatabase : RoomDatabase() {
     abstract val quizDao : QuizDao
     abstract val questionDao : QuestionDao
+    abstract val sessionDao : SessionDao
+    abstract val sessionAnswerDao : SessionAnswerDao
 }

@@ -5,6 +5,8 @@ import androidx.room.Room
 import com.coderizzard.database.data.database.AppDatabase
 import com.coderizzard.database.data.database.dao.QuestionDao
 import com.coderizzard.database.data.database.dao.QuizDao
+import com.coderizzard.database.data.database.dao.SessionAnswerDao
+import com.coderizzard.database.data.database.dao.SessionDao
 import com.coderizzard.database.data.repository.QuestionRepositoryImpl
 import com.coderizzard.database.data.repository.QuizRepositoryImpl
 import com.coderizzard.database.domain.repository.QuestionRepository
@@ -41,6 +43,18 @@ internal object DatabaseModule {
     @Singleton
     fun providesQuestionDao(appDb : AppDatabase): QuestionDao {
         return appDb.questionDao
+    }
+
+    @Provides
+    @Singleton
+    fun providesSessionDao(appDb : AppDatabase): SessionDao {
+        return appDb.sessionDao
+    }
+
+    @Provides
+    @Singleton
+    fun providesSessionAnswerDao(appDb : AppDatabase): SessionAnswerDao {
+        return appDb.sessionAnswerDao
     }
 
     @Provides
