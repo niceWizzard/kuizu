@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
-import com.coderizzard.core.presentation.clickable_image.ExpandableImage
+import com.coderizzard.core.presentation.expandable_image.ExpandableImage
 import java.time.LocalDateTime
 
 @Composable

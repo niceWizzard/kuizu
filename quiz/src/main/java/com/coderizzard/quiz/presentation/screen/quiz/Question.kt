@@ -20,7 +20,7 @@ import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.question.Question
 import com.coderizzard.core.data.toAnnotatedString
-import com.coderizzard.core.presentation.clickable_image.ExpandableImage
+import com.coderizzard.core.presentation.expandable_image.ExpandableImage
 
 @Composable
 internal fun QuestionComp(q: Question, index : Int) {

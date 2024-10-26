@@ -1,4 +1,4 @@
-package com.coderizzard.core.presentation.clickable_image
+package com.coderizzard.core.presentation.expandable_image
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
