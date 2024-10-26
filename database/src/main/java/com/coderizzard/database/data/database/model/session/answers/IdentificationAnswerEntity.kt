@@ -42,10 +42,10 @@ internal data class IdentificationAnswerEntity (
     @ColumnInfo(IS_CORRECT)
     override val isCorrect : Boolean,
     @ColumnInfo(ANSWER)
-    val answer : String,
+    val correctAnswer : String,
 ) : SessionAnswer {
     companion object {
-        const val ANSWER = "answer"
+        const val ANSWER = "correct_answer"
     }
 
     fun toIdentificationAnswer() : IdentificationAnswer {
@@ -54,7 +54,7 @@ internal data class IdentificationAnswerEntity (
             questionId = this.questionId,
             quizId = this.quizId,
             isCorrect = this.isCorrect,
-            answer = this.answer,
+            correctAnswer = this.correctAnswer,
         )
     }
 }

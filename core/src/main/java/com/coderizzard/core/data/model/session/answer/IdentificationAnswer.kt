@@ -5,5 +5,5 @@ data class IdentificationAnswer(
     override val quizId : String,
     override val questionId : String,
     override val isCorrect : Boolean,
-    val answer : String,
+    val correctAnswer : String,
 ) : SessionAnswer
