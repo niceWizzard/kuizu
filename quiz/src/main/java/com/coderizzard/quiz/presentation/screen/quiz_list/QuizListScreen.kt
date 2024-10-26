@@ -23,10 +23,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
+import com.coderizzard.core.data.model.question.MCOption
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.quiz.presentation.screen.quiz_list.add_quiz.AddQuizDialog
 import kotlinx.coroutines.delay
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Composable
 fun QuizListScreen(
@@ -101,9 +103,14 @@ private fun QuizListScreenPreview() {
                         MCQuestion(
                             text = "What is 2 + 2?",
                             answer = listOf(0),
-                            options = listOf(
-                                "1", "2", "3", "4"
-                            ),
+                            options = List(4) {
+                                MCOption(
+                                    remoteId = UUID.randomUUID().toString(),
+                                    id = UUID.randomUUID().toString(),
+                                    questionId = UUID.randomUUID().toString(),
+                                    text = (it + 1).toString()
+                                )
+                            },
                             id = "lkajiolqa",
                             quizId = "ljkasfd",
                             point = 1,

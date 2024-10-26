@@ -2,6 +2,7 @@ package com.coderizzard.network.data
 
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
+import com.coderizzard.core.data.model.question.MCOption
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.question.Question
 import com.google.gson.JsonDeserializationContext
@@ -63,7 +64,14 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
                         remoteId = questionId,
                         text = text,
                         options = options.map {
-                            it.get("text").asString
+                            val optionText = it.get("text").asString
+                            val optionId = it.get("id").asString
+                            MCOption(
+                                id = "",
+                                questionId = "",
+                                remoteId = optionId,
+                                text = optionText,
+                            )
                         },
                         point = 1,
                         quizId = "",
