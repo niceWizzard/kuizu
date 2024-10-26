@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface QuizDao {
-    @Query("SELECT * FROM QuizEntity ORDER BY created_at ASC")
+    @Query("SELECT * FROM quiz ORDER BY created_at ASC")
     fun getAll() : Flow<List<QuizEntity>>
 
     @Insert
@@ -33,12 +33,12 @@ interface QuizDao {
         }
     }
 
-    @Query("SELECT EXISTS(SELECT 1 FROM QuizEntity WHERE remote_id = :remoteId )")
+    @Query("SELECT EXISTS(SELECT 1 FROM quiz WHERE remote_id = :remoteId )")
     suspend fun isRemoteIdUsed(remoteId : String) : Boolean
 
-    @Query("SELECT * FROM QuizEntity AS ent WHERE ent.id = :id")
+    @Query("SELECT * FROM quiz WHERE id = :id")
     suspend fun getById(id: String) : QuizEntity
 
-    @Query("DELETE FROM QuizEntity WHERE id = :id")
+    @Query("DELETE FROM quiz WHERE id = :id")
     fun deleteQuiz(id : String)
 }

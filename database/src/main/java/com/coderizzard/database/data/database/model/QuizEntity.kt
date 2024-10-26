@@ -8,7 +8,9 @@ import com.coderizzard.core.data.model.question.Question
 import java.time.LocalDateTime
 import java.util.UUID
 
-@Entity
+@Entity(
+    tableName = "quiz"
+)
 data class QuizEntity(
     @PrimaryKey()
     @ColumnInfo(ID)

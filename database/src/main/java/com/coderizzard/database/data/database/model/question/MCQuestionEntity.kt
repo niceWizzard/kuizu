@@ -6,7 +6,9 @@ import androidx.room.PrimaryKey
 import com.coderizzard.core.data.model.question.MCQuestion
 import java.util.UUID
 
-@Entity
+@Entity(
+    tableName = "mc_question",
+)
 data class MCQuestionEntity(
     @PrimaryKey
     @ColumnInfo(name = QuestionEntity.ID)

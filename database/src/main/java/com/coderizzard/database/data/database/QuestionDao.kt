@@ -9,11 +9,11 @@ import com.coderizzard.database.data.database.model.question.MCQuestionEntity
 @Dao
 interface QuestionDao  {
     @Query(
-        "SELECT * FROM MCQuestionEntity AS ENT " +
+        "SELECT * FROM mc_question AS ENT " +
             "WHERE ENT.quiz_id = :quizId")
     fun getQuizMCQuestions(quizId : String) : List<MCQuestionEntity>
 
-    @Query("SELECT * FROM IdentificationQuestionEntity AS ENT " +
+    @Query("SELECT * FROM identification_question AS ENT " +
             "WHERE ENT.quiz_id = :quizId")
     fun getQuizIdentificationQuestions(quizId : String) : List<IdentificationQuestionEntity>
 
