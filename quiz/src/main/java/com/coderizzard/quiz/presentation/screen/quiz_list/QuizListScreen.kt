@@ -66,12 +66,10 @@ private fun QuizListScreenContent(
     onQuizClick: (id : String) -> Unit,
 ) {
     Column(
-        modifier = Modifier.fillMaxSize().padding(12.dp)
+        modifier = Modifier.fillMaxSize().padding(horizontal = 12.dp)
     ) {
         Text("All Quizzes", fontSize = 32.sp, fontWeight = FontWeight.Bold)
-        HorizontalDivider(
-            modifier = Modifier.height(32.dp)
-        )
+        HorizontalDivider()
         QuizList(quizList, onQuizClick)
     }
 }
