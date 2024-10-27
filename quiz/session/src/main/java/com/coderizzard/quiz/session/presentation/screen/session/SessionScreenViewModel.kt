@@ -7,10 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.coderizzard.core.ResultState
 import com.coderizzard.core.data.AsyncData
+import com.coderizzard.core.data.model.question.IdentificationQuestion
+import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.question.Question
 import com.coderizzard.core.data.model.session.QuizSession
 import com.coderizzard.core.data.navigation.NavigationManager
 import com.coderizzard.core.data.navigation.RootRoute
+import com.coderizzard.core.data.stripHtmlTags
+import com.coderizzard.core.data.toAnnotatedString
 import com.coderizzard.database.domain.repository.SessionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,7 +42,8 @@ class SessionScreenViewModel @Inject constructor(
         return (sessionData as AsyncData.Success).data
     }
 
-
+    var toastMessage by mutableStateOf("")
+        private set
 
     init {
         viewModelScope.launch {
@@ -56,14 +61,31 @@ class SessionScreenViewModel @Inject constructor(
 
     fun onEvent(e : ScreenEvent) {
         val session = getSession()
+        val currentQuestion = session.getCurrentQuestion()
         when(e) {
             ScreenEvent.Start -> {
                 val question = session.getCurrentQuestion()
                 _uiState.update { SessionUiState.Answering(question) }
             }
-            is ScreenEvent.MCAnswer,
+            is ScreenEvent.MCAnswer -> {
+                val question = (currentQuestion as MCQuestion)
+                toastMessage = if(question.answer.any{e.answers.contains(it)}) {
+                    "Correct"
+                } else {
+                    val answerString = question.answer.map { answer ->
+                        val text = question.options.find {answer == it.id  }?.text ?: throw Exception("Invalid answer found.")
+                        stripHtmlTags(text)
+                    }
+                    "Incorrect -> $answerString"
+                }
+                nextQuestion(session)
+            }
             is ScreenEvent.IdentificationAnswer -> {
-
+                val question = currentQuestion as IdentificationQuestion
+                toastMessage = if(stripHtmlTags(question.answer).equals(e.answer, ignoreCase = true))
+                    "Correct"
+                else
+                    "Incorrect -> ${question.answer}"
                 nextQuestion(session)
             }
         }

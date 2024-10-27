@@ -1,5 +1,7 @@
 package com.coderizzard.quiz.session.presentation.screen.session
 
+import android.graphics.Paint.Align
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +18,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +26,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,6 +38,7 @@ import com.coderizzard.core.data.model.question.MCOption
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.session.QuizSession
 import com.coderizzard.core.data.toAnnotatedString
+import com.coderizzard.core.presentation.expandable_image.ExpandableImage
 import java.time.LocalDateTime
 
 @Composable
@@ -41,6 +46,13 @@ fun SessionScreen(
 ) {
     val viewModel : SessionScreenViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsState()
+    val toastMessage = viewModel.toastMessage
+    val context = LocalContext.current
+    LaunchedEffect(toastMessage) {
+        if(toastMessage.isNotBlank()) {
+            Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
+        }
+    }
     Content(
         sessionData = viewModel.sessionData,
         uiState = uiState,
@@ -75,7 +87,7 @@ private fun Content(
                         is SessionUiState.Answering -> {
                             val question = uiState.q
                             Card {
-                                Box(
+                                Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .heightIn(
@@ -83,8 +95,16 @@ private fun Content(
                                         )
                                         .padding(24.dp)
                                         .verticalScroll(rememberScrollState()),
-                                    contentAlignment = Alignment.Center
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally,
                                 ) {
+                                    if(question.localImagePath.isNotBlank()){
+                                        ExpandableImage(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            imageUrl = question.localImagePath,
+                                            contentDescription = "Current question image"
+                                        )
+                                    }
                                     Text(
                                         question.text.toAnnotatedString(),
                                         fontSize = 18.sp,
@@ -143,9 +163,11 @@ private fun Content(
                             ) {
                                 Card {
                                     Column(
-                                        modifier = Modifier.padding(
-                                            12.dp
-                                        ).fillMaxWidth(),
+                                        modifier = Modifier
+                                            .padding(
+                                                12.dp
+                                            )
+                                            .fillMaxWidth(),
                                         verticalArrangement = Arrangement.spacedBy(6.dp)
                                     ) {
                                         Text(session.quiz.name)
