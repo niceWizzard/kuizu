@@ -1,5 +1,8 @@
 package com.coderizzard.quiz.session.presentation.screen.session
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.coderizzard.core.ResultState
@@ -24,28 +27,33 @@ class SessionScreenViewModel @Inject constructor(
 
     private val quizId = navigationManager.getRouteData<RootRoute.QuizSession>()?.id ?: throw Exception("Invalid Route")
 
-    private val _sessionData = MutableStateFlow<AsyncData<QuizSession>>(AsyncData.Loading)
+    var sessionData  by mutableStateOf<AsyncData<QuizSession>>(AsyncData.Loading)
+        private set
+
     private val _uiState = MutableStateFlow<SessionUiState>(SessionUiState.Default)
     val uiState = _uiState.asStateFlow()
-    val sessionData = _sessionData.asStateFlow()
 
-    private lateinit var  session : QuizSession
+
+    fun getSession(): QuizSession {
+        return (sessionData as AsyncData.Success).data
+    }
 
     init {
         viewModelScope.launch {
-            when(val res = sessionRepository.getSession(quizId)) {
+            sessionData = when(val res = sessionRepository.getSession(quizId)) {
                 is ResultState.Error -> {
-                    _sessionData.update { AsyncData.Error(res.message, res.exception) }
+                    AsyncData.Error(res.message, res.exception)
                 }
+
                 is ResultState.Success -> {
-                    _sessionData.update { AsyncData.Success(res.data) }
-                    session = res.data
+                    AsyncData.Success(res.data)
                 }
             }
         }
     }
 
     fun onEvent(e : ScreenEvent) {
+        val session = getSession()
         when(e) {
             ScreenEvent.Start -> {
                 val question = session.getCurrentQuestion()
@@ -53,7 +61,7 @@ class SessionScreenViewModel @Inject constructor(
             }
             is ScreenEvent.MCAnswer,
             is ScreenEvent.IdentificationAnswer -> {
-                session = session.incrementQuestionIndex()
+                sessionData = AsyncData.Success(session.incrementQuestionIndex())
                 _uiState.update { SessionUiState.Answering(session.getCurrentQuestion()) }
             }
         }

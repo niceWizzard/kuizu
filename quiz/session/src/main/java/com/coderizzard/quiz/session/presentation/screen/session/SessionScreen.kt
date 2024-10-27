@@ -35,10 +35,9 @@ import java.time.LocalDateTime
 fun SessionScreen(
 ) {
     val viewModel : SessionScreenViewModel = hiltViewModel()
-    val sessionFlow by viewModel.sessionData.collectAsState()
     val uiState by viewModel.uiState.collectAsState()
     Content(
-        sessionFlow = sessionFlow,
+        sessionData = viewModel.sessionData,
         uiState = uiState,
         onEvent = viewModel::onEvent
     )
@@ -47,7 +46,7 @@ fun SessionScreen(
 
 @Composable
 private fun Content(
-    sessionFlow: AsyncData<QuizSession>,
+    sessionData: AsyncData<QuizSession>,
     uiState: SessionUiState,
     onEvent : (e : ScreenEvent) -> Unit,
 ) {
@@ -57,13 +56,13 @@ private fun Content(
                 .fillMaxSize()
                 .padding(vertical = 12.dp, horizontal = 8.dp),
         ) {
-            when(sessionFlow) {
+            when(sessionData) {
                 is AsyncData.Error -> TODO()
                 AsyncData.Loading -> {
                     CircularProgressIndicator()
                 }
                 is AsyncData.Success ->  {
-                    val session = sessionFlow.data
+                    val session = sessionData.data
                     when(uiState){
                         is SessionUiState.Answering -> {
                             val question = uiState.q
@@ -143,7 +142,7 @@ private fun Content(
 @Composable
 private fun ContentPreview() {
     Content(
-        sessionFlow = AsyncData.Success(
+        sessionData = AsyncData.Success(
             data = QuizSession(
                 questionOrder = emptyList(),
                 currentQuestionIndex = 0,
