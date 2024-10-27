@@ -153,7 +153,7 @@ private fun Content(
                                     Column(
                                         verticalArrangement = Arrangement.spacedBy(6.dp)
                                     ) {
-                                        question.options.map { opt ->
+                                        question.options.shuffled().map { opt ->
                                             ElevatedButton(
                                                 onClick = {
                                                     onEvent(ScreenEvent.MCAnswer(listOf(opt.remoteId)))
