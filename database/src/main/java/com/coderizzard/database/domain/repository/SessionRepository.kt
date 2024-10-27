@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface SessionRepository {
     suspend fun createSession(quizId : String)
 
-    fun getSessionFlow(quizId: String) : Flow<AsyncData<QuizSession>>
+    suspend fun getSession(quizId: String) : ResultState<QuizSession>
 
     suspend fun deleteSession(quizId: String)
 

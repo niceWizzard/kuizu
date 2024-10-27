@@ -35,16 +35,13 @@ class SessionRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun getSessionFlow(quizId: String): Flow<AsyncData<QuizSession>> {
-        return sessionDao.getActiveSessionFlow(quizId)
-            .map<QuizSessionEntity, AsyncData<QuizSession>> { sessionEntity ->
-                val quiz = quizRepository.getById(quizId)
-                AsyncData.Success(sessionEntity.toQuizSession(quiz))
-            }
-            .catch { e ->
-                emit(AsyncData.Error(e.message.orEmpty(), e.cause))
-            }
-
+    override suspend fun getSession(quizId: String): ResultState<QuizSession> {
+        return try {
+            val quiz = quizRepository.getById(quizId)
+            ResultState.Success(sessionDao.getActiveSession(quizId).toQuizSession(quiz))
+        } catch (e : Exception) {
+            ResultState.Error(e.message.toString(), e)
+        }
     }
 
     override suspend fun deleteSession(quizId: String) {
