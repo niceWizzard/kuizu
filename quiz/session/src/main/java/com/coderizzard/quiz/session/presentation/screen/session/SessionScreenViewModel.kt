@@ -34,7 +34,7 @@ class SessionScreenViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
 
-    fun getSession(): QuizSession {
+    private fun getSession(): QuizSession {
         return (sessionData as AsyncData.Success).data
     }
 
