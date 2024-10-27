@@ -1,6 +1,7 @@
 package com.coderizzard.quiz.session.presentation.screen.session
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -38,6 +39,8 @@ class SessionScreenViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<SessionUiState>(SessionUiState.Default)
     val uiState = _uiState.asStateFlow()
 
+    var currentScore by mutableIntStateOf(0)
+    private set
 
     private fun getSession(): QuizSession {
         return (sessionData as AsyncData.Success).data
@@ -70,6 +73,7 @@ class SessionScreenViewModel @Inject constructor(
             is ScreenEvent.MCAnswer -> {
                 val question = (currentQuestion as MCQuestion)
                 toastMessage = if(question.answer.any{e.answers.contains(it)}) {
+                    currentScore++
                     "Correct"
                 } else {
                     val answerString = question.answer.map { answer ->
@@ -82,8 +86,10 @@ class SessionScreenViewModel @Inject constructor(
             }
             is ScreenEvent.IdentificationAnswer -> {
                 val question = currentQuestion as IdentificationQuestion
-                toastMessage = if(stripHtmlTags(question.answer).equals(e.answer, ignoreCase = true))
+                toastMessage = if(stripHtmlTags(question.answer).equals(e.answer, ignoreCase = true)) {
+                    currentScore++
                     "Correct"
+                }
                 else
                     "Incorrect -> ${question.answer}"
                 nextQuestion(session)

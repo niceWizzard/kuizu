@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -65,7 +66,8 @@ fun SessionScreen(
     Content(
         sessionData = viewModel.sessionData,
         uiState = uiState,
-        onEvent = viewModel::onEvent
+        onEvent = viewModel::onEvent,
+        score = viewModel.currentScore
     )
 
 }
@@ -75,6 +77,7 @@ private fun Content(
     sessionData: AsyncData<QuizSession>,
     uiState: SessionUiState,
     onEvent : (e : ScreenEvent) -> Unit,
+    score: Int,
 ) {
     Surface {
         Column(
@@ -107,12 +110,24 @@ private fun Content(
                                     verticalArrangement = Arrangement.Center,
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                 ) {
-                                    Text(
-                                        "${session.currentQuestionIndex + 1}/${session.questionOrder.size}",
-                                        modifier = Modifier.fillMaxWidth(),
-                                        fontWeight = FontWeight.Light,
-                                        textAlign = TextAlign.Center,
-                                    )
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(
+                                            12.dp, alignment = Alignment.CenterHorizontally,
+                                        )
+                                    ) {
+                                        Text(
+                                            "Question: ${session.currentQuestionIndex + 1}/${session.questionOrder.size}",
+                                            fontWeight = FontWeight.Light,
+                                            textAlign = TextAlign.Center,
+                                        )
+                                        Text(
+                                            "Correct: $score",
+                                            fontWeight = FontWeight.Light,
+                                            textAlign = TextAlign.Center,
+                                        )
+                                    }
                                     Spacer(
                                         modifier = Modifier.height(18.dp)
                                     )
@@ -294,6 +309,7 @@ private fun ContentPreview() {
             data = session
         ),
         uiState = SessionUiState.Answering(question3),
-        onEvent = {}
+        onEvent = {},
+        score = 0,
     )
 }
