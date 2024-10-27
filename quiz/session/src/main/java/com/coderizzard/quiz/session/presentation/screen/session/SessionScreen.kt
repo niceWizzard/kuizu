@@ -18,10 +18,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -48,9 +50,12 @@ fun SessionScreen(
     val uiState by viewModel.uiState.collectAsState()
     val toastMessage = viewModel.toastMessage
     val context = LocalContext.current
-    LaunchedEffect(toastMessage) {
+    var currentToast by remember {mutableStateOf<Toast?>(null)}
+    LaunchedEffect  (toastMessage) {
         if(toastMessage.isNotBlank()) {
-            Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
+            currentToast?.cancel()
+            currentToast = Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT)
+            currentToast?.show()
         }
     }
     Content(

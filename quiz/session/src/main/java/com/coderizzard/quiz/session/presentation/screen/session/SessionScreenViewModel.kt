@@ -17,6 +17,7 @@ import com.coderizzard.core.data.stripHtmlTags
 import com.coderizzard.core.data.toAnnotatedString
 import com.coderizzard.database.domain.repository.SessionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -44,7 +45,6 @@ class SessionScreenViewModel @Inject constructor(
 
     var toastMessage by mutableStateOf("")
         private set
-
     init {
         viewModelScope.launch {
             sessionData = when(val res = sessionRepository.getSession(quizId)) {
@@ -73,7 +73,7 @@ class SessionScreenViewModel @Inject constructor(
                     "Correct"
                 } else {
                     val answerString = question.answer.map { answer ->
-                        val text = question.options.find {answer == it.id  }?.text ?: throw Exception("Invalid answer found.")
+                        val text = question.options.find {opt -> answer == opt.id  }?.text ?: throw Exception("Invalid answer found.")
                         stripHtmlTags(text)
                     }
                     "Incorrect -> $answerString"
@@ -92,12 +92,15 @@ class SessionScreenViewModel @Inject constructor(
     }
 
     private fun nextQuestion(session: QuizSession) {
-        if (session.hasNextQuestion()) {
-            val newSession = session.incrementQuestionIndex()
-            sessionData = AsyncData.Success(newSession)
-            _uiState.update { SessionUiState.Answering(newSession.getCurrentQuestion()) }
-        } else {
-            _uiState.update { SessionUiState.Finished }
+        viewModelScope.launch {
+            delay(750)
+            if (session.hasNextQuestion()) {
+                val newSession = session.incrementQuestionIndex()
+                sessionData = AsyncData.Success(newSession)
+                _uiState.update { SessionUiState.Answering(newSession.getCurrentQuestion()) }
+            } else {
+                _uiState.update { SessionUiState.Finished }
+            }
         }
     }
 
