@@ -3,13 +3,14 @@ package com.coderizzard.database.data.database.model.session.answers
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
+import com.coderizzard.core.data.model.session.QuizSession
 import com.coderizzard.core.data.model.session.answer.MCQuestionAnswer
 import com.coderizzard.database.data.database.model.QuizEntity
 import com.coderizzard.database.data.database.model.session.QuizSessionEntity
 import com.coderizzard.database.data.database.model.session.answers.SessionAnswer.Companion.IS_CORRECT
 import com.coderizzard.database.data.database.model.session.answers.SessionAnswer.Companion.QUESTION_ID
 import com.coderizzard.database.data.database.model.session.answers.SessionAnswer.Companion.QUIZ_ID
-import com.coderizzard.database.data.database.model.session.answers.SessionAnswer.Companion.SESSION_ID
 
 @Entity(
     "mc_question_answer",
@@ -21,9 +22,9 @@ import com.coderizzard.database.data.database.model.session.answers.SessionAnswe
             onDelete = ForeignKey.CASCADE,
         ),
         ForeignKey(
-            parentColumns = ["id"],
+            parentColumns = [QuizSessionEntity.QUIZ_ID],
             entity = QuizSessionEntity::class,
-            childColumns = [SESSION_ID],
+            childColumns = [QUIZ_ID],
             onDelete = ForeignKey.CASCADE,
         ),
     ],
@@ -33,8 +34,6 @@ import com.coderizzard.database.data.database.model.session.answers.SessionAnswe
     ]
 )
 data class MCQuestionAnswerEntity (
-    @ColumnInfo(SESSION_ID)
-    override val sessionId : String,
     @ColumnInfo(QUIZ_ID)
     override val quizId : String,
     @ColumnInfo(QUESTION_ID)
@@ -50,7 +49,6 @@ data class MCQuestionAnswerEntity (
 
     fun toMCQuestionAnswer() : MCQuestionAnswer {
         return MCQuestionAnswer(
-            sessionId = this.sessionId,
             correctAnswerIds = this.correctAnswerIds,
             questionId = this.questionId,
             quizId = this.quizId,

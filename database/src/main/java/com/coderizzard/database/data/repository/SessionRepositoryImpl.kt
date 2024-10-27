@@ -30,7 +30,6 @@ class SessionRepositoryImpl @Inject constructor(
                 quizId = quizId,
                 startedAt = LocalDateTime.now(),
                 questionOrder = questionOrder ,
-                id = UUID.randomUUID().toString(),
             )
         )
     }

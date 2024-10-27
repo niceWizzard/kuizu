@@ -10,11 +10,11 @@ import com.coderizzard.database.data.database.model.session.answers.SessionAnswe
 
 @Dao
 interface SessionAnswerDao {
-    @Query("SELECT * FROM identification_answer WHERE session_id = :sessionId")
-    suspend fun getAllIdentificationFromSession(sessionId : String)  : List<IdentificationAnswerEntity>
+    @Query("SELECT * FROM identification_answer WHERE quiz_id = :quizId")
+    suspend fun getAllIdentificationFromSession(quizId : String)  : List<IdentificationAnswerEntity>
 
-    @Query("SELECT * FROM mc_question_answer WHERE session_id = :sessionId")
-    suspend fun getAllMCQuestionAnswerFromSession(sessionId : String)  : List<MCQuestionAnswerEntity>
+    @Query("SELECT * FROM mc_question_answer WHERE quiz_id = :quizId")
+    suspend fun getAllMCQuestionAnswerFromSession(quizId : String)  : List<MCQuestionAnswerEntity>
 
     @Transaction
     suspend fun getAllAnswersFromSession(sessionId : String) : List<SessionAnswer> {
@@ -34,9 +34,9 @@ interface SessionAnswerDao {
         }
     }
 
-    @Query("DELETE FROM mc_question_answer WHERE session_id = :sessionId")
-    suspend fun deleteAllMCQuestionAnswer(sessionId : String)
+    @Query("DELETE FROM mc_question_answer WHERE quiz_id = :quizId")
+    suspend fun deleteAllMCQuestionAnswer(quizId : String)
 
-    @Query("DELETE FROM identification_answer WHERE session_id = :sessionId")
-    suspend fun deleteAllIdentificationAnswer(sessionId : String)
+    @Query("DELETE FROM identification_answer WHERE quiz_id = :quizId")
+    suspend fun deleteAllIdentificationAnswer(quizId : String)
 }

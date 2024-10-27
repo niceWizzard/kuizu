@@ -174,7 +174,6 @@ private fun SessionListPreview() {
         sessionList = AsyncData.Success(
             List(10) {
                 QuizSession(
-                    id = UUID.randomUUID().toString(),
                     questionOrder = listOf("lkjsdf"),
                     quiz = Quiz(
                         id = UUID.randomUUID().toString(),

@@ -22,7 +22,6 @@ import java.time.LocalDateTime
 )
 data class QuizSessionEntity(
     @PrimaryKey
-    val id : String,
     @ColumnInfo(QUIZ_ID)
     val quizId : String,
     @ColumnInfo(STARTED_AT)
@@ -40,7 +39,6 @@ data class QuizSessionEntity(
     }
     fun toQuizSession(quiz : Quiz) : QuizSession {
         return QuizSession(
-            id = this.id,
             quizId = this.quizId,
             quiz = quiz,
             startedAt = this.startedAt,
