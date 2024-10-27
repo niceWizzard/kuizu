@@ -61,8 +61,12 @@ class SessionScreenViewModel @Inject constructor(
             }
             is ScreenEvent.MCAnswer,
             is ScreenEvent.IdentificationAnswer -> {
-                sessionData = AsyncData.Success(session.incrementQuestionIndex())
-                _uiState.update { SessionUiState.Answering(session.getCurrentQuestion()) }
+                if(session.hasNextQuestion()) {
+                    sessionData = AsyncData.Success(session.incrementQuestionIndex())
+                    _uiState.update { SessionUiState.Answering(session.getCurrentQuestion()) }
+                } else {
+                    _uiState.update { SessionUiState.Finished }
+                }
             }
         }
     }

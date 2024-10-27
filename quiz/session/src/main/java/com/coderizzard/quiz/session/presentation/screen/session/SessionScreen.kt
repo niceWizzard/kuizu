@@ -133,7 +133,9 @@ private fun Content(
                                 }
                             }
                         }
-                        SessionUiState.Finished -> TODO()
+                        SessionUiState.Finished -> {
+                            Text("Finished!")
+                        }
                         SessionUiState.Default -> {
                             Box(
                                 modifier = Modifier.fillMaxSize(),
