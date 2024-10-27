@@ -15,6 +15,9 @@ interface SessionDao {
     @Query("SELECT * FROM quiz_session WHERE quiz_id = :quizId")
     suspend fun getActiveSession(quizId: String) : QuizSessionEntity
 
+    @Query("SELECT * FROM quiz_session WHERE quiz_id = :quizId")
+    fun getActiveSessionFlow(quizId: String) : Flow<QuizSessionEntity>
+
     @Query("DELETE FROM quiz_session WHERE quiz_id = :quizId")
     suspend fun deleteActiveSession(quizId: String)
 

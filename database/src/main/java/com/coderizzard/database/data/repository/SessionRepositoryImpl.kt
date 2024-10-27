@@ -1,5 +1,6 @@
 package com.coderizzard.database.data.repository
 
+import com.coderizzard.core.ResultState
 import com.coderizzard.core.data.AsyncData
 import com.coderizzard.core.data.model.session.QuizSession
 import com.coderizzard.database.data.database.dao.SessionDao
@@ -34,8 +35,16 @@ class SessionRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getSession(quizId: String): QuizSession {
-        TODO("Not yet implemented")
+    override fun getSessionFlow(quizId: String): Flow<AsyncData<QuizSession>> {
+        return sessionDao.getActiveSessionFlow(quizId)
+            .map<QuizSessionEntity, AsyncData<QuizSession>> { sessionEntity ->
+                val quiz = quizRepository.getById(quizId)
+                AsyncData.Success(sessionEntity.toQuizSession(quiz))
+            }
+            .catch { e ->
+                emit(AsyncData.Error(e.message.orEmpty(), e.cause))
+            }
+
     }
 
     override suspend fun deleteSession(quizId: String) {

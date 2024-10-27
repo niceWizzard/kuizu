@@ -39,6 +39,7 @@ import coil.compose.AsyncImage
 import com.coderizzard.core.data.AsyncData
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.session.QuizSession
+import com.coderizzard.core.data.navigation.RootRoute
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -48,13 +49,19 @@ fun SessionListScreen() {
     val viewModel : SessionsScreenViewModel = hiltViewModel(activity)
     val sessionList by viewModel.sessionList.collectAsState(AsyncData.Loading)
     Content(
-        sessionList = sessionList
+        sessionList = sessionList,
+        onPlayButtonClick = { id ->
+            viewModel.navigationManager.navigateTo(
+                RootRoute.QuizSession(id)
+            )
+        }
     )
 }
 
 @Composable
 private fun Content(
-    sessionList: AsyncData<List<QuizSession>>
+    sessionList: AsyncData<List<QuizSession>>,
+    onPlayButtonClick: (id : String) -> Unit,
 ) {
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -141,10 +148,9 @@ private fun Content(
                                         fontSize = 12.sp,
                                     )
                                 }
-                                val context = LocalContext.current
                                 IconButton(
                                     onClick = {
-                                        Toast.makeText(context, "To be implemented", Toast.LENGTH_SHORT).show()
+                                        onPlayButtonClick(session.quizId)
                                     },
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
@@ -171,6 +177,7 @@ private fun Content(
 @Composable
 private fun SessionListPreview() {
     Content(
+        onPlayButtonClick = {},
         sessionList = AsyncData.Success(
             List(10) {
                 QuizSession(
@@ -198,6 +205,7 @@ private fun SessionListPreview() {
 @Composable
 private fun SessionListLoadingPreview() {
     Content(
-        sessionList = AsyncData.Loading
+        sessionList = AsyncData.Loading,
+        onPlayButtonClick = {}
     )
 }
