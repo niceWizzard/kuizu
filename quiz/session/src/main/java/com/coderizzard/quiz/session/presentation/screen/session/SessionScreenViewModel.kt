@@ -73,7 +73,7 @@ class SessionScreenViewModel @Inject constructor(
                     "Correct"
                 } else {
                     val answerString = question.answer.map { answer ->
-                        val text = question.options.find {opt -> answer == opt.id  }?.text ?: throw Exception("Invalid answer found.")
+                        val text = question.options.find {opt -> answer == opt.remoteId  }?.text ?: throw Exception("Invalid answer found.")
                         stripHtmlTags(text)
                     }
                     "Incorrect -> $answerString"

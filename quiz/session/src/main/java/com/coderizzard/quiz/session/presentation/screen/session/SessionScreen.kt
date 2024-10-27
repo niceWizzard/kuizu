@@ -143,7 +143,7 @@ private fun Content(
                                         question.options.map { opt ->
                                             ElevatedButton(
                                                 onClick = {
-                                                    onEvent(ScreenEvent.MCAnswer(listOf(opt.id)))
+                                                    onEvent(ScreenEvent.MCAnswer(listOf(opt.remoteId)))
                                                 },
                                                 modifier = Modifier.fillMaxWidth()
                                             ) {
