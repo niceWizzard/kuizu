@@ -1,7 +1,6 @@
 package com.coderizzard.database.data.repository
 
-import com.coderizzard.core.data.model.question.IdentificationQuestion
-import com.coderizzard.core.data.model.question.MCQuestion
+import com.coderizzard.core.data.AsyncData
 import com.coderizzard.core.data.model.session.QuizSession
 import com.coderizzard.database.data.database.dao.SessionDao
 import com.coderizzard.database.data.database.model.session.QuizSessionEntity
@@ -9,7 +8,9 @@ import com.coderizzard.database.domain.repository.QuizRepository
 import com.coderizzard.database.domain.repository.SessionRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.util.UUID
@@ -42,12 +43,18 @@ class SessionRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getAll(): Flow<List<QuizSession>> {
-        return sessionDao.getAll().map { sessionList ->
-            sessionList.map { sessionEntity ->
-                val quiz = quizRepository.getById(sessionEntity.quizId)
-                sessionEntity.toQuizSession(quiz)
+    override fun getAll(): Flow<AsyncData<List<QuizSession>>> {
+        return sessionDao.getAll()
+            .map { sessionList ->
+            AsyncData.Success(
+                sessionList.map { sessionEntity ->
+                    val quiz = quizRepository.getById(sessionEntity.quizId)
+                    sessionEntity.toQuizSession(quiz)
+                }
+            ) as AsyncData<List<QuizSession>>
+        }.onStart { emit(AsyncData.Loading )}
+            .catch { e ->
+                AsyncData.Error(message = e.message ?: "null", error = e.cause)
             }
-        }
     }
 }

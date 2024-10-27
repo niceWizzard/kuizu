@@ -11,5 +11,9 @@ class SessionsScreenViewModel @Inject constructor(
 ) : ViewModel() {
 
     val sessionList = sessionRepository.getAll()
+
+
 }
+
+
 
