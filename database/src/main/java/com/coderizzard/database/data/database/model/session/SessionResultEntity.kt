@@ -12,25 +12,34 @@ import java.time.LocalDateTime
     tableName = "session_result",
     foreignKeys = [
         ForeignKey(
-            parentColumns = ["id"],
+            parentColumns = [QuizEntity.ID],
             entity = QuizEntity::class,
-            childColumns = ["quiz_id"],
+            childColumns = [SessionResultEntity.QUIZ_ID],
             onDelete = ForeignKey.CASCADE,
         )
     ]
 )
 internal data class SessionResultEntity(
     @PrimaryKey
-    val id : String,
-    @ColumnInfo("quiz_id")
-    val quizId : String,
-    @ColumnInfo("total_points")
-    val totalPoints : Int,
-    @ColumnInfo("marks")
-    val marks : Int,
-    @ColumnInfo("date_finished")
-    val dateFinished : LocalDateTime
+    @ColumnInfo(name = ID)
+    val id: String,
+    @ColumnInfo(name = QUIZ_ID)
+    val quizId: String,
+    @ColumnInfo(name = TOTAL_POINTS)
+    val totalPoints: Int,
+    @ColumnInfo(name = MARKS)
+    val marks: Int,
+    @ColumnInfo(name = DATE_FINISHED)
+    val dateFinished: LocalDateTime
 ) {
+    companion object {
+        const val ID = "id"
+        const val QUIZ_ID = "quiz_id"
+        const val TOTAL_POINTS = "total_points"
+        const val MARKS = "marks"
+        const val DATE_FINISHED = "date_finished"
+    }
+
     fun toSessionResult() : SessionResult {
         return SessionResult(
             id = this.id,

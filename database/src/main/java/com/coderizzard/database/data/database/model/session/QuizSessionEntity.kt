@@ -13,9 +13,9 @@ import java.time.LocalDateTime
     "quiz_session",
     foreignKeys = [
         ForeignKey(
-            parentColumns = ["id"],
+            parentColumns = [QuizEntity.ID],
             entity = QuizEntity::class,
-            childColumns = ["quiz_id"],
+            childColumns = [QuizSessionEntity.QUIZ_ID],
             onDelete = ForeignKey.CASCADE,
         )
     ]
@@ -23,15 +23,21 @@ import java.time.LocalDateTime
 data class QuizSessionEntity(
     @PrimaryKey
     val id : String,
-    @ColumnInfo("quiz_id")
+    @ColumnInfo(QUIZ_ID)
     val quizId : String,
-    @ColumnInfo("started_at")
+    @ColumnInfo(STARTED_AT)
     val startedAt : LocalDateTime,
-    @ColumnInfo("question_order")
+    @ColumnInfo(QUESTION_ORDER)
     val questionOrder : List<String>,
-    @ColumnInfo("current_question_index")
+    @ColumnInfo(CURRENT_QUESTION_INDEX)
     val currentQuestionIndex : Int=0,
 ) {
+    companion object {
+        const val QUIZ_ID = "quiz_id"
+        const val STARTED_AT = "started_at"
+        const val QUESTION_ORDER = "question_order"
+        const val CURRENT_QUESTION_INDEX = "current_question_index"
+    }
     fun toQuizSession(quiz : Quiz) : QuizSession {
         return QuizSession(
             id = this.id,
