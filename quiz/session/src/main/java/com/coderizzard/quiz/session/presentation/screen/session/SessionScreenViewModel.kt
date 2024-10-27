@@ -38,6 +38,8 @@ class SessionScreenViewModel @Inject constructor(
         return (sessionData as AsyncData.Success).data
     }
 
+
+
     init {
         viewModelScope.launch {
             sessionData = when(val res = sessionRepository.getSession(quizId)) {
@@ -61,14 +63,19 @@ class SessionScreenViewModel @Inject constructor(
             }
             is ScreenEvent.MCAnswer,
             is ScreenEvent.IdentificationAnswer -> {
-                if(session.hasNextQuestion()) {
-                    val newSession = session.incrementQuestionIndex()
-                    sessionData = AsyncData.Success(newSession)
-                    _uiState.update { SessionUiState.Answering(newSession.getCurrentQuestion()) }
-                } else {
-                    _uiState.update { SessionUiState.Finished }
-                }
+
+                nextQuestion(session)
             }
+        }
+    }
+
+    private fun nextQuestion(session: QuizSession) {
+        if (session.hasNextQuestion()) {
+            val newSession = session.incrementQuestionIndex()
+            sessionData = AsyncData.Success(newSession)
+            _uiState.update { SessionUiState.Answering(newSession.getCurrentQuestion()) }
+        } else {
+            _uiState.update { SessionUiState.Finished }
         }
     }
 
