@@ -82,7 +82,7 @@ class SessionScreenViewModel @Inject constructor(
             }
             is ScreenEvent.IdentificationAnswer -> {
                 val question = currentQuestion as IdentificationQuestion
-                if(stripHtmlTags(question.answer).equals(e.answer, ignoreCase = true)) {
+                if(stripHtmlTags(question.answer).equals(e.answer.trim(), ignoreCase = true)) {
                     answeringState = AnsweringState.Correct
                     currentScore++
                 } else {
