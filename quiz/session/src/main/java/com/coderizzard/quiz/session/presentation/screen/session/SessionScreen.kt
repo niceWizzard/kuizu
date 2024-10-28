@@ -113,8 +113,7 @@ private fun Content(
                                         .heightIn(
                                             min = 128.dp,
                                         )
-                                        .padding(24.dp)
-                                        .verticalScroll(rememberScrollState()),
+                                        .padding(24.dp),
                                     verticalArrangement = Arrangement.Center,
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                 ) {
@@ -149,6 +148,7 @@ private fun Content(
                                     Text(
                                         question.text.toAnnotatedString(),
                                         fontSize = 18.sp,
+                                        modifier = Modifier.verticalScroll(rememberScrollState())
 
                                     )
                                 }
