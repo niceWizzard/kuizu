@@ -58,6 +58,7 @@ fun SessionScreen(
         onEvent = viewModel::onEvent,
         score = viewModel.currentScore,
         answeringState = viewModel.answeringState,
+        identificationFieldData = viewModel.identificationFieldData
     )
 
 }
@@ -66,9 +67,10 @@ fun SessionScreen(
 private fun Content(
     sessionData: AsyncData<QuizSession>,
     uiState: SessionUiState,
-    onEvent : (e : ScreenEvent) -> Unit,
+    onEvent: (e: ScreenEvent) -> Unit,
     score: Int,
     answeringState: AnsweringState,
+    identificationFieldData: String,
 ) {
     Surface {
         Column(
@@ -153,10 +155,11 @@ private fun Content(
                             }
                             when(question) {
                                 is IdentificationQuestion -> {
-                                    var answer by rememberSaveable { mutableStateOf("") }
                                     TextField(
-                                        value = answer,
-                                        onValueChange = {answer = it},
+                                        value = identificationFieldData,
+                                        onValueChange = {
+                                            onEvent(ScreenEvent.IdentificationFieldUpdate(it))
+                                        },
                                         modifier = Modifier.fillMaxWidth(),
                                         label = {Text("Answer")},
                                         singleLine = true,
@@ -164,7 +167,7 @@ private fun Content(
                                     )
                                     ElevatedButton(
                                         onClick = {
-                                            onEvent(ScreenEvent.IdentificationAnswer(answer))
+                                            onEvent(ScreenEvent.IdentificationAnswer(identificationFieldData))
                                         },
                                         modifier = Modifier.fillMaxWidth(),
                                         enabled = answeringState == AnsweringState.Unanswered,
@@ -364,6 +367,7 @@ private fun ContentPreview() {
         uiState = SessionUiState.Answering(question1),
         onEvent = {},
         score = 0,
-        answeringState = AnsweringState.Correct
+        answeringState = AnsweringState.Correct,
+        identificationFieldData = ""
     )
 }
