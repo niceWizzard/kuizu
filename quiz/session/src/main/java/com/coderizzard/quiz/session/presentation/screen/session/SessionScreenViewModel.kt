@@ -100,7 +100,10 @@ class SessionScreenViewModel @Inject constructor(
             if (session.hasNextQuestion()) {
                 val newSession = session.incrementQuestionIndex()
                 sessionData = AsyncData.Success(newSession)
-                _uiState.update { SessionUiState.Answering(newSession.getCurrentQuestion()) }
+                var currentQuestion = newSession.getCurrentQuestion()
+                if(currentQuestion is MCQuestion)
+                   currentQuestion = currentQuestion.copy(options = currentQuestion.options.shuffled())
+                _uiState.update { SessionUiState.Answering(currentQuestion) }
             } else {
                 _uiState.update { SessionUiState.Finished }
             }
