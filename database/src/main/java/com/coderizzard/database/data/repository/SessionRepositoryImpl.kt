@@ -44,8 +44,12 @@ class SessionRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteSession(quizId: String) {
-        TODO("Not yet implemented")
+    override suspend fun deleteSession(quizId: String) = withContext(Dispatchers.IO) {
+        try {
+            sessionDao.deleteActiveSession(quizId)
+        } catch (e : Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun getAll(): Flow<AsyncData<List<QuizSession>>> {

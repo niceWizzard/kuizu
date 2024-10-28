@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -54,7 +55,8 @@ fun SessionListScreen() {
             viewModel.navigationManager.navigateTo(
                 RootRoute.QuizSession(id)
             )
-        }
+        },
+        onEvent = viewModel::onEvent,
     )
 }
 
@@ -62,6 +64,7 @@ fun SessionListScreen() {
 private fun Content(
     sessionList: AsyncData<List<QuizSession>>,
     onPlayButtonClick: (id : String) -> Unit,
+    onEvent: (e : ScreenEvent) -> Unit,
 ) {
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -160,6 +163,19 @@ private fun Content(
                                         modifier = Modifier.fillMaxSize()
                                     )
                                 }
+
+                                IconButton(
+                                    onClick = {
+                                        onEvent(ScreenEvent.OnDelete(session.quizId))
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Icon(
+                                        Icons.Default.Delete,
+                                        contentDescription = "Delete",
+                                        modifier = Modifier.fillMaxSize()
+                                    )
+                                }
                             }
                         }
                     }
@@ -196,8 +212,9 @@ private fun SessionListPreview() {
                     startedAt = LocalDateTime.now(),
                     currentQuestionIndex = 0,
                 )
-            }
-        )
+            },
+        ),
+        onEvent = {}
     )
 }
 
@@ -206,6 +223,7 @@ private fun SessionListPreview() {
 private fun SessionListLoadingPreview() {
     Content(
         sessionList = AsyncData.Loading,
-        onPlayButtonClick = {}
+        onPlayButtonClick = {},
+        onEvent = {}
     )
 }
