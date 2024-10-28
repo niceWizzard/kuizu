@@ -1,7 +1,5 @@
 package com.coderizzard.quiz.session.presentation.screen.session
 
-import android.graphics.Paint.Align
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,24 +12,24 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,7 +56,8 @@ fun SessionScreen(
         sessionData = viewModel.sessionData,
         uiState = uiState,
         onEvent = viewModel::onEvent,
-        score = viewModel.currentScore
+        score = viewModel.currentScore,
+        answeringState = viewModel.answeringState,
     )
 
 }
@@ -69,6 +68,7 @@ private fun Content(
     uiState: SessionUiState,
     onEvent : (e : ScreenEvent) -> Unit,
     score: Int,
+    answeringState: AnsweringState,
 ) {
     Surface {
         Column(
@@ -89,7 +89,22 @@ private fun Content(
                     when(uiState){
                         is SessionUiState.Answering -> {
                             val question = uiState.q
-                            Card {
+                            Card(
+                                colors = when(answeringState) {
+                                    AnsweringState.Correct -> {
+                                        CardDefaults.cardColors(
+                                            contentColor = MaterialTheme.colorScheme.primary,
+                                        )
+                                    }
+                                    is AnsweringState.IncorrectIdentificationAnswer,
+                                    is AnsweringState.IncorrectMCAnswer -> {
+                                        CardDefaults.cardColors(
+                                            contentColor = MaterialTheme.colorScheme.error,
+                                        )
+                                    }
+                                    AnsweringState.Unanswered -> CardDefaults.cardColors()
+                                }
+                            ) {
                                 Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -145,26 +160,73 @@ private fun Content(
                                         modifier = Modifier.fillMaxWidth(),
                                         label = {Text("Answer")},
                                         singleLine = true,
+                                        enabled = answeringState == AnsweringState.Unanswered,
                                     )
                                     ElevatedButton(
                                         onClick = {
                                             onEvent(ScreenEvent.IdentificationAnswer(answer))
                                         },
-                                        modifier = Modifier.fillMaxWidth()
+                                        modifier = Modifier.fillMaxWidth(),
+                                        enabled = answeringState == AnsweringState.Unanswered,
                                     ) {
                                         Text("Submit")
+                                    }
+                                    when(answeringState) {
+                                        AnsweringState.Correct -> {
+                                            Text(
+                                                "Correct",
+                                                color = MaterialTheme.colorScheme.secondary
+                                            )
+                                        }
+                                        is AnsweringState.IncorrectIdentificationAnswer -> {
+                                            Text(
+                                                "Correct: ${question.answer}",
+                                                color = MaterialTheme.colorScheme.error,
+                                            )
+                                        }
+                                        is AnsweringState.IncorrectMCAnswer,
+                                        AnsweringState.Unanswered -> {}
                                     }
                                 }
                                 is MCQuestion -> {
                                     Column(
                                         verticalArrangement = Arrangement.spacedBy(6.dp)
                                     ) {
-                                        question.options.shuffled().map { opt ->
+                                        question.options.map { opt ->
                                             ElevatedButton(
                                                 onClick = {
                                                     onEvent(ScreenEvent.MCAnswer(listOf(opt.remoteId)))
                                                 },
-                                                modifier = Modifier.fillMaxWidth()
+                                                modifier = Modifier.fillMaxWidth(),
+                                                colors = when(answeringState) {
+                                                    AnsweringState.Correct -> {
+                                                        if(question.answer.contains(opt.remoteId))
+                                                            ButtonDefaults.buttonColors(
+                                                                disabledContainerColor = MaterialTheme.colorScheme.secondary,
+                                                                disabledContentColor = MaterialTheme.colorScheme.onSecondary,
+                                                            )
+                                                        else
+                                                            ButtonDefaults.buttonColors()
+                                                    }
+                                                    is AnsweringState.IncorrectMCAnswer -> {
+                                                        if(answeringState.answers.contains(opt.remoteId)) {
+                                                            ButtonDefaults.buttonColors(
+                                                                disabledContainerColor = Color.Red,
+                                                                disabledContentColor = Color.Black,
+                                                            )
+                                                        }
+                                                        else if(question.answer.contains(opt.remoteId))
+                                                            ButtonDefaults.buttonColors(
+                                                                disabledContainerColor =  MaterialTheme.colorScheme.primary,
+                                                                disabledContentColor = MaterialTheme.colorScheme.onPrimary,
+                                                            )
+                                                        else
+                                                            ButtonDefaults.buttonColors()
+                                                    }
+                                                    is AnsweringState.IncorrectIdentificationAnswer,
+                                                    AnsweringState.Unanswered ->ButtonDefaults.buttonColors()
+                                                },
+                                                enabled = answeringState == AnsweringState.Unanswered
                                             ) {
                                                 Text(
                                                     opt.text.toAnnotatedString(),
@@ -219,8 +281,8 @@ private fun Content(
 @Composable
 private fun ContentPreview() {
     val mcOptions1 = listOf(
-        MCOption(id = "1", text = "Option A", questionId = "q1", remoteId = ""),
-        MCOption(id = "2", text = "Option B",  questionId = "q1", remoteId = ""),
+        MCOption(id = "1", text = "Option A", questionId = "q1", remoteId = "t"),
+        MCOption(id = "2", text = "Option B",  questionId = "q1", remoteId = "q2"),
         MCOption(id = "3", text = "Option C",  questionId = "q1", remoteId = ""),
         MCOption(id = "4", text = "Option D",  questionId = "q1", remoteId = "")
     )
@@ -233,7 +295,7 @@ private fun ContentPreview() {
         point = 10,
         quizId = "quiz1",
         options = mcOptions1,
-        answer = listOf("1")
+        answer = listOf("q2")
     )
 
     val question2 = MCQuestion(
@@ -299,8 +361,9 @@ private fun ContentPreview() {
         sessionData = AsyncData.Success(
             data = session
         ),
-        uiState = SessionUiState.Answering(question3),
+        uiState = SessionUiState.Answering(question1),
         onEvent = {},
         score = 0,
+        answeringState = AnsweringState.Correct
     )
 }

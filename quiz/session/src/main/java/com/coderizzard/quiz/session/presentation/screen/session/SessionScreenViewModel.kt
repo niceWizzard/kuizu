@@ -42,6 +42,9 @@ class SessionScreenViewModel @Inject constructor(
     var currentScore by mutableIntStateOf(0)
     private set
 
+    var answeringState by mutableStateOf<AnsweringState>(AnsweringState.Unanswered)
+    private set
+
     private fun getSession(): QuizSession {
         return (sessionData as AsyncData.Success).data
     }
@@ -52,7 +55,6 @@ class SessionScreenViewModel @Inject constructor(
                 is ResultState.Error -> {
                     AsyncData.Error(res.message, res.exception)
                 }
-
                 is ResultState.Success -> {
                     AsyncData.Success(res.data)
                 }
@@ -71,19 +73,20 @@ class SessionScreenViewModel @Inject constructor(
             is ScreenEvent.MCAnswer -> {
                 val question = (currentQuestion as MCQuestion)
                 if(question.answer.any{e.answers.contains(it)}) {
+                    answeringState = AnsweringState.Correct
                     currentScore++
                 } else {
-                    val answerString = question.answer.map { answer ->
-                        val text = question.options.find {opt -> answer == opt.remoteId  }?.text ?: throw Exception("Invalid answer found.")
-                        stripHtmlTags(text)
-                    }
+                    answeringState = AnsweringState.IncorrectMCAnswer(e.answers)
                 }
                 nextQuestion(session)
             }
             is ScreenEvent.IdentificationAnswer -> {
                 val question = currentQuestion as IdentificationQuestion
                 if(stripHtmlTags(question.answer).equals(e.answer, ignoreCase = true)) {
+                    answeringState = AnsweringState.Correct
                     currentScore++
+                } else {
+                    answeringState = AnsweringState.IncorrectIdentificationAnswer(e.answer)
                 }
                 nextQuestion(session)
             }
@@ -92,7 +95,8 @@ class SessionScreenViewModel @Inject constructor(
 
     private fun nextQuestion(session: QuizSession) {
         viewModelScope.launch {
-            delay(750)
+            delay(1500)
+            answeringState = AnsweringState.Unanswered
             if (session.hasNextQuestion()) {
                 val newSession = session.incrementQuestionIndex()
                 sessionData = AsyncData.Success(newSession)
@@ -103,6 +107,13 @@ class SessionScreenViewModel @Inject constructor(
         }
     }
 
+}
+
+sealed interface AnsweringState {
+    data object Unanswered : AnsweringState
+    data object Correct:  AnsweringState
+    data class IncorrectMCAnswer(val answers : List<String> ) : AnsweringState
+    data class IncorrectIdentificationAnswer(val answers : String ) : AnsweringState
 }
 
 sealed interface ScreenEvent {

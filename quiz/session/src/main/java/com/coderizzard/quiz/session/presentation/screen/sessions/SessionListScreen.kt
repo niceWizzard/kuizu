@@ -151,30 +151,31 @@ private fun Content(
                                         fontSize = 12.sp,
                                     )
                                 }
-                                IconButton(
-                                    onClick = {
-                                        onPlayButtonClick(session.quizId)
-                                    },
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    Icon(
-                                        Icons.Default.PlayArrow,
-                                        contentDescription = "Continue",
-                                        modifier = Modifier.fillMaxSize()
-                                    )
-                                }
-
-                                IconButton(
-                                    onClick = {
-                                        onEvent(ScreenEvent.OnDelete(session.quizId))
-                                    },
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    Icon(
-                                        Icons.Default.Delete,
-                                        contentDescription = "Delete",
-                                        modifier = Modifier.fillMaxSize()
-                                    )
+                                Column {
+                                    IconButton(
+                                        onClick = {
+                                            onPlayButtonClick(session.quizId)
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Icon(
+                                            Icons.Default.PlayArrow,
+                                            contentDescription = "Continue",
+                                            modifier = Modifier.fillMaxSize()
+                                        )
+                                    }
+                                    IconButton(
+                                        onClick = {
+                                            onEvent(ScreenEvent.OnDelete(session.quizId))
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Icon(
+                                            Icons.Default.Delete,
+                                            contentDescription = "Delete",
+                                            modifier = Modifier.fillMaxSize()
+                                        )
+                                    }
                                 }
                             }
                         }
