@@ -46,8 +46,6 @@ class SessionScreenViewModel @Inject constructor(
         return (sessionData as AsyncData.Success).data
     }
 
-    var toastMessage by mutableStateOf("")
-        private set
     init {
         viewModelScope.launch {
             sessionData = when(val res = sessionRepository.getSession(quizId)) {
@@ -72,26 +70,21 @@ class SessionScreenViewModel @Inject constructor(
             }
             is ScreenEvent.MCAnswer -> {
                 val question = (currentQuestion as MCQuestion)
-                toastMessage = if(question.answer.any{e.answers.contains(it)}) {
+                if(question.answer.any{e.answers.contains(it)}) {
                     currentScore++
-                    "Correct"
                 } else {
                     val answerString = question.answer.map { answer ->
                         val text = question.options.find {opt -> answer == opt.remoteId  }?.text ?: throw Exception("Invalid answer found.")
                         stripHtmlTags(text)
                     }
-                    "Incorrect -> $answerString"
                 }
                 nextQuestion(session)
             }
             is ScreenEvent.IdentificationAnswer -> {
                 val question = currentQuestion as IdentificationQuestion
-                toastMessage = if(stripHtmlTags(question.answer).equals(e.answer, ignoreCase = true)) {
+                if(stripHtmlTags(question.answer).equals(e.answer, ignoreCase = true)) {
                     currentScore++
-                    "Correct"
                 }
-                else
-                    "Incorrect -> ${question.answer}"
                 nextQuestion(session)
             }
         }

@@ -53,16 +53,7 @@ fun SessionScreen(
 ) {
     val viewModel : SessionScreenViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsState()
-    val toastMessage = viewModel.toastMessage
-    val context = LocalContext.current
-    var currentToast by remember {mutableStateOf<Toast?>(null)}
-    LaunchedEffect  (toastMessage) {
-        if(toastMessage.isNotBlank()) {
-            currentToast?.cancel()
-            currentToast = Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT)
-            currentToast?.show()
-        }
-    }
+
     Content(
         sessionData = viewModel.sessionData,
         uiState = uiState,
