@@ -1,5 +1,6 @@
 package com.coderizzard.quiz.session.presentation.screen.session.screen
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -216,23 +217,22 @@ private fun ComposableIdentificationQuestion(
     ) {
         Text("Submit")
     }
-    when (answeringState) {
-        AnsweringState.Correct -> {
-            Text(
-                "Correct",
-                color = MaterialTheme.colorScheme.secondary
-            )
-        }
 
-        is AnsweringState.IncorrectIdentificationAnswer -> {
-            Text(
-                "Correct: ${question.answer}",
-                color = MaterialTheme.colorScheme.error,
-            )
-        }
-
-        is AnsweringState.IncorrectMCAnswer,
-        AnsweringState.Unanswered -> {
-        }
+    AnimatedVisibility(answeringState != AnsweringState.Unanswered) {
+        Text(
+            buildString {
+                append("Correct")
+                if (answeringState != AnsweringState.Correct)
+                    append(": ${question.answer}")
+            },
+            color = when (answeringState) {
+                AnsweringState.Correct -> MaterialTheme.colorScheme.primary
+                is AnsweringState.IncorrectIdentificationAnswer,
+                is AnsweringState.IncorrectMCAnswer -> MaterialTheme.colorScheme.error
+                AnsweringState.Unanswered -> MaterialTheme.colorScheme.onSurface
+            },
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
+        )
     }
 }

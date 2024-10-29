@@ -178,7 +178,7 @@ private fun ContentPreview() {
         sessionData = AsyncData.Success(
             data = session
         ),
-        uiState = SessionUiState.Answering(question1),
+        uiState = SessionUiState.Answering(question3),
         onEvent = {},
         score = 0,
         answeringState = AnsweringState.Correct,
