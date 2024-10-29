@@ -234,6 +234,8 @@ private fun ComposableIdentificationQuestion(
             },
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
+            fontSize = 24.sp,
+            fontWeight = FontWeight.SemiBold,
         )
     }
 }
