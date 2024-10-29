@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -48,81 +49,86 @@ internal fun AnsweringScreen(
     onEvent: (e: ScreenEvent) -> Unit
 ) {
     val question = uiState.q
-    Card(
-        colors = when (answeringState) {
-            AnsweringState.Correct -> {
-                CardDefaults.cardColors(
-                    contentColor = MaterialTheme.colorScheme.primary,
-                )
-            }
-
-            is AnsweringState.IncorrectIdentificationAnswer,
-            is AnsweringState.IncorrectMCAnswer -> {
-                CardDefaults.cardColors(
-                    contentColor = MaterialTheme.colorScheme.error,
-                )
-            }
-
-            AnsweringState.Unanswered -> CardDefaults.cardColors()
-        }
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.CenterVertically)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(
-                    min = 128.dp,
-                )
-                .padding(24.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
+        Card(
+            colors = when (answeringState) {
+                AnsweringState.Correct -> {
+                    CardDefaults.cardColors(
+                        contentColor = MaterialTheme.colorScheme.primary,
+                    )
+                }
+
+                is AnsweringState.IncorrectIdentificationAnswer,
+                is AnsweringState.IncorrectMCAnswer -> {
+                    CardDefaults.cardColors(
+                        contentColor = MaterialTheme.colorScheme.error,
+                    )
+                }
+
+                AnsweringState.Unanswered -> CardDefaults.cardColors()
+            }
         ) {
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(
-                    12.dp, alignment = Alignment.CenterHorizontally,
-                )
+                    .fillMaxWidth()
+                    .heightIn(
+                        min = 128.dp,
+                    )
+                    .padding(24.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(
-                    "Question: ${session.currentQuestionIndex + 1}/${session.questionOrder.size}",
-                    fontWeight = FontWeight.Light,
-                    textAlign = TextAlign.Center,
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        12.dp, alignment = Alignment.CenterHorizontally,
+                    )
+                ) {
+                    Text(
+                        "Question: ${session.currentQuestionIndex + 1}/${session.questionOrder.size}",
+                        fontWeight = FontWeight.Light,
+                        textAlign = TextAlign.Center,
+                    )
+                    Text(
+                        "Correct: $score",
+                        fontWeight = FontWeight.Light,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+                Spacer(
+                    modifier = Modifier.height(18.dp)
                 )
+                if (question.localImagePath.isNotBlank()) {
+                    ExpandableImage(
+                        modifier = Modifier.fillMaxWidth(),
+                        imageUrl = question.localImagePath,
+                        contentDescription = "Current question image"
+                    )
+                }
                 Text(
-                    "Correct: $score",
-                    fontWeight = FontWeight.Light,
-                    textAlign = TextAlign.Center,
+                    question.text.toAnnotatedString(),
+                    fontSize = 18.sp,
+                    modifier = Modifier.verticalScroll(rememberScrollState())
+
                 )
             }
-            Spacer(
-                modifier = Modifier.height(18.dp)
-            )
-            if (question.localImagePath.isNotBlank()) {
-                ExpandableImage(
-                    modifier = Modifier.fillMaxWidth(),
-                    imageUrl = question.localImagePath,
-                    contentDescription = "Current question image"
+        }
+        when (question) {
+            is IdentificationQuestion -> {
+                ComposableIdentificationQuestion(
+                    onEvent,
+                    answeringState,
+                    question
                 )
             }
-            Text(
-                question.text.toAnnotatedString(),
-                fontSize = 18.sp,
-                modifier = Modifier.verticalScroll(rememberScrollState())
 
-            )
-        }
-    }
-    when (question) {
-        is IdentificationQuestion -> {
-            ComposableIdentificationQuestion(
-                onEvent,
-                answeringState,
-                question
-            )
-        }
-
-        is MCQuestion -> {
-            ComposableMCQuestion(question, onEvent, answeringState)
+            is MCQuestion -> {
+                ComposableMCQuestion(question, onEvent, answeringState)
+            }
         }
     }
 }

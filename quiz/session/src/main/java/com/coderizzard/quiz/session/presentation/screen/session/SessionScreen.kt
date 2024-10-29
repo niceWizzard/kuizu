@@ -1,5 +1,6 @@
 package com.coderizzard.quiz.session.presentation.screen.session
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,6 +38,7 @@ fun SessionScreen(
         onEvent = viewModel::onEvent,
         score = viewModel.currentScore,
         answeringState = viewModel.answeringState,
+        isQuestionVisible = viewModel.isQuestionVisible
     )
 
 }
@@ -48,6 +50,7 @@ private fun Content(
     onEvent: (e: ScreenEvent) -> Unit,
     score: Int,
     answeringState: AnsweringState,
+    isQuestionVisible: Boolean,
 ) {
     Surface {
         Column(
@@ -67,13 +70,15 @@ private fun Content(
                     val session = sessionData.data
                     when(uiState){
                         is SessionUiState.Answering -> {
-                            AnsweringScreen(
-                                uiState,
-                                answeringState,
-                                session,
-                                score,
-                                onEvent
-                            )
+                            AnimatedVisibility(isQuestionVisible) {
+                                AnsweringScreen(
+                                    uiState,
+                                    answeringState,
+                                    session,
+                                    score,
+                                    onEvent
+                                )
+                            }
                         }
                         SessionUiState.Finished -> {
                             FinishedScreen()
@@ -177,5 +182,6 @@ private fun ContentPreview() {
         onEvent = {},
         score = 0,
         answeringState = AnsweringState.Correct,
+        isQuestionVisible = true,
     )
 }

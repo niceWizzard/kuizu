@@ -45,6 +45,9 @@ class SessionScreenViewModel @Inject constructor(
     var answeringState by mutableStateOf<AnsweringState>(AnsweringState.Unanswered)
     private set
 
+    var isQuestionVisible by mutableStateOf(false)
+    private set
+
     private fun getSession(): QuizSession {
         return (sessionData as AsyncData.Success).data
     }
@@ -71,7 +74,11 @@ class SessionScreenViewModel @Inject constructor(
                     is IdentificationQuestion -> q
                     is MCQuestion -> {q.toShuffledOptions()}
                 }
-                _uiState.update { SessionUiState.Answering(question) }
+                viewModelScope.launch {
+                    isQuestionVisible = true
+                    delay(500)
+                    _uiState.update { SessionUiState.Answering(question) }
+                }
             }
             is ScreenEvent.MCAnswer -> {
                 val question = (currentQuestion as MCQuestion)
@@ -99,6 +106,9 @@ class SessionScreenViewModel @Inject constructor(
     private fun nextQuestion(session: QuizSession) {
         viewModelScope.launch {
             delay(1500)
+            isQuestionVisible = false
+            delay(500)
+
             answeringState = AnsweringState.Unanswered
             if (session.hasNextQuestion()) {
                 val newSession = session.incrementQuestionIndex()
@@ -108,6 +118,8 @@ class SessionScreenViewModel @Inject constructor(
                     is MCQuestion -> q.toShuffledOptions()
                 }
                 _uiState.update { SessionUiState.Answering(currentQuestion) }
+                isQuestionVisible = true
+                delay(500)
             } else {
                 _uiState.update { SessionUiState.Finished }
             }
