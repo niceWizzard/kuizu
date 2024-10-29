@@ -45,9 +45,6 @@ class SessionScreenViewModel @Inject constructor(
     var answeringState by mutableStateOf<AnsweringState>(AnsweringState.Unanswered)
     private set
 
-    var identificationFieldData by mutableStateOf("")
-    private set
-
     private fun getSession(): QuizSession {
         return (sessionData as AsyncData.Success).data
     }
@@ -93,17 +90,12 @@ class SessionScreenViewModel @Inject constructor(
                 }
                 nextQuestion(session)
             }
-
-            is ScreenEvent.IdentificationFieldUpdate -> {
-                identificationFieldData = e.update
-            }
         }
     }
 
     private fun nextQuestion(session: QuizSession) {
         viewModelScope.launch {
             delay(1500)
-            identificationFieldData = ""
             answeringState = AnsweringState.Unanswered
             if (session.hasNextQuestion()) {
                 val newSession = session.incrementQuestionIndex()
@@ -131,7 +123,6 @@ sealed interface ScreenEvent {
     data object Start : ScreenEvent
     data class MCAnswer(val answers : List<String>) : ScreenEvent
     data class IdentificationAnswer(val answer : String) : ScreenEvent
-    data class IdentificationFieldUpdate(val update : String) : ScreenEvent
 }
 
 sealed interface SessionUiState {

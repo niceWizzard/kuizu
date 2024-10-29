@@ -37,7 +37,6 @@ fun SessionScreen(
         onEvent = viewModel::onEvent,
         score = viewModel.currentScore,
         answeringState = viewModel.answeringState,
-        identificationFieldData = viewModel.identificationFieldData
     )
 
 }
@@ -49,7 +48,6 @@ private fun Content(
     onEvent: (e: ScreenEvent) -> Unit,
     score: Int,
     answeringState: AnsweringState,
-    identificationFieldData: String,
 ) {
     Surface {
         Column(
@@ -74,7 +72,6 @@ private fun Content(
                                 answeringState,
                                 session,
                                 score,
-                                identificationFieldData,
                                 onEvent
                             )
                         }
@@ -180,6 +177,5 @@ private fun ContentPreview() {
         onEvent = {},
         score = 0,
         answeringState = AnsweringState.Correct,
-        identificationFieldData = ""
     )
 }

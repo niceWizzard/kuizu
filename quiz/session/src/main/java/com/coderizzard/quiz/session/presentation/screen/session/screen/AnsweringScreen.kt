@@ -18,6 +18,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,7 +45,6 @@ internal fun AnsweringScreen(
     answeringState: AnsweringState,
     session: QuizSession,
     score: Int,
-    identificationFieldData: String,
     onEvent: (e: ScreenEvent) -> Unit
 ) {
     val question = uiState.q
@@ -111,7 +115,6 @@ internal fun AnsweringScreen(
     when (question) {
         is IdentificationQuestion -> {
             ComposableIdentificationQuestion(
-                identificationFieldData,
                 onEvent,
                 answeringState,
                 question
@@ -182,16 +185,17 @@ private fun ComposableMCQuestion(
 
 @Composable
 private fun ComposableIdentificationQuestion(
-    identificationFieldData: String,
     onEvent: (e: ScreenEvent) -> Unit,
     answeringState: AnsweringState,
     question: IdentificationQuestion
 ) {
+    var userAnswer by rememberSaveable { mutableStateOf("") }
+    LaunchedEffect(question.id) {
+        userAnswer = ""
+    }
     TextField(
-        value = identificationFieldData,
-        onValueChange = {
-            onEvent(ScreenEvent.IdentificationFieldUpdate(it))
-        },
+        value = userAnswer,
+        onValueChange = {  userAnswer = it  },
         modifier = Modifier.fillMaxWidth(),
         label = { Text("Answer") },
         singleLine = true,
@@ -199,7 +203,7 @@ private fun ComposableIdentificationQuestion(
     )
     ElevatedButton(
         onClick = {
-            onEvent(ScreenEvent.IdentificationAnswer(identificationFieldData))
+            onEvent(ScreenEvent.IdentificationAnswer(userAnswer))
         },
         modifier = Modifier.fillMaxWidth(),
         enabled = answeringState == AnsweringState.Unanswered,
