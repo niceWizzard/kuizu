@@ -67,7 +67,10 @@ class SessionScreenViewModel @Inject constructor(
         val currentQuestion = session.getCurrentQuestion()
         when(e) {
             ScreenEvent.Start -> {
-                val question = session.getCurrentQuestion()
+                val question = when(val q = session.getCurrentQuestion()) {
+                    is IdentificationQuestion -> q
+                    is MCQuestion -> {q.toShuffledOptions()}
+                }
                 _uiState.update { SessionUiState.Answering(question) }
             }
             is ScreenEvent.MCAnswer -> {
@@ -100,9 +103,10 @@ class SessionScreenViewModel @Inject constructor(
             if (session.hasNextQuestion()) {
                 val newSession = session.incrementQuestionIndex()
                 sessionData = AsyncData.Success(newSession)
-                var currentQuestion = newSession.getCurrentQuestion()
-                if(currentQuestion is MCQuestion)
-                   currentQuestion = currentQuestion.copy(options = currentQuestion.options.shuffled())
+                val currentQuestion = when(val q = newSession.getCurrentQuestion()) {
+                    is IdentificationQuestion -> q
+                    is MCQuestion -> q.toShuffledOptions()
+                }
                 _uiState.update { SessionUiState.Answering(currentQuestion) }
             } else {
                 _uiState.update { SessionUiState.Finished }
