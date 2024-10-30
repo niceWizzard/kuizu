@@ -81,7 +81,7 @@ private fun Content(
                             }
                         }
                         SessionUiState.Finished -> {
-                            FinishedScreen()
+                            FinishedScreen(session.quizId   )
                         }
                         SessionUiState.Default -> {
                             StartScreen(session, onEvent)
