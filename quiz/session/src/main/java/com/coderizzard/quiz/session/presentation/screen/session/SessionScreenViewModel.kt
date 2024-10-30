@@ -1,5 +1,6 @@
 package com.coderizzard.quiz.session.presentation.screen.session
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -69,21 +70,25 @@ class SessionScreenViewModel @Inject constructor(
 
     fun onEvent(e : ScreenEvent) {
         val session = getSession()
-        val currentQuestion = session.getCurrentQuestion()
         when(e) {
             ScreenEvent.Start -> {
-                val question = when(val q = session.getCurrentQuestion()) {
-                    is IdentificationQuestion -> q
-                    is MCQuestion -> {q.toShuffledOptions()}
-                }
-                viewModelScope.launch {
-                    isQuestionVisible = true
-                    delay(500)
-                    _uiState.update { SessionUiState.Answering(question) }
+                Log.d("taggz", "${session.currentQuestionIndex}/${session.questionOrder.size}")
+                if(session.isFinished()) {
+                    _uiState.update { SessionUiState.Finished }
+                } else {
+                    val question = when(val q = session.getCurrentQuestion()) {
+                        is IdentificationQuestion -> q
+                        is MCQuestion -> {q.toShuffledOptions()}
+                    }
+                    viewModelScope.launch {
+                        isQuestionVisible = true
+                        delay(500)
+                        _uiState.update { SessionUiState.Answering(question) }
+                    }
                 }
             }
             is ScreenEvent.MCAnswer -> {
-                val question = (currentQuestion as MCQuestion)
+                val question = (session.getCurrentQuestion() as MCQuestion)
                 val isCorrect =question.answer.any{e.answers.contains(it)}
                 if(isCorrect) {
                     answeringState = AnsweringState.Correct
@@ -104,7 +109,7 @@ class SessionScreenViewModel @Inject constructor(
                 nextQuestion(session)
             }
             is ScreenEvent.IdentificationAnswer -> {
-                val question = currentQuestion as IdentificationQuestion
+                val question = session.getCurrentQuestion() as IdentificationQuestion
                 val isCorrect = stripHtmlTags(question.answer).equals(e.answer.trim(), ignoreCase = true)
                 if(isCorrect) {
                     answeringState = AnsweringState.Correct

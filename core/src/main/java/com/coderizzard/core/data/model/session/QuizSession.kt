@@ -24,4 +24,8 @@ data class QuizSession(
     fun hasNextQuestion() : Boolean {
         return currentQuestionIndex + 1 < questionOrder.size
     }
+
+    fun isFinished(): Boolean {
+        return currentQuestionIndex == questionOrder.size
+    }
 }
