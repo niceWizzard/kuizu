@@ -56,3 +56,12 @@ data class MCQuestionAnswerEntity (
         )
     }
 }
+
+fun MCQuestionAnswer.toEntity(): MCQuestionAnswerEntity {
+    return MCQuestionAnswerEntity(
+        questionId = this.questionId,
+        quizId = this.quizId,
+        isCorrect = this.isCorrect,
+        correctAnswerIds = this.correctAnswerIds,
+    )
+}

@@ -3,8 +3,12 @@ package com.coderizzard.database.data.repository
 import com.coderizzard.core.ResultState
 import com.coderizzard.core.data.AsyncData
 import com.coderizzard.core.data.model.session.QuizSession
+import com.coderizzard.core.data.model.session.answer.IdentificationAnswer
+import com.coderizzard.core.data.model.session.answer.MCQuestionAnswer
 import com.coderizzard.database.data.database.dao.SessionDao
 import com.coderizzard.database.data.database.model.session.QuizSessionEntity
+import com.coderizzard.database.data.database.model.session.answers.MCQuestionAnswerEntity
+import com.coderizzard.database.data.database.model.session.answers.toEntity
 import com.coderizzard.database.domain.repository.QuizRepository
 import com.coderizzard.database.domain.repository.SessionRepository
 import kotlinx.coroutines.Dispatchers
@@ -69,5 +73,13 @@ class SessionRepositoryImpl @Inject constructor(
 
     override suspend fun hasActiveSession(quizId: String): Boolean {
         return sessionDao.hasActiveSession(quizId)
+    }
+
+    override suspend fun createQuestionAnswer(answer: MCQuestionAnswer) {
+        sessionDao.createQuestionAnswer(answer.toEntity())
+    }
+
+    override suspend fun createQuestionAnswer(answer: IdentificationAnswer) {
+        sessionDao.createQuestionAnswer(answer.toEntity())
     }
 }

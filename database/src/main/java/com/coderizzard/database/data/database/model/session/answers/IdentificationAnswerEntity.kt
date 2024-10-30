@@ -55,3 +55,12 @@ data class IdentificationAnswerEntity (
         )
     }
 }
+
+fun IdentificationAnswer.toEntity() : IdentificationAnswerEntity {
+    return IdentificationAnswerEntity(
+        quizId = this.quizId,
+        questionId = this.questionId,
+        isCorrect = this.isCorrect,
+        correctAnswer = this.correctAnswer,
+    )
+}

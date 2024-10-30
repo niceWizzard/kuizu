@@ -146,7 +146,7 @@ private fun Content(
                                 ) {
                                     Text(session.quiz.name)
                                     Text(
-                                        text = "${session.currentQuestionIndex + 1}/${session.quiz.questions.size} questions answered",
+                                        text = "${session.currentQuestionIndex }/${session.quiz.questions.size} questions answered",
                                         fontWeight = FontWeight.Light,
                                         fontSize = 12.sp,
                                     )

@@ -12,6 +12,8 @@ import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.question.Question
 import com.coderizzard.core.data.model.session.QuizSession
+import com.coderizzard.core.data.model.session.answer.IdentificationAnswer
+import com.coderizzard.core.data.model.session.answer.MCQuestionAnswer
 import com.coderizzard.core.data.navigation.NavigationManager
 import com.coderizzard.core.data.navigation.RootRoute
 import com.coderizzard.core.data.stripHtmlTags
@@ -82,21 +84,43 @@ class SessionScreenViewModel @Inject constructor(
             }
             is ScreenEvent.MCAnswer -> {
                 val question = (currentQuestion as MCQuestion)
-                if(question.answer.any{e.answers.contains(it)}) {
+                val isCorrect =question.answer.any{e.answers.contains(it)}
+                if(isCorrect) {
                     answeringState = AnsweringState.Correct
                     currentScore++
                 } else {
                     answeringState = AnsweringState.IncorrectMCAnswer(e.answers)
                 }
+                viewModelScope.launch {
+                    sessionRepository.createQuestionAnswer(
+                        MCQuestionAnswer(
+                            quizId = session.quizId,
+                            isCorrect = isCorrect,
+                            correctAnswerIds = e.answers,
+                            questionId = question.id,
+                        )
+                    )
+                }
                 nextQuestion(session)
             }
             is ScreenEvent.IdentificationAnswer -> {
                 val question = currentQuestion as IdentificationQuestion
-                if(stripHtmlTags(question.answer).equals(e.answer.trim(), ignoreCase = true)) {
+                val isCorrect = stripHtmlTags(question.answer).equals(e.answer.trim(), ignoreCase = true)
+                if(isCorrect) {
                     answeringState = AnsweringState.Correct
                     currentScore++
                 } else {
                     answeringState = AnsweringState.IncorrectIdentificationAnswer(e.answer)
+                }
+                viewModelScope.launch {
+                    sessionRepository.createQuestionAnswer(
+                        IdentificationAnswer(
+                            quizId=session.quizId,
+                            questionId = question.id,
+                            isCorrect =isCorrect,
+                            correctAnswer = e.answer
+                        )
+                    )
                 }
                 nextQuestion(session)
             }
