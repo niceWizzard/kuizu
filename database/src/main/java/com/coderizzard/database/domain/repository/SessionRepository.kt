@@ -13,4 +13,5 @@ interface SessionRepository {
     suspend fun deleteSession(quizId: String)
 
     fun getAll() : Flow<AsyncData<List<QuizSession>>>
+    suspend fun hasActiveSession(quizId: String) : Boolean
 }

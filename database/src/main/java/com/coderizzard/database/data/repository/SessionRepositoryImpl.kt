@@ -66,4 +66,8 @@ class SessionRepositoryImpl @Inject constructor(
                 AsyncData.Error(message = e.message ?: "null", error = e.cause)
             }
     }
+
+    override suspend fun hasActiveSession(quizId: String): Boolean {
+        return sessionDao.hasActiveSession(quizId)
+    }
 }

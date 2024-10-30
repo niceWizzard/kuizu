@@ -1,5 +1,8 @@
 package com.coderizzard.quiz.presentation.screen.quiz
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.coderizzard.core.data.navigation.NavigationManager
@@ -60,13 +63,14 @@ import javax.inject.Inject
 
     fun createSession(id: String) {
         viewModelScope.launch {
-            sessionRepository.createSession(id)
-            navigationManager.popBackStack()
-            navigationManager.navigateTo(RootRoute.QuizSession(id))
+                if (!sessionRepository.hasActiveSession(id)) {
+                    sessionRepository.createSession(id)
+                    navigationManager.popBackStack()
+                }
+                navigationManager.navigateTo(RootRoute.QuizSession(id))
         }
     }
 }
-
 
 
  internal sealed interface QuizUiState {
