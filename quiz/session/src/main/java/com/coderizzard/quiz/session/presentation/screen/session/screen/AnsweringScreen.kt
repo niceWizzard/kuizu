@@ -1,6 +1,7 @@
 package com.coderizzard.quiz.session.presentation.screen.session.screen
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -148,41 +149,42 @@ private fun ComposableMCQuestion(
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         question.options.map { opt ->
+            val targetColor = when (answeringState) {
+                AnsweringState.Correct -> {
+                    if (question.answer.contains(opt.remoteId))
+                        MaterialTheme.colorScheme.primary
+                    else
+                        MaterialTheme.colorScheme.secondary
+                }
+
+                is AnsweringState.IncorrectMCAnswer -> {
+                    if (answeringState.answers.contains(opt.remoteId)) MaterialTheme.colorScheme.error
+                    else if (question.answer.contains(opt.remoteId)) MaterialTheme.colorScheme.primary
+                    else MaterialTheme.colorScheme.secondary
+                }
+
+                is AnsweringState.IncorrectIdentificationAnswer,
+                AnsweringState.Unanswered -> MaterialTheme.colorScheme.secondary
+            }
+            val animatedColor by animateColorAsState(targetColor, label = "mc opt button<${opt.id} color>")
+            val contentColor = when (targetColor) {
+                MaterialTheme.colorScheme.secondary -> MaterialTheme.colorScheme.onSecondary
+                MaterialTheme.colorScheme.primary -> MaterialTheme.colorScheme.onPrimary
+                MaterialTheme.colorScheme.error -> MaterialTheme.colorScheme.onError
+                else -> MaterialTheme.colorScheme.onSurface
+            }
             ElevatedButton(
                 onClick = {
                     onEvent(ScreenEvent.MCAnswer(listOf(opt.remoteId)))
                 },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(6.dp),
-                colors = when (answeringState) {
-                    AnsweringState.Correct -> {
-                        if (question.answer.contains(opt.remoteId))
-                            ButtonDefaults.buttonColors(
-                                disabledContainerColor = MaterialTheme.colorScheme.secondary,
-                                disabledContentColor = MaterialTheme.colorScheme.onSecondary,
-                            )
-                        else
-                            ButtonDefaults.buttonColors()
-                    }
-
-                    is AnsweringState.IncorrectMCAnswer -> {
-                        if (answeringState.answers.contains(opt.remoteId)) {
-                            ButtonDefaults.buttonColors(
-                                disabledContainerColor = Color.Red,
-                                disabledContentColor = Color.Black,
-                            )
-                        } else if (question.answer.contains(opt.remoteId))
-                            ButtonDefaults.buttonColors(
-                                disabledContainerColor = MaterialTheme.colorScheme.primary,
-                                disabledContentColor = MaterialTheme.colorScheme.onPrimary,
-                            )
-                        else
-                            ButtonDefaults.buttonColors()
-                    }
-
-                    is AnsweringState.IncorrectIdentificationAnswer,
-                    AnsweringState.Unanswered -> ButtonDefaults.buttonColors()
-                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = animatedColor,
+                    disabledContainerColor = animatedColor,
+                    disabledContentColor = contentColor,
+                    contentColor = contentColor,
+                ),
                 enabled = answeringState == AnsweringState.Unanswered
             ) {
                 Text(
