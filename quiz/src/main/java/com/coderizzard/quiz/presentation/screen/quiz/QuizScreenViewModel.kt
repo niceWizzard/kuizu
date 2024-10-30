@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.coderizzard.core.data.navigation.NavigationManager
 import com.coderizzard.core.data.model.Quiz
+import com.coderizzard.core.data.navigation.HomeRoute
 import com.coderizzard.core.data.navigation.RootRoute
 import com.coderizzard.database.domain.repository.QuizRepository
+import com.coderizzard.database.domain.repository.SessionRepository
 import com.coderizzard.quiz.domain.repository.ImageManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -19,7 +21,8 @@ import javax.inject.Inject
  internal class QuizScreenViewModel @Inject constructor(
     private val quizRepository: QuizRepository,
     val navigationManager: NavigationManager,
-     private val imageManager: ImageManager
+     private val imageManager: ImageManager,
+     private val sessionRepository: SessionRepository,
 ) : ViewModel() {
     private val _quizState = MutableStateFlow<QuizUiState>(QuizUiState.Loading)
     private var _routeParams : RootRoute.Quiz = navigationManager.getRouteData<RootRoute.Quiz>() ?:   throw Exception("Reached Quiz(#id) without a quiz route")
@@ -54,6 +57,14 @@ import javax.inject.Inject
     }
 
     val quizState = _quizState.asStateFlow()
+
+    fun createSession(id: String) {
+        viewModelScope.launch {
+            sessionRepository.createSession(id)
+            navigationManager.popBackStack()
+            navigationManager.navigateTo(RootRoute.QuizSession(id))
+        }
+    }
 }
 
 
