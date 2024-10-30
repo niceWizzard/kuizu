@@ -42,6 +42,7 @@ import com.coderizzard.core.presentation.expandable_image.ExpandableImage
 import com.coderizzard.quiz.session.presentation.screen.session.AnsweringState
 import com.coderizzard.quiz.session.presentation.screen.session.ScreenEvent
 import com.coderizzard.quiz.session.presentation.screen.session.SessionUiState
+import kotlin.math.max
 
 @Composable
 internal fun AnsweringScreen(
@@ -58,7 +59,7 @@ internal fun AnsweringScreen(
 
     ) {
         Card(
-            modifier = Modifier.heightIn(max=256.dp),
+            modifier = Modifier.heightIn(max=512.dp),
             colors = when (answeringState) {
                 AnsweringState.Correct -> {
                     CardDefaults.cardColors(
@@ -109,7 +110,7 @@ internal fun AnsweringScreen(
                 )
                 if (question.localImagePath.isNotBlank()) {
                     ExpandableImage(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().heightIn(max=128.dp),
                         imageUrl = question.localImagePath,
                         contentDescription = "Current question image"
                     )
