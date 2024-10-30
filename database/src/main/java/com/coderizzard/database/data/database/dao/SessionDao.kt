@@ -7,7 +7,9 @@ import com.coderizzard.core.data.model.session.answer.IdentificationAnswer
 import com.coderizzard.database.data.database.model.session.QuizSessionEntity
 import com.coderizzard.database.data.database.model.session.answers.IdentificationAnswerEntity
 import com.coderizzard.database.data.database.model.session.answers.MCQuestionAnswerEntity
+import com.coderizzard.database.data.database.model.session.answers.SessionAnswer
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 
 @Dao
 interface SessionDao {
@@ -21,13 +23,11 @@ interface SessionDao {
     @Query("""
         SELECT quiz_session.*, 
            (
-            COUNT(identification_answer.question_id)
-            +  COUNT(mc_question_answer.question_id)
-            ) AS current_question_index 
+                (SELECT COUNT(*) FROM identification_answer WHERE identification_answer.quiz_id = quiz_session.quiz_id)
+                + (SELECT COUNT(*) FROM mc_question_answer WHERE mc_question_answer.quiz_id = quiz_session.quiz_id)
+           ) AS current_question_index  
         FROM quiz_session 
-        LEFT JOIN identification_answer ON quiz_session.quiz_id = identification_answer.quiz_id 
-        LEFT JOIN mc_question_answer ON quiz_session.quiz_id = mc_question_answer.quiz_id
-        WHERE quiz_session.quiz_id = :quizId
+        WHERE quiz_id =:quizId
         GROUP BY quiz_session.quiz_id
     """
     )
@@ -39,12 +39,10 @@ interface SessionDao {
     @Query("""
         SELECT quiz_session.*, 
            (
-            COUNT(identification_answer.question_id)
-            +  COUNT(mc_question_answer.question_id)
-            ) AS current_question_index  
+                (SELECT COUNT(*) FROM identification_answer WHERE identification_answer.quiz_id = quiz_session.quiz_id)
+                + (SELECT COUNT(*) FROM mc_question_answer WHERE mc_question_answer.quiz_id = quiz_session.quiz_id)
+           ) AS current_question_index  
         FROM quiz_session 
-        LEFT JOIN identification_answer ON quiz_session.quiz_id = identification_answer.quiz_id 
-        LEFT JOIN mc_question_answer ON quiz_session.quiz_id = mc_question_answer.quiz_id
         GROUP BY quiz_session.quiz_id
         ORDER BY started_at ASC
     """)
