@@ -53,8 +53,9 @@ internal fun AnsweringScreen(
 ) {
     val question = uiState.q
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.CenterVertically)
+        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.CenterVertically),
+
     ) {
         Card(
             modifier = Modifier.heightIn(max=256.dp),
@@ -116,9 +117,7 @@ internal fun AnsweringScreen(
                 Text(
                     question.text.toAnnotatedString(),
                     fontSize = 18.sp,
-                    modifier = Modifier.fillMaxWidth().padding(6.dp).verticalScroll(
-                        rememberScrollState()
-                    )
+                    modifier = Modifier.fillMaxWidth().padding(6.dp)
                 )
             }
         }
@@ -145,7 +144,7 @@ private fun ComposableMCQuestion(
     answeringState: AnsweringState
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(6.dp)
+        verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         question.options.map { opt ->
             ElevatedButton(
