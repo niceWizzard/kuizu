@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -56,6 +57,7 @@ internal fun AnsweringScreen(
         verticalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.CenterVertically)
     ) {
         Card(
+            modifier = Modifier.heightIn(max=256.dp),
             colors = when (answeringState) {
                 AnsweringState.Correct -> {
                     CardDefaults.cardColors(
@@ -114,8 +116,9 @@ internal fun AnsweringScreen(
                 Text(
                     question.text.toAnnotatedString(),
                     fontSize = 18.sp,
-                    modifier = Modifier.verticalScroll(rememberScrollState())
-
+                    modifier = Modifier.fillMaxWidth().padding(6.dp).verticalScroll(
+                        rememberScrollState()
+                    )
                 )
             }
         }
@@ -150,6 +153,7 @@ private fun ComposableMCQuestion(
                     onEvent(ScreenEvent.MCAnswer(listOf(opt.remoteId)))
                 },
                 modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(6.dp),
                 colors = when (answeringState) {
                     AnsweringState.Correct -> {
                         if (question.answer.contains(opt.remoteId))
@@ -215,6 +219,7 @@ private fun ComposableIdentificationQuestion(
         },
         modifier = Modifier.fillMaxWidth().imePadding(),
         enabled = answeringState == AnsweringState.Unanswered,
+        shape = RoundedCornerShape(6.dp)
     ) {
         Text("Submit")
     }
