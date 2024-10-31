@@ -19,7 +19,7 @@ import java.time.LocalDateTime
         )
     ]
 )
-internal data class SessionResultEntity(
+data class SessionResultEntity(
     @PrimaryKey
     @ColumnInfo(name = ID)
     val id: String,

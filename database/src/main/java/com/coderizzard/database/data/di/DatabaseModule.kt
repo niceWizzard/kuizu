@@ -7,14 +7,17 @@ import com.coderizzard.database.data.database.dao.QuestionDao
 import com.coderizzard.database.data.database.dao.QuizDao
 import com.coderizzard.database.data.database.dao.SessionAnswerDao
 import com.coderizzard.database.data.database.dao.SessionDao
+import com.coderizzard.database.data.database.dao.SessionResultDao
 import com.coderizzard.database.data.repository.QuestionRepositoryImpl
 import com.coderizzard.database.data.repository.QuizRepositoryImpl
 import com.coderizzard.database.data.repository.SessionAnswerRepositoryImpl
 import com.coderizzard.database.data.repository.SessionRepositoryImpl
+import com.coderizzard.database.data.repository.SessionResultRepositoryImpl
 import com.coderizzard.database.domain.repository.QuestionRepository
 import com.coderizzard.database.domain.repository.QuizRepository
 import com.coderizzard.database.domain.repository.SessionAnswerRepository
 import com.coderizzard.database.domain.repository.SessionRepository
+import com.coderizzard.database.domain.repository.SessionResultRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -63,6 +66,12 @@ internal object DatabaseModule {
 
     @Provides
     @Singleton
+    fun providesSessionResultDao(appDb : AppDatabase): SessionResultDao {
+        return appDb.sessionResultDao
+    }
+
+    @Provides
+    @Singleton
     fun providesQuizRepository(
         quizDao: QuizDao, questionRepository: QuestionRepository,
         questionDao: QuestionDao
@@ -97,6 +106,16 @@ internal object DatabaseModule {
     ) : SessionAnswerRepository {
         return SessionAnswerRepositoryImpl(
             sessionAnswerDao = sessionAnswerDao
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun providesSessionResultRepository(
+        dao : SessionResultDao
+    ): SessionResultRepository {
+        return SessionResultRepositoryImpl(
+            sessionResultDao = dao
         )
     }
 }

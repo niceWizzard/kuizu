@@ -8,6 +8,7 @@ import com.coderizzard.database.data.database.dao.QuestionDao
 import com.coderizzard.database.data.database.dao.QuizDao
 import com.coderizzard.database.data.database.dao.SessionAnswerDao
 import com.coderizzard.database.data.database.dao.SessionDao
+import com.coderizzard.database.data.database.dao.SessionResultDao
 import com.coderizzard.database.data.database.model.QuizEntity
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
 import com.coderizzard.database.data.database.model.question.MCOptionEntity
@@ -38,4 +39,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract val questionDao : QuestionDao
     abstract val sessionDao : SessionDao
     abstract val sessionAnswerDao : SessionAnswerDao
+    abstract val sessionResultDao : SessionResultDao
 }
