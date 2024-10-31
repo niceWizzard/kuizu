@@ -3,10 +3,12 @@ package com.coderizzard.quiz.session.presentation.screen.session
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,7 +24,7 @@ import com.coderizzard.core.data.model.question.MCOption
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.session.QuizSession
 import com.coderizzard.quiz.session.presentation.screen.session.screen.AnsweringScreen
-import com.coderizzard.quiz.session.presentation.screen.session.screen.FinishedScreen
+import com.coderizzard.quiz.session.presentation.screen.session.screen.ResultsScreen
 import com.coderizzard.quiz.session.presentation.screen.session.screen.StartScreen
 import java.time.LocalDateTime
 
@@ -81,10 +83,17 @@ private fun Content(
                             }
                         }
                         SessionUiState.Finished -> {
-                            FinishedScreen(session.quizId   )
+                            Row {
+                                CircularProgressIndicator()
+                                Text("Saving results...")
+                            }
                         }
                         SessionUiState.Default -> {
                             StartScreen(session, onEvent)
+                        }
+
+                        SessionUiState.Results -> {
+                            ResultsScreen(session.quizId)
                         }
                     }
                 }
@@ -92,6 +101,7 @@ private fun Content(
         }
     }
 }
+
 
 
 @Preview

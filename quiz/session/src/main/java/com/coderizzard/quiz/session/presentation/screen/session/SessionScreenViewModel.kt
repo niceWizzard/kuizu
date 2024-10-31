@@ -13,6 +13,7 @@ import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.question.Question
 import com.coderizzard.core.data.model.session.QuizSession
+import com.coderizzard.core.data.model.session.SessionResult
 import com.coderizzard.core.data.model.session.answer.IdentificationAnswer
 import com.coderizzard.core.data.model.session.answer.MCQuestionAnswer
 import com.coderizzard.core.data.navigation.NavigationManager
@@ -20,18 +21,21 @@ import com.coderizzard.core.data.navigation.RootRoute
 import com.coderizzard.core.data.stripHtmlTags
 import com.coderizzard.core.data.toAnnotatedString
 import com.coderizzard.database.domain.repository.SessionRepository
+import com.coderizzard.database.domain.repository.SessionResultRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
 class SessionScreenViewModel @Inject constructor(
     private val sessionRepository: SessionRepository,
     private val navigationManager: NavigationManager,
+    private val sessionResultRepository: SessionResultRepository,
 ) : ViewModel() {
 
     private val quizId = navigationManager.getRouteData<RootRoute.QuizSession>()?.id ?: throw Exception("Invalid Route")
@@ -72,9 +76,8 @@ class SessionScreenViewModel @Inject constructor(
         val session = getSession()
         when(e) {
             ScreenEvent.Start -> {
-                Log.d("taggz", "${session.currentQuestionIndex}/${session.questionOrder.size}")
                 if(session.isFinished()) {
-                    _uiState.update { SessionUiState.Finished }
+                    _uiState.update { SessionUiState.Results }
                 } else {
                     val question = when(val q = session.getCurrentQuestion()) {
                         is IdentificationQuestion -> q
@@ -151,6 +154,17 @@ class SessionScreenViewModel @Inject constructor(
                 delay(500)
             } else {
                 _uiState.update { SessionUiState.Finished }
+
+                sessionResultRepository.createResult(
+                    SessionResult(
+                        quizId = session.quizId,
+                        dateFinished = LocalDateTime.now(),
+                        marks = session.questionOrder.size ,
+                        totalPoints = session.questionOrder.size,
+                    )
+                )
+                _uiState.update { SessionUiState.Results }
+
             }
         }
     }
@@ -174,4 +188,5 @@ sealed interface SessionUiState {
     data object Default : SessionUiState
     data class Answering(val q : Question) : SessionUiState
     data object Finished : SessionUiState
+    data object Results : SessionUiState
 }
