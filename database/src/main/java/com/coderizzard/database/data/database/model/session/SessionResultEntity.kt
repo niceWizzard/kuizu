@@ -50,3 +50,14 @@ data class SessionResultEntity(
         )
     }
 }
+
+
+fun SessionResult.toEntity(): SessionResultEntity {
+    return SessionResultEntity(
+        id = this.id,
+        quizId = this.quizId,
+        totalPoints = this.totalPoints,
+        marks = this.marks,
+        dateFinished = this.dateFinished,
+    )
+}
