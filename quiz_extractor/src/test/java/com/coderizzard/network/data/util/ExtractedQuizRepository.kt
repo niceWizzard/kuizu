@@ -9,7 +9,9 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -71,13 +73,11 @@ internal class TestExtractedQuizRepository {
         val error = HttpException(
             Response.error<Any>(
                 400,
-                ResponseBody.create(
-                    MediaType.get("application/json"),
-                    """{
-                        |"success": false,
-                        |"message": "${message}"
-                        |}""".trimMargin()
-                )
+                """{
+                    |"success": false,
+                    |"message": "${message}"
+                    |}""".trimMargin()
+                    .toResponseBody("application/json".toMediaType())
             )
         )
         coEvery { api.extractQuizById("error") } throws error
@@ -117,10 +117,8 @@ internal class TestExtractedQuizRepository {
         val error = HttpException(
             Response.error<Any>(
                 400,
-                ResponseBody.create(
-                    null,
-                    ""
-                )
+                ""
+                    .toResponseBody(null)
             )
         )
         coEvery { api.extractQuizById("error") } throws error
