@@ -52,12 +52,16 @@ internal fun ResultsScreen(quizId: String) {
     LaunchedEffect(Unit) {
         viewModel.initialize(quizId)
     }
-    Content(data = data)
+    Content(
+        data = data,
+        retry = viewModel::retry
+    )
 }
 
 @Composable
 private fun Content(
-    data: AsyncData<SessionResultWithUserAnswers>
+    data: AsyncData<SessionResultWithUserAnswers>,
+    retry: (String) -> Unit,
 ) {
     LazyColumn (
         modifier = Modifier
@@ -96,7 +100,7 @@ private fun Content(
                     )
                     ElevatedButton(
                         modifier = Modifier.fillMaxWidth(),
-                        onClick = {},
+                        onClick = {retry(session.quizId)},
                     ) {
                         Text("Retry")
                     }
@@ -285,6 +289,7 @@ private fun ResultScreenPreview() {
                     userAnswers = userAnswers,
                 )
             ),
+            retry = {}
         )
     }
 }

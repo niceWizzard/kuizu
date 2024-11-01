@@ -19,4 +19,9 @@ interface SessionRepository {
 
     suspend fun createQuestionAnswer(answer : MCQuestionAnswer)
     suspend fun createQuestionAnswer(answer : IdentificationAnswer)
+
+    suspend fun retrySession(quizId: String){
+        deleteSession(quizId)
+        createSession(quizId)
+    }
 }
