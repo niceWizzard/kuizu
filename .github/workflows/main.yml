@@ -17,11 +17,11 @@ jobs:
 
       
 
-      # Set up JDK 11 (or the version required by your Android project)
-      - name: Set up JDK 11
+      # Set up JDK 18 (or the version required by your Android project)
+      - name: Set up JDK 18
         uses: actions/setup-java@v4
         with:
-          java-version: 11
+          java-version: 18
           distribution: 'adopt'
 
       # Cache Gradle dependencies
