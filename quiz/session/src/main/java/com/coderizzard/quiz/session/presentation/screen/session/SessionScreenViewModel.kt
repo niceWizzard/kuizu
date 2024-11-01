@@ -159,7 +159,7 @@ class SessionScreenViewModel @Inject constructor(
                     SessionResult(
                         quizId = session.quizId,
                         dateFinished = LocalDateTime.now(),
-                        marks = session.questionOrder.size ,
+                        marks = currentScore,
                         totalPoints = session.questionOrder.size,
                     )
                 )
