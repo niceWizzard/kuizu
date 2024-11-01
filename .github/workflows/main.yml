@@ -41,7 +41,7 @@ jobs:
 
       # Rename the APK file before uploading
       - name: Rename APK to Kuizu.apk
-        run: mv ${{ env.main_project_module }}/build/outputs/apk/release/app-release.apk ./Kuizu.apk
+        run: mv ${{ env.main_project_module }}/release/app-release.apk ./Kuizu.apk
 
       # Create Release and Upload Renamed APK to GitHub Release
       - name: Create and Upload to GitHub Release
