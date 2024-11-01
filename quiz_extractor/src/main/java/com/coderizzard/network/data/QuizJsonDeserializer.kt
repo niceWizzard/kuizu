@@ -36,7 +36,10 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
 
         val name = info.get("name").asString
 
-        val imageLink = info.get("image").asString
+        val imageLink = if(info.has("image"))
+            info.get("image").asString
+        else
+            ""
 
         val createdAtString = info.get("createdAt").asString
 

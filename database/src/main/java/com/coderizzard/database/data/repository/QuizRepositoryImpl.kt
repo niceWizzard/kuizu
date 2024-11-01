@@ -2,22 +2,19 @@ package com.coderizzard.database.data.repository
 
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
-import com.coderizzard.core.data.model.question.MCOption
 import com.coderizzard.core.data.model.question.MCQuestion
-import com.coderizzard.database.data.database.QuestionDao
-import com.coderizzard.database.data.database.QuizDao
+import com.coderizzard.database.data.database.dao.QuestionDao
+import com.coderizzard.database.data.database.dao.QuizDao
 import com.coderizzard.database.data.database.model.QuizEntity
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
 import com.coderizzard.database.data.database.model.question.MCOptionEntity
 import com.coderizzard.database.data.database.model.question.MCQuestionEntity
-import com.coderizzard.database.data.database.model.question.QuestionEntity
 import com.coderizzard.database.domain.repository.QuestionRepository
 import com.coderizzard.database.domain.repository.QuizRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
 
