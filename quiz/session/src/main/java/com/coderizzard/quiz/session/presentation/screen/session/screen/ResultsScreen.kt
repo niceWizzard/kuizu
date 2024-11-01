@@ -1,6 +1,7 @@
 package com.coderizzard.quiz.session.presentation.screen.session.screen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,20 +9,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.coderizzard.core.data.AsyncData
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
+import com.coderizzard.core.data.model.question.MCOption
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.session.QuizSession
 import com.coderizzard.core.data.model.session.SessionResult
@@ -37,6 +43,7 @@ import com.coderizzard.core.data.model.session.answer.IdentificationAnswer
 import com.coderizzard.core.data.model.session.answer.MCQuestionAnswer
 import com.coderizzard.core.data.toAnnotatedString
 import java.time.LocalDateTime
+import kotlin.random.Random
 
 @Composable
 internal fun ResultsScreen(quizId: String) {
@@ -95,10 +102,18 @@ private fun Content(
                     }
                 }
 
-                items(items = data.data.userAnswers) { userAnswer ->
+                itemsIndexed(items = data.data.userAnswers) { index,userAnswer ->
                     val question = data.data.session.quiz.questions.find { it.id == userAnswer.questionId }
                         ?: throw Exception("There should be a question here")
-                    Card {
+
+                    Card(
+                        colors = CardDefaults.cardColors(
+                            contentColor = if(userAnswer.isCorrect)
+                                MaterialTheme.colorScheme.primary
+                            else
+                                MaterialTheme.colorScheme.error,
+                        ),
+                    ) {
                         Column(
                             modifier = Modifier.fillMaxWidth().padding(
                                 vertical = 16.dp, horizontal = 12.dp,
@@ -107,6 +122,27 @@ private fun Content(
                                 8.dp,
                             )
                         ) {
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                            ) {
+                                val questionType = when(question) {
+                                    is IdentificationQuestion -> "Identification"
+                                    is MCQuestion -> "Multiple Choice"
+                                }
+                                Text(
+                                    "${index + 1}. $questionType",
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Light,
+                                )
+                                Text(
+                                    "${if(userAnswer.isCorrect) question.point else 0}/${question.point}",
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Light,
+                                )
+                            }
+                            HorizontalDivider()
                             Text(question.text.toAnnotatedString())
                             when(userAnswer) {
                                 is IdentificationAnswer -> {
@@ -138,17 +174,32 @@ private fun Content(
                                 }
                                 is MCQuestionAnswer -> {
                                     val q = question as MCQuestion
-                                    q.options.map { opt ->
-                                        ElevatedButton(
-                                            onClick = {},
-                                            enabled = false,
-                                            modifier = Modifier.fillMaxWidth(),
-                                        ) {
-                                            Text(buildString {
-                                                if(userAnswer.correctAnswerIds.contains(opt.remoteId))
-                                                    append("Answer")
-                                                append(opt.text.toAnnotatedString())
-                                            })
+                                    Column(
+                                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                                    ) {
+                                        q.options.map { opt ->
+                                            val isOptionCorrect = q.answer.contains(opt.remoteId)
+                                            val userPickedOption = userAnswer.correctAnswerIds.contains(opt.remoteId)
+                                            val color = if(isOptionCorrect)
+                                                MaterialTheme.colorScheme.primary
+                                            else if(userPickedOption)
+                                                MaterialTheme.colorScheme.error
+                                            else
+                                                MaterialTheme.colorScheme.surface
+                                            OutlinedCard(
+                                                colors = CardDefaults.outlinedCardColors(
+                                                    containerColor = color,
+                                                ),
+                                            ) {
+                                                Box(
+                                                    modifier = Modifier.fillMaxWidth().padding(8.dp),
+                                                ) {
+                                                    Text(
+                                                        opt.text.toAnnotatedString(),
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                    )
+                                                }
+                                            }
                                         }
                                     }
 
@@ -168,9 +219,31 @@ private fun Content(
 @Preview
 @Composable
 private fun ResultScreenPreview() {
+    val questions = List(5) { index ->
+        val questionId = "q${index}"
+        MCQuestion(
+            id =questionId,
+            remoteId = questionId,
+            imageLink = "",
+            localImagePath = "",
+            quizId = "quiz1",
+            options = List(4) { optIndex->
+                val optId = "mco${optIndex}"
+                MCOption(
+                    questionId = questionId,
+                    remoteId = optId,
+                    id = optId,
+                    text = (optIndex + 1).toString(),
+                )
+            },
+            text = "What is 1+1?",
+            answer = listOf("mco1"),
+            point = 1,
+        )
+    }
     val quiz = Quiz(
-        questions = emptyList(),
-        id = "1",
+        questions = questions,
+        id = "quiz1",
         name = "Some quiz",
         remoteId = "",
         localImagePath = "",
@@ -178,25 +251,38 @@ private fun ResultScreenPreview() {
         createdAt = LocalDateTime.now(),
         imageLink = "",
     )
+    val userAnswers = questions.mapIndexed { index, question ->
+        val isCorrect = Random.nextBoolean()
+        val answer = if(isCorrect)
+            question.answer
+        else
+            listOf("mco${(index + 1) % questions.size}")
+        MCQuestionAnswer(
+            correctAnswerIds = answer,
+            quizId = question.quizId,
+            questionId = question.id,
+            isCorrect = isCorrect,
+        )
+    }
     Surface() {
         Content(
             data = AsyncData.Success(
                 data = SessionResultWithUserAnswers(
                     session = QuizSession(
                         quiz = quiz,
-                        quizId = "1",
+                        quizId = "quiz1",
                         questionOrder = emptyList(),
                         currentQuestionIndex = 0,
                         startedAt = LocalDateTime.now(),
                     ),
                     sessionResult = SessionResult(
-                        id = "",
-                        quizId = "",
-                        marks = 9,
+                        id = "session1",
+                        quizId = "quiz1",
+                        marks = userAnswers.count {it.isCorrect},
                         dateFinished = LocalDateTime.now(),
-                        totalPoints = 10,
+                        totalPoints = 5,
                     ),
-                    userAnswers = emptyList(),
+                    userAnswers = userAnswers,
                 )
             ),
         )
