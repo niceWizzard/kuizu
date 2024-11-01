@@ -10,10 +10,10 @@ import com.coderizzard.database.data.database.model.session.answers.SessionAnswe
 
 @Dao
 interface SessionAnswerDao {
-    @Query("SELECT * FROM identification_answer WHERE quiz_id = :quizId")
+    @Query("SELECT * FROM identification_answer WHERE quiz_id = :quizId ORDER BY is_correct")
     suspend fun getAllIdentificationFromSession(quizId : String)  : List<IdentificationAnswerEntity>
 
-    @Query("SELECT * FROM mc_question_answer WHERE quiz_id = :quizId")
+    @Query("SELECT * FROM mc_question_answer WHERE quiz_id = :quizId ORDER BY is_correct ")
     suspend fun getAllMCQuestionAnswerFromSession(quizId : String)  : List<MCQuestionAnswerEntity>
 
     @Transaction
