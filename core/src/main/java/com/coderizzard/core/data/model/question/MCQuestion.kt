@@ -11,7 +11,7 @@ data class MCQuestion(
     val options : List<MCOption>,
     val answer : List<String>,
 )  : Question {
-    fun toShuffledOptions(): Question {
+    fun toShuffledOptions(): MCQuestion {
         return copy(options = options.shuffled())
     }
 
