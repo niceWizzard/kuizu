@@ -46,7 +46,7 @@ class SessionScreenViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<SessionUiState>(SessionUiState.Default)
     val uiState = _uiState.asStateFlow()
 
-    var currentScore by mutableIntStateOf(0)
+    var currentScore by mutableIntStateOf(-1)
     private set
 
     var answeringState by mutableStateOf<AnsweringState>(AnsweringState.Unanswered)
@@ -69,6 +69,7 @@ class SessionScreenViewModel @Inject constructor(
                     AsyncData.Success(res.data)
                 }
             }
+            currentScore = sessionRepository.getCurrentScore(quizId)
         }
     }
 

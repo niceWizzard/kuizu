@@ -39,4 +39,12 @@ interface SessionAnswerDao {
 
     @Query("DELETE FROM identification_answer WHERE quiz_id = :quizId")
     suspend fun deleteAllIdentificationAnswer(quizId : String)
+
+    @Query("""
+        SELECT (
+            (SELECT COUNT(*) FROM identification_answer WHERE quiz_id = :quizId AND is_correct) +
+            (SELECT COUNT(*) FROM mc_question_answer WHERE quiz_id = :quizId AND is_correct)
+        ) AS score
+    """)
+    suspend fun getCurrentSessionScore(quizId: String) : Int
 }
