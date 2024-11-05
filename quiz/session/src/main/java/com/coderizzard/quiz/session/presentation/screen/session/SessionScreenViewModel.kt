@@ -139,9 +139,9 @@ class SessionScreenViewModel @Inject constructor(
 
     private fun nextQuestion(session: QuizSession) {
         viewModelScope.launch {
-            delay(1500)
+            delay(3000)
             isQuestionVisible = false
-            delay(500)
+            delay(600)
 
             answeringState = AnsweringState.Unanswered
             if (session.hasNextQuestion()) {
