@@ -39,7 +39,8 @@ class SessionScreenViewModel @Inject constructor(
     private val sessionResultRepository: SessionResultRepository,
 ) : ViewModel() {
 
-    private val quizId = navigationManager.getRouteData<RootRoute.QuizSession>()?.id ?: throw Exception("Invalid Route")
+    private val routeData = navigationManager.getRouteData<RootRoute.QuizSession>()?: throw Exception("Invalid Route")
+    private val quizId = routeData.id
 
     var sessionData  by mutableStateOf<AsyncData<QuizSession>>(AsyncData.Loading)
         private set
@@ -62,6 +63,7 @@ class SessionScreenViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            currentScore = sessionRepository.getCurrentScore(quizId)
             sessionData = when(val res = sessionRepository.getSession(quizId)) {
                 is ResultState.Error -> {
                     AsyncData.Error(res.message, res.exception)
@@ -70,7 +72,8 @@ class SessionScreenViewModel @Inject constructor(
                     AsyncData.Success(res.data)
                 }
             }
-            currentScore = sessionRepository.getCurrentScore(quizId)
+            if(routeData.autoStart)
+                onEvent(ScreenEvent.Start)
         }
     }
 
@@ -85,11 +88,8 @@ class SessionScreenViewModel @Inject constructor(
                         is IdentificationQuestion -> q
                         is MCQuestion -> {q.toShuffledOptions()}
                     }
-                    viewModelScope.launch {
-                        isQuestionVisible = true
-                        delay(500)
-                        _uiState.update { SessionUiState.Answering(question) }
-                    }
+                    isQuestionVisible = true
+                    _uiState.update { SessionUiState.Answering(question) }
                 }
             }
             is ScreenEvent.MCAnswer -> {

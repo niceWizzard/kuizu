@@ -51,9 +51,9 @@ fun SessionListScreen() {
     val sessionList by viewModel.sessionList.collectAsState(AsyncData.Loading)
     Content(
         sessionList = sessionList,
-        onPlayButtonClick = { id ->
+        onPlayButtonClick = { id, autoStart ->
             viewModel.navigationManager.navigateTo(
-                RootRoute.QuizSession(id)
+                RootRoute.QuizSession(id, autoStart)
             )
         },
         onEvent = viewModel::onEvent,
@@ -63,7 +63,7 @@ fun SessionListScreen() {
 @Composable
 private fun Content(
     sessionList: AsyncData<List<QuizSession>>,
-    onPlayButtonClick: (id : String) -> Unit,
+    onPlayButtonClick: (id : String, autoStart: Boolean) -> Unit,
     onEvent: (e : ScreenEvent) -> Unit,
 ) {
     Surface(
@@ -118,7 +118,11 @@ private fun Content(
                     items(
                         items = list,
                     ) { session ->
-                        Card {
+                        Card(
+                            onClick = {
+                                onPlayButtonClick(session.quizId, false)
+                            }
+                        ) {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -154,7 +158,7 @@ private fun Content(
                                 Column {
                                     IconButton(
                                         onClick = {
-                                            onPlayButtonClick(session.quizId)
+                                            onPlayButtonClick(session.quizId,true)
                                         },
                                         modifier = Modifier.fillMaxWidth()
                                     ) {
@@ -194,7 +198,7 @@ private fun Content(
 @Composable
 private fun SessionListPreview() {
     Content(
-        onPlayButtonClick = {},
+        onPlayButtonClick = {_,_ -> },
         sessionList = AsyncData.Success(
             List(10) {
                 QuizSession(
@@ -224,7 +228,7 @@ private fun SessionListPreview() {
 private fun SessionListLoadingPreview() {
     Content(
         sessionList = AsyncData.Loading,
-        onPlayButtonClick = {},
+        onPlayButtonClick = {_,_ -> },
         onEvent = {}
     )
 }

@@ -24,7 +24,7 @@ sealed class RootRoute(
     data object Home : RootRoute("Home")
 
     @Serializable
-    data class QuizSession(val id : String= "") : RootRoute("Quiz Session")
+    data class QuizSession(val id : String= "", val autoStart:Boolean=false) : RootRoute("Quiz Session")
 
     @Serializable
     data class Quiz(val id : String="") : RootRoute("Quiz - $id")
