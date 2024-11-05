@@ -10,7 +10,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -66,7 +65,7 @@ private fun Content(
             when(sessionData) {
                 is AsyncData.Error -> TODO()
                 AsyncData.Loading -> {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                 }
                 is AsyncData.Success ->  {
                     val session = sessionData.data
