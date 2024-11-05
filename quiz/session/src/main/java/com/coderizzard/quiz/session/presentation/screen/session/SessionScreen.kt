@@ -1,6 +1,11 @@
 package com.coderizzard.quiz.session.presentation.screen.session
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -71,7 +76,17 @@ private fun Content(
                     val session = sessionData.data
                     when(uiState){
                         is SessionUiState.Answering -> {
-                            AnimatedVisibility(isQuestionVisible) {
+                            AnimatedVisibility(
+                                isQuestionVisible,
+                                enter = fadeIn(animationSpec = tween(300)) + slideInHorizontally(
+                                    initialOffsetX = { -it },
+                                    animationSpec = tween(300)
+                                ),
+                                exit = fadeOut(animationSpec = tween(300)) + slideOutHorizontally(
+                                    targetOffsetX = { it },
+                                    animationSpec = tween(300)
+                                )
+                            ) {
                                 AnsweringScreen(
                                     uiState,
                                     answeringState,
