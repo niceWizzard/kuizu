@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.question.Question
+import com.coderizzard.core.data.model.question.UnsupportedQuestion
 import com.coderizzard.core.data.toAnnotatedString
 import com.coderizzard.core.presentation.expandable_image.ExpandableImage
 
@@ -38,6 +39,7 @@ internal fun QuestionComp(q: Question, index : Int) {
                             when(q) {
                                 is IdentificationQuestion -> "Identification"
                                 is MCQuestion -> "Multiple Choice"
+                                is UnsupportedQuestion -> "Unsupported"
                             }
                     }",
                     fontWeight = FontWeight.Light
@@ -78,6 +80,10 @@ internal fun QuestionComp(q: Question, index : Int) {
                         }
 
                     }
+                }
+
+                is UnsupportedQuestion -> {
+                    Text("Type: ${q.type}")
                 }
             }
         }

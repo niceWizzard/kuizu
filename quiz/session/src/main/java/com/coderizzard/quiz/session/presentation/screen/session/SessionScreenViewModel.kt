@@ -12,6 +12,7 @@ import com.coderizzard.core.data.AsyncData
 import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.question.Question
+import com.coderizzard.core.data.model.question.SupportedQuestion
 import com.coderizzard.core.data.model.session.QuizSession
 import com.coderizzard.core.data.model.session.SessionResult
 import com.coderizzard.core.data.model.session.answer.IdentificationAnswer
@@ -146,7 +147,7 @@ class SessionScreenViewModel @Inject constructor(
             if (session.hasNextQuestion()) {
                 val newSession = session.incrementQuestionIndex()
                 sessionData = AsyncData.Success(newSession)
-                val currentQuestion = when(val q = newSession.getCurrentQuestion()) {
+                val currentQuestion : SupportedQuestion  = when(val q = newSession.getCurrentQuestion()) {
                     is IdentificationQuestion -> q
                     is MCQuestion -> q.toShuffledOptions()
                 }
@@ -187,7 +188,7 @@ sealed interface ScreenEvent {
 
 sealed interface SessionUiState {
     data object Default : SessionUiState
-    data class Answering(val q : Question) : SessionUiState
+    data class Answering(val q : SupportedQuestion) : SessionUiState
     data object Finished : SessionUiState
     data object Results : SessionUiState
 }

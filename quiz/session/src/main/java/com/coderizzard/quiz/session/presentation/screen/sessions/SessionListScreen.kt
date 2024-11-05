@@ -204,7 +204,7 @@ private fun SessionListPreview() {
                         remoteId = "",
                         name = "Some preview quiz $it",
                         author = "Some author $it",
-                        questions = emptyList(),
+                        allQuestions = emptyList(),
                         createdAt = LocalDateTime.now(),
                         localImagePath = "",
                         imageLink = ""

@@ -89,7 +89,7 @@ private fun QuizListScreenPreview() {
                     author = "John Doe",
                     createdAt = LocalDateTime.now(),
                     remoteId = "",
-                    questions = listOf(
+                    allQuestions = listOf(
                         IdentificationQuestion(
                             answer = "2",
                             text = "What is 1 + 1?",

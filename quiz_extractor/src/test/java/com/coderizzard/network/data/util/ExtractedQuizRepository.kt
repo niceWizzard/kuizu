@@ -26,7 +26,7 @@ internal class TestExtractedQuizRepository {
         name = "valid",
         author = "valid",
         imageLink = "valid",
-        questions = emptyList(),
+        allQuestions = emptyList(),
         createdAt = LocalDateTime.now(),
         remoteId = "",
         localImagePath = "",

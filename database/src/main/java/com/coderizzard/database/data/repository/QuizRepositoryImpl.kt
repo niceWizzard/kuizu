@@ -3,12 +3,14 @@ package com.coderizzard.database.data.repository
 import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MCQuestion
+import com.coderizzard.core.data.model.question.UnsupportedQuestion
 import com.coderizzard.database.data.database.dao.QuestionDao
 import com.coderizzard.database.data.database.dao.QuizDao
 import com.coderizzard.database.data.database.model.QuizEntity
 import com.coderizzard.database.data.database.model.question.IdentificationQuestionEntity
 import com.coderizzard.database.data.database.model.question.MCOptionEntity
 import com.coderizzard.database.data.database.model.question.MCQuestionEntity
+import com.coderizzard.database.data.database.model.question.toEntity
 import com.coderizzard.database.domain.repository.QuestionRepository
 import com.coderizzard.database.domain.repository.QuizRepository
 import kotlinx.coroutines.Dispatchers
@@ -39,7 +41,7 @@ class QuizRepositoryImpl @Inject constructor(
                     remoteId = quiz.remoteId,
                     localImagePath = quiz.localImagePath
                 ),
-                questions = quiz.questions.map {
+                questions = quiz.allQuestions.map {
                     when(it) {
                         is IdentificationQuestion -> IdentificationQuestionEntity(
                             quizId = id,
@@ -71,6 +73,10 @@ class QuizRepositoryImpl @Inject constructor(
                                 localImagePath = it.localImagePath,
                                 imageLink = it.imageLink,
                             )
+                        }
+
+                        is UnsupportedQuestion -> {
+                            it.toEntity().copy(quizId = id)
                         }
                     }
                 },

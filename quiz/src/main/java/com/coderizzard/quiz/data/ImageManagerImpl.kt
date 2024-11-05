@@ -6,6 +6,7 @@ import com.coderizzard.core.data.model.Quiz
 import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.question.Question
+import com.coderizzard.core.data.model.question.UnsupportedQuestion
 import com.coderizzard.network.data.repository.ApiResponse
 import com.coderizzard.network.domain.ExtractedQuizRepository
 import com.coderizzard.quiz.domain.repository.ImageManager
@@ -25,7 +26,7 @@ class ImageManagerImpl @Inject constructor(
             localImagePath =  if (quiz.imageLink.isNotBlank())
                     saveQuizMainImage(quiz.imageLink,quiz.remoteId, context)
                 else "",
-            questions = quiz.questions.map { saveQuizQuestionImage(it,context) }
+            allQuestions = quiz.questions.map { saveQuizQuestionImage(it,context) }
 
         )
     }
@@ -64,6 +65,10 @@ class ImageManagerImpl @Inject constructor(
                         question.copy(localImagePath = questionImagePath)
                     }
                     is MCQuestion -> {
+                        question.copy(localImagePath = questionImagePath)
+                    }
+
+                    is UnsupportedQuestion -> {
                         question.copy(localImagePath = questionImagePath)
                     }
                 }

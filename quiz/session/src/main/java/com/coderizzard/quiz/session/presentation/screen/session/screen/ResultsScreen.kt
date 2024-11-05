@@ -246,7 +246,7 @@ private fun ResultScreenPreview() {
         )
     }
     val quiz = Quiz(
-        questions = questions,
+        allQuestions = questions,
         id = "quiz1",
         name = "Some quiz",
         remoteId = "",

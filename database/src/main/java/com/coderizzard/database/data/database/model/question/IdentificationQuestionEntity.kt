@@ -37,7 +37,7 @@ data class IdentificationQuestionEntity(
     override val imageLink: String,
     @ColumnInfo(name = QuestionEntity.LOCAL_IMAGE_PATH)
     override val localImagePath: String
-) : QuestionEntity {
+) : SupportedQuestionEntity {
     companion object {
         const val ANSWER = "answer"
     }

@@ -95,7 +95,7 @@ private fun QuizScreenContent(quiz: Quiz) {
                 }
             }
             itemsIndexed(
-                items = quiz.questions,
+                items = quiz.allQuestions,
             ) { i,q ->
                 QuestionComp(q,i)
             }
@@ -186,7 +186,12 @@ private fun Header(quiz : Quiz) {
         }
     }
     Row(modifier = Modifier.fillMaxWidth()) {
-        Text("${quiz.questions.size} questions",
+        Text(buildString {
+            append(quiz.questions.size)
+            append(" questions")
+            if(quiz.unsupportedCount > 0)
+                append(", ${quiz.unsupportedCount} unsupported")
+    },
             fontWeight = FontWeight.Light
         )
     }
@@ -201,7 +206,7 @@ private fun QuizScreenPreview() {
             name = "Some Example quiz",
             author = "Example author",
             createdAt = LocalDateTime.now(),
-            questions = listOf(
+            allQuestions = listOf(
                 IdentificationQuestion(
                     text = "lajksdf",
                     quizId = "lajksdf",

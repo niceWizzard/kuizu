@@ -10,7 +10,7 @@ data class MCQuestion(
     override val localImagePath: String = "",
     val options : List<MCOption>,
     val answer : List<String>,
-)  : Question {
+)  : SupportedQuestion {
     fun toShuffledOptions(): MCQuestion {
         return copy(options = options.shuffled())
     }

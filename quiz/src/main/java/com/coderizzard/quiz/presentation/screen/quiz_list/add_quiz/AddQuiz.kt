@@ -239,7 +239,7 @@ private fun AddQuizScreenPreview() {
                 remoteId = "1",
                 name = "Duplicated Quiz",
                 author = "Some author",
-                questions = emptyList(),
+                allQuestions = emptyList(),
                 createdAt = LocalDateTime.now(),
                 imageLink = ""
             ),

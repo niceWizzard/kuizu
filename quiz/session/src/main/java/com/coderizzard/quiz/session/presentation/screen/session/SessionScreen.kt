@@ -169,7 +169,7 @@ private fun ContentPreview() {
         name = "General Knowledge Quiz",
         author = "QuizMaster",
         createdAt = LocalDateTime.now(),
-        questions = listOf(question1, question2, question3, question4, question5),
+        allQuestions = listOf(question1, question2, question3, question4, question5),
         remoteId = "remoteQuiz1"
     )
 

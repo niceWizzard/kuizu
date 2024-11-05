@@ -9,6 +9,7 @@ import com.coderizzard.database.data.database.model.question.IdentificationQuest
 import com.coderizzard.database.data.database.model.question.MCOptionEntity
 import com.coderizzard.database.data.database.model.question.MCQuestionEntity
 import com.coderizzard.database.data.database.model.question.QuestionEntity
+import com.coderizzard.database.data.database.model.question.UnsupportedQuestionEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -33,6 +34,9 @@ interface QuizDao {
                     questionDao.createQuestion(question)
                 }
                 is MCQuestionEntity -> {
+                    questionDao.createQuestion(question)
+                }
+                is UnsupportedQuestionEntity -> {
                     questionDao.createQuestion(question)
                 }
             }

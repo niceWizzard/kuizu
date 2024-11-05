@@ -1,6 +1,7 @@
 package com.coderizzard.core.data.model
 
 import com.coderizzard.core.data.model.question.Question
+import com.coderizzard.core.data.model.question.SupportedQuestion
 import java.time.LocalDateTime
 
 data class Quiz(
@@ -8,9 +9,11 @@ data class Quiz(
     val name : String,
     val author : String,
     val createdAt : LocalDateTime,
-    val questions : List<Question>,
+    val allQuestions : List<Question>,
     val imageLink : String = "",
     val remoteId : String ,
     val localImagePath : String = "",
 ) {
+    val questions = allQuestions.filterIsInstance<SupportedQuestion>()
+    val unsupportedCount = allQuestions.size - questions.size
 }

@@ -5,6 +5,7 @@ import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MCOption
 import com.coderizzard.core.data.model.question.MCQuestion
 import com.coderizzard.core.data.model.question.Question
+import com.coderizzard.core.data.model.question.UnsupportedQuestion
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -44,11 +45,9 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
         val createdAtString = info.get("createdAt").asString
 
 
-        val questions : List<Question> = info.get("questions").asJsonArray.map {
+        val questionJsonArray = info.get("questions").asJsonArray
+        val questions : List<Question> = questionJsonArray.map {
             it.asJsonObject
-        }.filter {
-            val type = it.get("type").asString.lowercase()
-            return@filter type == "mcq" || type == "blank"
         }.map { questionJson ->
             val type = questionJson.get("type").asString
             val structure = questionJson.get("structure").asJsonObject
@@ -102,7 +101,18 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
                         point = 1,
                     )
                 }
-                else -> throw Exception("Invalid question type received.")
+                else -> {
+                    UnsupportedQuestion(
+                        id = "",
+                        remoteId = questionId,
+                        point = 1,
+                        quizId = "",
+                        type = type,
+                        text = text,
+                        imageLink = image,
+                        localImagePath = "",
+                    )
+                }
             }
         }
 
@@ -114,7 +124,7 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
             name = name,
             author = author,
             imageLink = imageLink,
-            questions = questions,
+            allQuestions = questions,
             createdAt = LocalDateTime.ofInstant(
                 Instant.parse(createdAtString),
                 ZoneId.systemDefault()

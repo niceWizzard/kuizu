@@ -43,7 +43,7 @@ data class QuizEntity(
             author = this.author,
             name = this.name,
             createdAt = this.createdAt,
-            questions = questions,
+            allQuestions = questions,
             remoteId = this.remoteId,
             imageLink = this.imageLink,
             localImagePath = this.localImagePath
