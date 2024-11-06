@@ -5,8 +5,6 @@ import com.google.gson.Gson
 import com.google.gson.JsonElement
 import org.junit.Assert
 import org.junit.Test
-import java.io.File
-import java.io.InputStreamReader
 
 internal class TestQuizJsonDeserializer {
     private val jsonData : JsonElement = Gson().fromJson(
@@ -1147,9 +1145,9 @@ internal class TestQuizJsonDeserializer {
             quiz.remoteId,
         )
         Assert.assertEquals(
-            "Quiz question count should be 7 but got <${quiz.questions.size}>",
+            "Quiz question count should be 7 but got <${quiz.supportedQuestions.size}>",
             7,
-            quiz.questions.size
+            quiz.supportedQuestions.size
         )
         Assert.assertEquals(
             "Quiz name should be <Quizziz API > but received <${quiz.name}>",

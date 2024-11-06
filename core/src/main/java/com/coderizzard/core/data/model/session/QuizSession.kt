@@ -1,7 +1,6 @@
 package com.coderizzard.core.data.model.session
 
 import com.coderizzard.core.data.model.Quiz
-import com.coderizzard.core.data.model.question.Question
 import com.coderizzard.core.data.model.question.SupportedQuestion
 import java.time.LocalDateTime
 
@@ -13,7 +12,7 @@ data class QuizSession(
     val currentQuestionIndex : Int,
 ) {
     fun getCurrentQuestion() : SupportedQuestion {
-        return quiz.questions.find { it.id == questionOrder[currentQuestionIndex] } ?: throw Exception("Invalid id received.")
+        return quiz.supportedQuestions.find { it.id == questionOrder[currentQuestionIndex] } ?: throw Exception("Invalid id received.")
     }
 
     fun incrementQuestionIndex(): QuizSession {

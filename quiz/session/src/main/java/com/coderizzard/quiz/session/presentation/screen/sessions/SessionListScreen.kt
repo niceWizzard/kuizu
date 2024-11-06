@@ -1,7 +1,6 @@
 package com.coderizzard.quiz.session.presentation.screen.sessions
 
 import android.app.Activity
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -150,7 +149,7 @@ private fun Content(
                                 ) {
                                     Text(session.quiz.name)
                                     Text(
-                                        text = "${session.currentQuestionIndex }/${session.quiz.questions.size} questions answered",
+                                        text = "${session.currentQuestionIndex }/${session.quiz.supportedQuestions.size} questions answered",
                                         fontWeight = FontWeight.Light,
                                         fontSize = 12.sp,
                                     )

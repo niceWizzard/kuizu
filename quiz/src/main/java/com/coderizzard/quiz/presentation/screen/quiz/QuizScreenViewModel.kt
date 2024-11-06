@@ -1,19 +1,14 @@
 package com.coderizzard.quiz.presentation.screen.quiz
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.coderizzard.core.data.navigation.NavigationManager
 import com.coderizzard.core.data.model.Quiz
-import com.coderizzard.core.data.navigation.HomeRoute
 import com.coderizzard.core.data.navigation.RootRoute
 import com.coderizzard.database.domain.repository.QuizRepository
 import com.coderizzard.database.domain.repository.SessionRepository
 import com.coderizzard.quiz.domain.repository.ImageManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -50,7 +45,7 @@ import javax.inject.Inject
             val id = routeParams().id
             val quiz = quizRepository.getById(id)
             imageManager.deleteImage(quiz.localImagePath)
-            quiz.questions.forEach{
+            quiz.supportedQuestions.forEach{
                 if(it.localImagePath.isNotBlank()) {
                     imageManager.deleteImage(it.localImagePath)
                 }

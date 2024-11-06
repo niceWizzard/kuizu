@@ -188,7 +188,7 @@ private fun ContentPreview() {
     )
 
     // Create question order based on question IDs
-    val questionOrder = quiz.questions.map { it.id }
+    val questionOrder = quiz.supportedQuestions.map { it.id }
 
     // Create QuizSession
     val session = QuizSession(
