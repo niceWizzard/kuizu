@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.coderizzard.core.ResultState
 import com.coderizzard.core.data.AsyncData
 import com.coderizzard.core.data.model.question.IdentificationQuestion
 import com.coderizzard.core.data.model.question.MCQuestion
@@ -21,6 +20,7 @@ import com.coderizzard.core.data.navigation.NavigationManager
 import com.coderizzard.core.data.navigation.RootRoute
 import com.coderizzard.core.data.stripHtmlTags
 import com.coderizzard.core.data.toAnnotatedString
+import com.coderizzard.core.toAsyncData
 import com.coderizzard.database.domain.repository.SessionRepository
 import com.coderizzard.database.domain.repository.SessionResultRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -64,14 +64,7 @@ class SessionScreenViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             currentScore = sessionRepository.getCurrentScore(quizId)
-            sessionData = when(val res = sessionRepository.getSession(quizId)) {
-                is ResultState.Error -> {
-                    AsyncData.Error(res.message, res.exception)
-                }
-                is ResultState.Success -> {
-                    AsyncData.Success(res.data)
-                }
-            }
+            sessionData = sessionRepository.getSession(quizId).toAsyncData()
             if(routeData.autoStart)
                 onEvent(ScreenEvent.Start)
         }
