@@ -25,7 +25,9 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -55,7 +57,9 @@ internal fun AnsweringScreen(
 ) {
     val question = uiState.q
     Column(
-        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.CenterVertically),
 
     ) {
@@ -111,7 +115,9 @@ internal fun AnsweringScreen(
                 )
                 if (question.localImagePath.isNotBlank()) {
                     ExpandableImage(
-                        modifier = Modifier.fillMaxWidth().heightIn(max=128.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = 128.dp),
                         imageUrl = question.localImagePath,
                         contentDescription = "Current question image"
                     )
@@ -119,7 +125,9 @@ internal fun AnsweringScreen(
                 Text(
                     question.text.toAnnotatedString(),
                     fontSize = 18.sp,
-                    modifier = Modifier.fillMaxWidth().padding(6.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(6.dp)
                 )
             }
         }
@@ -145,37 +153,56 @@ private fun ComposableMCQuestion(
     onEvent: (e: ScreenEvent) -> Unit,
     answeringState: AnsweringState
 ) {
+    var selectedAnswer by rememberSaveable { mutableStateOf(emptyList<String>()) }
+    LaunchedEffect(selectedAnswer) {
+        if (!question.isMultipleSelection && selectedAnswer.isNotEmpty()) {
+            onEvent(ScreenEvent.MCAnswer(selectedAnswer))
+        }
+    }
     Column(
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
+        if(question.isMultipleSelection)
+            Text("Select multiple answers")
         question.options.map { opt ->
+            val isSelected = selectedAnswer.contains(opt.remoteId)
             val targetColor = when (answeringState) {
                 AnsweringState.Correct -> {
                     if (question.answer.contains(opt.remoteId))
-                        MaterialTheme.colorScheme.primary
+                        Color.Green
                     else
                         MaterialTheme.colorScheme.secondary
                 }
 
                 is AnsweringState.IncorrectMCAnswer -> {
-                    if (answeringState.answers.contains(opt.remoteId)) MaterialTheme.colorScheme.error
-                    else if (question.answer.contains(opt.remoteId)) MaterialTheme.colorScheme.primary
+                    if (question.answer.contains(opt.remoteId)) Color.Green
+                    else if (answeringState.answers.contains(opt.remoteId)) MaterialTheme.colorScheme.error
                     else MaterialTheme.colorScheme.secondary
                 }
-
                 is AnsweringState.IncorrectIdentificationAnswer,
-                AnsweringState.Unanswered -> MaterialTheme.colorScheme.secondary
+                AnsweringState.Unanswered -> {
+                    if(isSelected) {
+                        MaterialTheme.colorScheme.primary
+                    } else{
+                        MaterialTheme.colorScheme.secondary
+                    }
+                }
             }
             val animatedColor by animateColorAsState(targetColor, label = "mc opt button<${opt.id} color>")
             val contentColor = when (targetColor) {
                 MaterialTheme.colorScheme.secondary -> MaterialTheme.colorScheme.onSecondary
                 MaterialTheme.colorScheme.primary -> MaterialTheme.colorScheme.onPrimary
                 MaterialTheme.colorScheme.error -> MaterialTheme.colorScheme.onError
+                Color.Green -> MaterialTheme.colorScheme.onPrimary
                 else -> MaterialTheme.colorScheme.onSurface
             }
             ElevatedButton(
                 onClick = {
-                    onEvent(ScreenEvent.MCAnswer(listOf(opt.remoteId)))
+                    selectedAnswer = if(isSelected) {
+                        selectedAnswer.filter { it != opt.remoteId }
+                    } else {
+                        selectedAnswer + listOf(opt.remoteId)
+                    }
                 },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(6.dp),
@@ -194,6 +221,16 @@ private fun ComposableMCQuestion(
                 )
             }
         }
+        if(question.isMultipleSelection)
+            ElevatedButton(
+                onClick = {
+                    onEvent(ScreenEvent.MCAnswer(selectedAnswer))
+                },
+                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                enabled = answeringState == AnsweringState.Unanswered,
+            ) {
+                Text("Submit")
+            }
     }
 }
 
@@ -219,7 +256,9 @@ private fun ComposableIdentificationQuestion(
         onClick = {
             onEvent(ScreenEvent.IdentificationAnswer(userAnswer))
         },
-        modifier = Modifier.fillMaxWidth().imePadding(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .imePadding(),
         enabled = answeringState == AnsweringState.Unanswered,
         shape = RoundedCornerShape(6.dp)
     ) {

@@ -14,5 +14,5 @@ data class MCQuestion(
     fun toShuffledOptions(): MCQuestion {
         return copy(options = options.shuffled())
     }
-
+    val isMultipleSelection = answer.size > 1
 }
