@@ -131,10 +131,7 @@ private fun Content(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
-                                val questionType = when(question) {
-                                    is IdentificationQuestion -> "Identification"
-                                    is MCQuestion -> "Multiple Choice"
-                                }
+                                val questionType = question.getTypeName()
                                 Text(
                                     "${index + 1}. $questionType",
                                     fontSize = 12.sp,

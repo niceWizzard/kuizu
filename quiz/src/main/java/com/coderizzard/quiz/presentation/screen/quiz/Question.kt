@@ -35,13 +35,7 @@ internal fun QuestionComp(q: Question, index : Int) {
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(
-                    text = "${index+1}. ${
-                            when(q) {
-                                is IdentificationQuestion -> "Identification"
-                                is MCQuestion -> "Multiple Choice"
-                                is UnsupportedQuestion -> "Unsupported"
-                            }
-                    }",
+                    text = "${index+1}. ${q.getTypeName()}",
                     fontWeight = FontWeight.Light
                 )
                 Text(
