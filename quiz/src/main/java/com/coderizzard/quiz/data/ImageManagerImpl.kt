@@ -26,7 +26,7 @@ class ImageManagerImpl @Inject constructor(
             localImagePath =  if (quiz.imageLink.isNotBlank())
                     saveQuizMainImage(quiz.imageLink,quiz.remoteId, context)
                 else "",
-            allQuestions = quiz.questions.map { saveQuizQuestionImage(it,context) }
+            allQuestions = quiz.allQuestions.map { saveQuizQuestionImage(it,context) }
 
         )
     }
