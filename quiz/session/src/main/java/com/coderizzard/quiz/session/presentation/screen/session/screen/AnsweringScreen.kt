@@ -127,7 +127,7 @@ internal fun AnsweringScreen(
                     fontSize = 18.sp,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(6.dp)
+                        .padding(6.dp).verticalScroll(rememberScrollState())
                 )
             }
         }
