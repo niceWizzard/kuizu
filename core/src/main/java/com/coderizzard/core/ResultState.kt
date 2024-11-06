@@ -2,14 +2,12 @@ package com.coderizzard.core
 
 import com.coderizzard.core.data.AsyncData
 
-sealed interface ResultState<out T> {
-    data class Success<T>(val data: T) : ResultState<T>
-    data class Error(val message: String, val exception: Throwable? = null) : ResultState<Nothing>
-
-    fun toAsyncData() : AsyncData<T> {
-        return when(this) {
-            is Error -> AsyncData.Error(message, exception)
-            is Success -> AsyncData.Success(data)
-        }
+fun <T> Result<T>.toAsyncData() : AsyncData<T> {
+    return if(isFailure ){
+        val err = this.exceptionOrNull()!!
+        AsyncData.Error(err.message.toString(), err)
+    }
+    else {
+        AsyncData.Success(this.getOrThrow())
     }
 }

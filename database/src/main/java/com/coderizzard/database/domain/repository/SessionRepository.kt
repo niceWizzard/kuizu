@@ -1,6 +1,5 @@
 package com.coderizzard.database.domain.repository
 
-import com.coderizzard.core.ResultState
 import com.coderizzard.core.data.AsyncData
 import com.coderizzard.core.data.model.session.QuizSession
 import com.coderizzard.core.data.model.session.answer.IdentificationAnswer
@@ -10,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface SessionRepository {
     suspend fun createSession(quizId : String)
 
-    suspend fun getSession(quizId: String) : ResultState<QuizSession>
+    suspend fun getSession(quizId: String) : Result<QuizSession>
 
     suspend fun deleteSession(quizId: String)
 

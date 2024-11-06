@@ -1,6 +1,5 @@
 package com.coderizzard.database.data.repository
 
-import com.coderizzard.core.ResultState
 import com.coderizzard.core.data.AsyncData
 import com.coderizzard.core.data.model.session.QuizSession
 import com.coderizzard.core.data.model.session.answer.IdentificationAnswer
@@ -39,12 +38,12 @@ class SessionRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getSession(quizId: String): ResultState<QuizSession> {
+    override suspend fun getSession(quizId: String): Result<QuizSession> {
         return try {
             val quiz = quizRepository.getById(quizId)
-            ResultState.Success(sessionDao.getActiveSession(quizId).toQuizSession(quiz))
+            Result.success(sessionDao.getActiveSession(quizId).toQuizSession(quiz))
         } catch (e : Exception) {
-            ResultState.Error(e.message.toString(), e)
+            Result.failure(e)
         }
     }
 
