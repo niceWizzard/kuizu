@@ -15,4 +15,12 @@ sealed interface Question {
         return stripHtmlTags(text)
     }
 
+    fun getTypeName(): String {
+        return when(this) {
+            is IdentificationQuestion -> "Identification"
+            is MCQuestion -> "Multiple Choice"
+            is UnsupportedQuestion -> "Unsupported"
+        }
+    }
+
 }
