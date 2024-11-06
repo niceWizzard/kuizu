@@ -94,7 +94,7 @@ class SessionScreenViewModel @Inject constructor(
             }
             is ScreenEvent.MCAnswer -> {
                 val question = (session.getCurrentQuestion() as MCQuestion)
-                val isCorrect =question.answer.any{e.answers.contains(it)}
+                val isCorrect = question.answer.toSet() == e.answers.toSet()
                 if(isCorrect) {
                     answeringState = AnsweringState.Correct
                     currentScore++

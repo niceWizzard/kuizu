@@ -60,7 +60,7 @@ class QuizJsonDeserializer : JsonDeserializer<Quiz> {
                 media.filter { it.asJsonObject.get("type").asString.lowercase() == "image" }[0].asJsonObject.get("url").asString
             else ""
             return@map when(type.lowercase() ) {
-                "mcq" -> {
+                "mcq","msq" -> {
                     val optionsList = options.map {
                         val optionText = it.get("text").asString
                         val optionId = it.get("id").asString
