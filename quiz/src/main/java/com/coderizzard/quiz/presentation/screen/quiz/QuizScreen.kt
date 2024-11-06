@@ -1,6 +1,5 @@
 package com.coderizzard.quiz.presentation.screen.quiz
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -86,7 +85,7 @@ private fun QuizScreenContent(quiz: Quiz) {
             item {
                 Header(quiz)
                 HorizontalDivider()
-                if(quiz.questions.isEmpty()) {
+                if(quiz.supportedQuestions.isEmpty()) {
                     Text(
                         "Empty quiz...",
                         modifier = Modifier.fillMaxWidth(),
@@ -187,7 +186,7 @@ private fun Header(quiz : Quiz) {
     }
     Row(modifier = Modifier.fillMaxWidth()) {
         Text(buildString {
-            append(quiz.questions.size)
+            append(quiz.supportedQuestions.size)
             append(" questions")
             if(quiz.unsupportedCount > 0)
                 append(", ${quiz.unsupportedCount} unsupported")

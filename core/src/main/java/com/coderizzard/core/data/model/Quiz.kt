@@ -14,6 +14,6 @@ data class Quiz(
     val remoteId : String ,
     val localImagePath : String = "",
 ) {
-    val questions = allQuestions.filterIsInstance<SupportedQuestion>()
-    val unsupportedCount = allQuestions.size - questions.size
+    val supportedQuestions = allQuestions.filterIsInstance<SupportedQuestion>()
+    val unsupportedCount = allQuestions.size - supportedQuestions.size
 }
