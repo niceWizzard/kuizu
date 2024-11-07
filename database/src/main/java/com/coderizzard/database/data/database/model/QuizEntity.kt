@@ -50,3 +50,15 @@ data class QuizEntity(
         )
     }
 }
+
+fun Quiz.toEntity()  : QuizEntity {
+    return QuizEntity(
+        id = this.id,
+        name = this.name,
+        author = this.author,
+        imageLink = this.imageLink,
+        localImagePath = this.localImagePath,
+        createdAt = this.createdAt,
+        remoteId = this.remoteId,
+    )
+}
