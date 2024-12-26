@@ -47,3 +47,12 @@ data class QuizSessionEntity(
         )
     }
 }
+
+fun QuizSession.toEntity() : QuizSessionEntity {
+    return QuizSessionEntity(
+        quizId = this.quizId,
+        currentQuestionIndex = this.currentQuestionIndex,
+        questionOrder = this.questionOrder,
+        startedAt = this.startedAt,
+    )
+}
