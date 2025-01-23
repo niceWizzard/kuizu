@@ -54,3 +54,16 @@ data class IdentificationQuestionEntity(
         )
     }
 }
+
+fun IdentificationQuestion.toEntity() : IdentificationQuestionEntity {
+    return IdentificationQuestionEntity(
+        id = this.id,
+        text = this.text,
+        point = this.point,
+        answer = this.answer,
+        quizId = this.quizId,
+        remoteId = this.remoteId,
+        imageLink = this.imageLink,
+        localImagePath = this.localImagePath
+    )
+}
