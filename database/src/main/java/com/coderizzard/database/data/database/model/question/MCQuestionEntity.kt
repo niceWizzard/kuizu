@@ -56,3 +56,16 @@ data class MCQuestionEntity(
         )
     }
 }
+
+fun MCQuestion.toEntity() : MCQuestionEntity {
+    return MCQuestionEntity(
+        id = this.id,
+        remoteId = this.remoteId,
+        text = this.text,
+        point = this.point,
+        answer = this.answer,
+        quizId = this.quizId,
+        imageLink = this.imageLink,
+        localImagePath = this.localImagePath
+    )
+}
