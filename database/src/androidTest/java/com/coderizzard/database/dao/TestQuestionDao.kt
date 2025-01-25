@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.coderizzard.core.data.placeholder.value.identificationQuestion
+import com.coderizzard.core.data.placeholder.value.mcqOptions
 import com.coderizzard.core.data.placeholder.value.multipleChoiceQuestion
 import com.coderizzard.core.data.placeholder.value.quiz
 import com.coderizzard.database.data.database.AppDatabase
@@ -78,6 +79,24 @@ internal class TestQuestionDao {
         )
     }
 
+    @Test
+    fun testCreateGetMCOptionsReturnsSameValue() = runBlocking {
+        val dao = db.questionDao
+        dao.createQuestion(
+            multipleChoiceQuestion.toEntity()
+        )
+        mcqOptions.forEach {
+            dao.createMCOption(
+                it.toEntity()
+            )
+        }
+
+        val returned= dao.getMCQuestionOptions(multipleChoiceQuestion.id)
+        assertEquals(
+            mcqOptions.map { it.toEntity() },
+            returned
+        )
+    }
 
 
 }

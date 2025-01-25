@@ -45,3 +45,12 @@ data class MCOptionEntity(
         )
     }
 }
+
+fun MCOption.toEntity() : MCOptionEntity {
+    return MCOptionEntity(
+        id = this.id,
+        text = this.text,
+        questionId = this.questionId,
+        remoteId = this.remoteId,
+    )
+}
